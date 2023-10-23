@@ -1,3 +1,0 @@
-/home/gamarl/Documentos/ingenieria/7 semestre/CGIHC/PinballMachine/build/CMakeFiles/pinball.dir
-/home/gamarl/Documentos/ingenieria/7 semestre/CGIHC/PinballMachine/build/CMakeFiles/edit_cache.dir
-/home/gamarl/Documentos/ingenieria/7 semestre/CGIHC/PinballMachine/build/CMakeFiles/rebuild_cache.dir
