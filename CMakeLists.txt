@@ -34,11 +34,13 @@ add_executable(
   src/helpers/Shader.cpp
   src/helpers/Camera.cpp
   src/helpers/Model.cpp
+  src/helpers/Material.cpp
   src/helpers/Texture.cpp
   src/helpers/Light.cpp
   src/helpers/DirectionalLight.cpp
   src/helpers/PointLight.cpp
   src/helpers/SpotLight.cpp
+  src/helpers/Inador.cpp
 )
 
 
