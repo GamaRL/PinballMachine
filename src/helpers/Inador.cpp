@@ -1,4 +1,8 @@
 #include "../include/Inador.h"
+#include <glm/ext/matrix_transform.hpp>
+#include <glm/ext/quaternion_transform.hpp>
+#include <glm/ext/scalar_constants.hpp>
+#include <glm/fwd.hpp>
 
 Model Inador::Inador_Base = Model();
 Model Inador::Inador_Cuerpo = Model();
@@ -22,6 +26,7 @@ void Inador::Render(GLint uniformModel)
 
   model = glm::mat4(1.0);
   model = glm::translate(model, this->position);
+  model = glm::rotate(model, rotation1, glm::vec3(0, 1, 0));
   modelaux = model;
   glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
@@ -29,6 +34,7 @@ void Inador::Render(GLint uniformModel)
 
   model = modelaux;
   model = glm::translate(model, glm::vec3(0.0f, 10.0f, 0.0f));
+  model = glm::rotate(model, rotation2, glm::vec3(0, 0, 1));
   modelaux = model;
   glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
@@ -43,10 +49,40 @@ void Inador::Render(GLint uniformModel)
 
 void Inador::Rotate1(float angle)
 {
-  this->rotation1 += angle;
+  const float pi_2 = glm::pi<float>() / 2.0f;
+  if (this->rotation1 + angle > pi_2)
+  {
+      this->rotation1 = pi_2;
+  }
+  else
+  {
+    if (this->rotation1 + angle < -pi_2)
+    {
+      this->rotation1 = -pi_2;
+    }
+    else
+    {
+      this->rotation1 += angle;
+    }
+  }
 }
 
 void Inador::Rotate2(float angle)
 {
-  this->rotation2 += angle;
+  const float pi_3 = glm::pi<float>() / 6.0f;
+  if (this->rotation2 + angle > pi_3)
+  {
+      this->rotation2 = pi_3;
+  }
+  else
+  {
+    if (this->rotation2 + angle < -pi_3)
+    {
+      this->rotation2 = -pi_3;
+    }
+    else
+    {
+      this->rotation2 += angle;
+    }
+  }
 }

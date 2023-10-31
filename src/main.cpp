@@ -356,6 +356,12 @@ int main()
 
 		meshList[2]->RenderMesh();
 
+    // Rotación de articulaciones
+    in1.Rotate1(0.001f);
+    in1.Rotate2(-0.001f);
+    in2.Rotate1(-0.001f);
+    in2.Rotate2(0.001f);
+
     // Se despliegan los dos inadores
     in1.Render(uniformModel);
     in2.Render(uniformModel);
