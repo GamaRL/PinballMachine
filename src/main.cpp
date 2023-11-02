@@ -4,6 +4,8 @@
  **/
 
 //para cargar imagen
+#include <glm/ext/matrix_float3x3.hpp>
+#include <glm/ext/matrix_float4x4.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/vector_float3.hpp>
 #define STB_IMAGE_IMPLEMENTATION
@@ -48,6 +50,8 @@ std::vector<Shader> shaderList;
 Camera camera;
 
 Texture plainTexture;
+
+Model Pinball_Cover_M;
 
 //materiales
 Material Material_brillante;
@@ -250,6 +254,9 @@ int main()
   Inador in1 = Inador(0.0f, 0.0f, 0.0f);
   Inador in2 = Inador(10.0f, 0.0f, 10.0f);
 
+  Pinball_Cover_M = Model();
+  Pinball_Cover_M.LoadModel("resources/models/Pinball_Cover.obj");
+
   // TODO: Add skybox textures
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
@@ -355,6 +362,13 @@ int main()
 		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 
 		meshList[2]->RenderMesh();
+
+    // Cubierta de la máquina de pinball
+    model = glm::mat4(1.0f);
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+    Pinball_Cover_M.RenderModel();
 
     // Rotación de articulaciones
     in1.Rotate1(0.001f);
