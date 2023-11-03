@@ -40,7 +40,8 @@ add_executable(
   src/helpers/DirectionalLight.cpp
   src/helpers/PointLight.cpp
   src/helpers/SpotLight.cpp
-  src/helpers/Inador.cpp
+  src/components/Inador.cpp
+  src/components/Flipper.cpp
 )
 
 

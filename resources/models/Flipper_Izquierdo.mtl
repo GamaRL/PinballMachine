@@ -1,16 +1,6 @@
 # Blender 3.6.5 MTL File: 'prototipo2.blend'
 # www.blender.org
 
-newmtl 20346_Pinball_Machine
-Ns 0.000000
-Ka 1.000000 1.000000 1.000000
-Kd 0.800000 0.800000 0.800000
-Ks 0.000000 0.000000 0.000000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 1
-
 newmtl Material.007
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000

@@ -41,6 +41,7 @@
 #include "./include/SpotLight.h"
 #include "./include/Material.h"
 #include "./include/Inador.h"
+#include "./include/Flipper.h"
 const float toRadians = 3.14159265f / 180.0f;
 
 Window mainWindow;
@@ -244,7 +245,7 @@ int main()
 	CreateObjects();
 	CreateShaders();
 
-	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.5f, 0.5f);
+	camera = Camera(glm::vec3(0.0f, 130.0f, 130.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.5f, 0.5f);
 
 	plainTexture = Texture("resources/textures/plain.png");
 	plainTexture.LoadTextureA();
@@ -253,6 +254,10 @@ int main()
 
   Inador in1 = Inador(0.0f, 0.0f, 0.0f);
   Inador in2 = Inador(10.0f, 0.0f, 10.0f);
+
+  Flipper::Initialise();
+  Flipper fizq = Flipper(-25.0f, 88.0f, 65.0f, 0);
+  Flipper fder = Flipper(25.0f, 88.0f, 65.0f, 1);
 
   Pinball_Cover_M = Model();
   Pinball_Cover_M.LoadModel("resources/models/Pinball_Cover.obj");
@@ -376,9 +381,14 @@ int main()
     in2.Rotate1(-0.001f);
     in2.Rotate2(0.001f);
 
+
     // Se despliegan los dos inadores
     in1.Render(uniformModel);
     in2.Render(uniformModel);
+
+    // Se despliegan los flippers
+    fizq.Render(uniformModel);
+    fder.Render(uniformModel);
 
 		glUseProgram(0);
 
