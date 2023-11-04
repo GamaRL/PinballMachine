@@ -1,4 +1,6 @@
 #include "../include/Camera.h"
+#include <glm/ext/matrix_projection.hpp>
+#include <glm/fwd.hpp>
 #include <glm/geometric.hpp>
 #include <iostream>
 
@@ -21,25 +23,27 @@ Camera::Camera(glm::vec3 startPosition, glm::vec3 startUp, GLfloat startYaw, GLf
 void Camera::keyControl(bool* keys, GLfloat deltaTime)
 {
 	GLfloat velocity = moveSpeed * deltaTime;
+  glm::vec3 front_static_y = glm::normalize(glm::vec3(front.x, 0.0, front.z));
+  glm::vec3 right_static_y = glm::normalize(glm::vec3(right.x, 0.0, right.z));
 
 	if (keys[GLFW_KEY_W])
 	{
-		position += front * velocity;
+		position += front_static_y * velocity;
 	}
 
 	if (keys[GLFW_KEY_S])
 	{
-		position -= front * velocity;
+		position -= front_static_y * velocity;
 	}
 
 	if (keys[GLFW_KEY_A])
 	{
-		position -= right * velocity;
+		position -= right_static_y * velocity;
 	}
 
 	if (keys[GLFW_KEY_D])
 	{
-		position += right * velocity;
+		position += right_static_y * velocity;
 	}
 }
 

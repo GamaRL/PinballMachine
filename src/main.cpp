@@ -251,7 +251,7 @@ int main()
 	CreateObjects();
 	CreateShaders();
 
-	camera = Camera(glm::vec3(0.0f, 130.0f, 130.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.5f, 0.5f);
+	camera = Camera(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.5f, 0.5f);
 
 	plainTexture = Texture("resources/textures/plain.png");
 	plainTexture.LoadTextureA();
@@ -259,15 +259,18 @@ int main()
 
   Inador::Initialise();
 
-  Inador in1 = Inador(-10.0f, 89.0f, -10.0f, 0.0f);
-  Inador in2 = Inador(10.0f, 89.0f, 10.0f, glm::pi<float>());
+  Inador in1 = Inador(-10.0f, 0.0f, -10.0f, 0.0f);
+  Inador in2 = Inador(10.0f, 0.0f, 10.0f, glm::pi<float>());
 
   InadorAnimation in_an_1(&in1);
   InadorAnimation in_an_2(&in2);
 
+  Model Obstacle = Model();
+  Obstacle.LoadModel("resources/models/Obstacle_1.obj");
+
   Flipper::Initialise();
-  Flipper fizq = Flipper(-25.0f, 88.0f, 65.0f, 0);
-  Flipper fder = Flipper(25.0f, 88.0f, 65.0f, 1);
+  Flipper fizq = Flipper(-25.0f, 0.0f, 65.0f, 0);
+  Flipper fder = Flipper(25.0f, 0.0f, 65.0f, 1);
 
   FlipperKeyController flipperController(&mainWindow);
 
@@ -357,14 +360,12 @@ int main()
 		shaderList[0].SetPointLights(pointLights, pointLightCount);
 		shaderList[0].SetSpotLights(spotLights, spotLightCount);
 
-
-
-		glm::mat4 model(1.0);
+    glm::mat4 model(1.0);
 		glm::mat4 modelaux(1.0);
 		glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
 		glm::vec2 toffset = glm::vec2(0.0f, 0.0f);
 		
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+    /*glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(30.0f, 1.0f, 30.0f));
@@ -374,19 +375,27 @@ int main()
 		plainTexture.UseTexture();
 		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 
-		meshList[2]->RenderMesh();
+		meshList[2]->RenderMesh();*/
 
     // Cubierta de la máquina de pinball
     model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(0.0f, -91.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
     Pinball_Cover_M.RenderModel();
 
+    // Obstáculo aleatorio
+    model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+    Obstacle.RenderModel();
+
     // Rotación de articulaciones
     in_an_1.Update(dt);
     in_an_2.Update(dt);
-
 
     // Se despliegan los dos inadores
     in1.Render(uniformModel);
