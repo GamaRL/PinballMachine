@@ -42,6 +42,7 @@
 #include "./include/Material.h"
 #include "./include/Inador.h"
 #include "./include/Flipper.h"
+#include "./include/FlipperKeyController.h"
 const float toRadians = 3.14159265f / 180.0f;
 
 Window mainWindow;
@@ -61,6 +62,7 @@ Material Material_opaco;
 
 //Sphere cabeza = Sphere(0.5, 20, 20);
 GLfloat deltaTime = 0.0f;
+GLfloat dt = 0.0f;
 GLfloat lastTime = 0.0f;
 static double limitFPS = 1.0 / 60.0;
 
@@ -259,6 +261,9 @@ int main()
   Flipper fizq = Flipper(-25.0f, 88.0f, 65.0f, 0);
   Flipper fder = Flipper(25.0f, 88.0f, 65.0f, 1);
 
+  FlipperKeyController flipperController(&mainWindow);
+
+
   Pinball_Cover_M = Model();
   Pinball_Cover_M.LoadModel("resources/models/Pinball_Cover.obj");
 
@@ -300,18 +305,12 @@ int main()
 	GLuint uniformColor = 0;
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
 	
-	long lastSecond = time(NULL);
-	long currentSecond = lastSecond;
-	int cambios_unidades = 0;
-  int decenas = 1;
-
-	
-	////Loop mientras no se cierra la ventana
+  ////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
 	{
 		GLfloat now = glfwGetTime();
-		deltaTime = now - lastTime;
-		deltaTime += (now - lastTime) / limitFPS;
+		dt = now - lastTime;
+		deltaTime = dt + (now - lastTime) / limitFPS;
 		lastTime = now;
 
     //Recibir eventos del usuario
@@ -389,6 +388,9 @@ int main()
     // Se despliegan los flippers
     fizq.Render(uniformModel);
     fder.Render(uniformModel);
+
+    flipperController.Handle(&fizq, dt);
+    flipperController.Handle(&fder, dt);
 
 		glUseProgram(0);
 

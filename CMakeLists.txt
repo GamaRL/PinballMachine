@@ -42,6 +42,7 @@ add_executable(
   src/helpers/SpotLight.cpp
   src/components/Inador.cpp
   src/components/Flipper.cpp
+  src/components/FlipperKeyController.cpp
 )
 
 

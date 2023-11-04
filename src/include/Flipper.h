@@ -15,13 +15,14 @@ public:
   Flipper(float x, float y, float z, int type);
   void Update(int direction, float dt);
   void Render(GLint uniformModel);
+  int GetTipo();
 
 private:
   static Model Flipper_Derecho;
   static Model Flipper_Izquierdo;
 
 	glm::vec3 position;
-  int tipo;
+  int _tipo;
   float rotation = 0.0f;
 };
 
