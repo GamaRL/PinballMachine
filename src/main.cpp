@@ -7,6 +7,7 @@
 #include <glm/ext/matrix_float3x3.hpp>
 #include <glm/ext/matrix_float4x4.hpp>
 #include <glm/ext/matrix_transform.hpp>
+#include <glm/ext/scalar_constants.hpp>
 #include <glm/ext/vector_float3.hpp>
 #define STB_IMAGE_IMPLEMENTATION
 
@@ -43,6 +44,8 @@
 #include "./include/Inador.h"
 #include "./include/Flipper.h"
 #include "./include/FlipperKeyController.h"
+#include "./include/InadorAnimation.h"
+
 const float toRadians = 3.14159265f / 180.0f;
 
 Window mainWindow;
@@ -241,6 +244,7 @@ void CreateShaders()
 
 int main()
 {
+  srand(time(NULL));
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
 	mainWindow.Initialise();
 
@@ -252,10 +256,14 @@ int main()
 	plainTexture = Texture("resources/textures/plain.png");
 	plainTexture.LoadTextureA();
 
+
   Inador::Initialise();
 
-  Inador in1 = Inador(0.0f, 0.0f, 0.0f);
-  Inador in2 = Inador(10.0f, 0.0f, 10.0f);
+  Inador in1 = Inador(-10.0f, 89.0f, -10.0f, 0.0f);
+  Inador in2 = Inador(10.0f, 89.0f, 10.0f, glm::pi<float>());
+
+  InadorAnimation in_an_1(&in1);
+  InadorAnimation in_an_2(&in2);
 
   Flipper::Initialise();
   Flipper fizq = Flipper(-25.0f, 88.0f, 65.0f, 0);
@@ -304,6 +312,7 @@ int main()
 		uniformSpecularIntensity = 0, uniformShininess = 0, uniformTextureOffset=0;
 	GLuint uniformColor = 0;
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
+
 	
   ////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -375,15 +384,14 @@ int main()
     Pinball_Cover_M.RenderModel();
 
     // Rotación de articulaciones
-    in1.Rotate1(0.001f);
-    in1.Rotate2(-0.001f);
-    in2.Rotate1(-0.001f);
-    in2.Rotate2(0.001f);
+    in_an_1.Update(dt);
+    in_an_2.Update(dt);
 
 
     // Se despliegan los dos inadores
     in1.Render(uniformModel);
     in2.Render(uniformModel);
+
 
     // Se despliegan los flippers
     fizq.Render(uniformModel);

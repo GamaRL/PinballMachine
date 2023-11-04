@@ -12,7 +12,7 @@ public:
 
   static void Initialise();
 
-  Inador(float x, float y, float z);
+  Inador(float x, float y, float z, float orientation);
   void Rotate1(float angle);
   void Rotate2(float angle);
   void Render(GLint uniformModel);
@@ -22,8 +22,9 @@ private:
   static Model Inador_Cuerpo;
   static Model Inador_Punta;
 
-	glm::vec3 position;
-  float rotation1 = 0.0f;
-  float rotation2 = 0.0f;
+	glm::vec3 _position;
+  float _orientation;
+  float _rotation1 = 0.0f;
+  float _rotation2 = 0.0f;
 };
 
