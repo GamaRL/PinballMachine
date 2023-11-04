@@ -25,7 +25,7 @@ int Window::Initialise()
   //Inicialización de GLFW
 	if (!glfwInit())
 	{
-		printf("Falló inicializar GLFW");
+		printf("Falló en inicializar GLFW");
 		glfwTerminate();
 		return 1;
 	}

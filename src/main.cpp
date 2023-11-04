@@ -4,6 +4,7 @@
  **/
 
 //para cargar imagen
+#include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_float3x3.hpp>
 #include <glm/ext/matrix_float4x4.hpp>
 #include <glm/ext/matrix_transform.hpp>
@@ -31,6 +32,7 @@
 #include "./include/Mesh.h"
 #include "./include/Shader.h"
 #include "./include/Camera.h"
+#include "./include/CameraToggleController.h"
 #include "./include/Texture.h"
 #include "./include/Model.h"
 //#include "./include/Skybox.h"
@@ -51,8 +53,6 @@ const float toRadians = 3.14159265f / 180.0f;
 Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
-
-Camera camera;
 
 Texture plainTexture;
 
@@ -251,7 +251,8 @@ int main()
 	CreateObjects();
 	CreateShaders();
 
-	camera = Camera(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.5f, 0.5f);
+	Camera* camera = nullptr;
+  CameraToggleController cameraController(&mainWindow);
 
 	plainTexture = Texture("resources/textures/plain.png");
 	plainTexture.LoadTextureA();
@@ -314,7 +315,7 @@ int main()
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
 		uniformSpecularIntensity = 0, uniformShininess = 0, uniformTextureOffset=0;
 	GLuint uniformColor = 0;
-	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
+	glm::mat4* projection = nullptr;
 
 	
   ////Loop mientras no se cierra la ventana
@@ -325,10 +326,14 @@ int main()
 		deltaTime = dt + (now - lastTime) / limitFPS;
 		lastTime = now;
 
+
     //Recibir eventos del usuario
 		glfwPollEvents();
-		camera.keyControl(mainWindow.getsKeys(), deltaTime);
-		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
+    cameraController.HandleKeyBoard();
+    camera = cameraController.GetCamera();
+    projection = cameraController.GetProjection();
+		camera->keyControl(mainWindow.getsKeys(), deltaTime);
+		camera->mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -346,14 +351,14 @@ int main()
 		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
 		uniformShininess = shaderList[0].GetShininessLocation();
 
-		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
-		glUniform3f(uniformEyePosition, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
+		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(*projection));
+		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera->calculateViewMatrix()));
+		glUniform3f(uniformEyePosition, camera->getCameraPosition().x, camera->getCameraPosition().y, camera->getCameraPosition().z);
 
 		// luz ligada a la cámara de tipo flash
-		glm::vec3 lowerLight = camera.getCameraPosition();
+		glm::vec3 lowerLight = camera->getCameraPosition();
 		lowerLight.y -= 0.3f;
-		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
+		spotLights[0].SetFlash(lowerLight, camera->getCameraDirection());
 
 		//información al shader de fuentes de iluminación
 		shaderList[0].SetDirectionalLight(&mainLight);

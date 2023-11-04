@@ -43,6 +43,7 @@ add_executable(
   src/components/Inador.cpp
   src/components/Flipper.cpp
   src/components/FlipperKeyController.cpp
+  src/components/CameraToggleController.cpp
   src/animations/InadorAnimacion.cpp
 )
 

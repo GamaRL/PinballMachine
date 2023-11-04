@@ -13,12 +13,12 @@ void Model::LoadModel(const std::string & fileName)
 	const aiScene *scene = importer.ReadFile(fileName, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices);
 	if (!scene)
 	{	
-		printf("Falló en cargar el modelo: %s \n", fileName, importer.GetErrorString());
+		printf("Falló en cargar el modelo: %s %s \n", fileName.c_str(), importer.GetErrorString());
 		return;
 	}
 	LoadNode(scene->mRootNode, scene);
 	LoadMaterials(scene);
-	}
+}
 
 void Model::ClearModel()
 {
@@ -48,15 +48,13 @@ void Model::RenderModel()
 	for (unsigned int i = 0; i < MeshList.size(); i++)
 	{
 		unsigned int materialIndex = meshTotex[i];
-		if (!materialIndex< TextureList.size()&& TextureList[materialIndex])
+		if (materialIndex < TextureList.size() && TextureList[materialIndex])
 		{
 			TextureList[materialIndex]->UseTexture();
 		}
 		MeshList[i]->RenderMesh();
 
 	}
-
-
 }
 
 
@@ -128,14 +126,14 @@ void Model::LoadMaterials(const aiScene * scene)
 				std::string tga ="tga";
 				std::string png = "png";
 				std::size_t existetga = filename.find(tga);
-				std::size_t existepng= filename.find(png);
+				std::size_t existepng = filename.find(png);
 				std::string texPath = std::string("resources/textures/") + filename;
 				TextureList[i] = new Texture(texPath.c_str());
 				if (existetga != std::string::npos || existepng != std::string::npos)
 				{
 					if (!TextureList[i]->LoadTextureA())
 					{
-						printf("Falló en cargar la Textura :%s\n", texPath);
+						printf("Falló en cargar la Textura :%s\n", texPath.c_str());
 						delete TextureList[i];
 						TextureList[i] = nullptr;
 					}
@@ -144,7 +142,7 @@ void Model::LoadMaterials(const aiScene * scene)
 				{
 					if (!TextureList[i]->LoadTexture())
 					{
-						printf("Falló en cargar la Textura :%s\n", texPath);
+						printf("Falló en cargar la Textura :%s\n", texPath.c_str());
 						delete TextureList[i];
 						TextureList[i] = nullptr;
 					}
