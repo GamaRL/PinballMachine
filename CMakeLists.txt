@@ -44,6 +44,8 @@ add_executable(
   src/components/Flipper.cpp
   src/components/FlipperKeyController.cpp
   src/components/CameraToggleController.cpp
+  src/components/Spring.cpp
+  src/components/SpringMouseController.cpp
   src/animations/InadorAnimacion.cpp
 )
 

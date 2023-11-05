@@ -47,6 +47,8 @@
 #include "./include/Flipper.h"
 #include "./include/FlipperKeyController.h"
 #include "./include/InadorAnimation.h"
+#include "./include/Spring.h"
+#include "./include/SpringMouseController.h"
 
 const float toRadians = 3.14159265f / 180.0f;
 
@@ -269,6 +271,11 @@ int main()
   Model Obstacle = Model();
   Obstacle.LoadModel("resources/models/Obstacle_1.obj");
 
+  Spring::Initialise();
+  Spring spring = Spring(43.0f, 0.0f, 80.0f);
+
+  SpringMouseController springMouseController(&mainWindow, &spring);
+
   Flipper::Initialise();
   Flipper fizq = Flipper(-25.0f, 0.0f, 65.0f, 0);
   Flipper fder = Flipper(25.0f, 0.0f, 65.0f, 1);
@@ -309,7 +316,7 @@ int main()
 		0.0f, -1.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
 		5.0f);
-	spotLightCount++;
+  //spotLightCount++;
 
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
@@ -325,7 +332,6 @@ int main()
 		dt = now - lastTime;
 		deltaTime = dt + (now - lastTime) / limitFPS;
 		lastTime = now;
-
 
     //Recibir eventos del usuario
 		glfwPollEvents();
@@ -398,6 +404,10 @@ int main()
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
     Obstacle.RenderModel();
 
+    springMouseController.Handle();
+    spring.Animate(dt);
+    spring.Render(uniformModel);
+
     // Rotación de articulaciones
     in_an_1.Update(dt);
     in_an_2.Update(dt);
@@ -405,7 +415,6 @@ int main()
     // Se despliegan los dos inadores
     in1.Render(uniformModel);
     in2.Render(uniformModel);
-
 
     // Se despliegan los flippers
     fizq.Render(uniformModel);

@@ -15,6 +15,7 @@ public:
 	GLfloat getYChange();
 	bool getShouldClose() { return  glfwWindowShouldClose(mainWindow);}
 	bool* getsKeys() { return keys; }
+  bool IsRightButtonPressed() { return rightButtonPressed; }
 	void swapBuffers() { return glfwSwapBuffers(mainWindow); }
 	
 	~Window();
@@ -28,7 +29,9 @@ private:
 	GLfloat lastY;
 	GLfloat xChange;
 	GLfloat yChange;
+  bool rightButtonPressed;
 	bool mouseFirstMoved;
 	static void ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode);
 	static void ManejaMouse(GLFWwindow* window, double xPos, double yPos);
+  static void ManejaBotonesMouse(GLFWwindow* window, int button, int action, int mods);
 };
