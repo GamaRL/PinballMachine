@@ -1,7 +1,5 @@
 #include "../include/Earth.h"
 #include <glm/ext/matrix_transform.hpp>
-#include <glm/ext/quaternion_transform.hpp>
-#include <glm/fwd.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 

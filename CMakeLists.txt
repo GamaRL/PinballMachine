@@ -48,6 +48,7 @@ add_executable(
   src/components/Spring.cpp
   src/components/SpringMouseController.cpp
   src/components/Earth.cpp
+  src/components/Perry.cpp
   src/animations/InadorAnimacion.cpp
 )
 

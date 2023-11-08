@@ -49,7 +49,8 @@
 #include "./include/InadorAnimation.h"
 #include "./include/Spring.h"
 #include "./include/SpringMouseController.h"
-#include "Earth.h"
+#include "./include/Earth.h"
+#include "./include/Perry.h"
 
 const float toRadians = 3.14159265f / 180.0f;
 
@@ -262,6 +263,8 @@ int main()
 	plainTexture = Texture("resources/textures/plain.png");
 	plainTexture.LoadTextureA();
 
+  Perry::Initialise();
+	Perry perry(10.0f, 5.0f, 60.0f);
 
   Inador::Initialise();
 
@@ -440,6 +443,9 @@ int main()
 
     flipperController.Handle(&fizq, dt);
     flipperController.Handle(&fder, dt);
+
+    // Personaje
+    perry.Render(uniformModel);
 
 		earth.Animate(dt);
 		earth.Render(uniformModel);
