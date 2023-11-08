@@ -14,7 +14,14 @@ public:
   static void Initialise();
 
   Perry(float, float, float);
+  
+  void RotateLeftHand(float);
+  void RotateRightHand(float);
+  void RotateLeftLeg(float);
+  void RotateRightLeg(float);
+
   void Render(GLint);
+
 private:
   static Model Trunk_Model;
   static Model Hat_Model;

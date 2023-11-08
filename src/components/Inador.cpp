@@ -1,8 +1,5 @@
 #include "../include/Inador.h"
 #include <glm/ext/matrix_transform.hpp>
-#include <glm/ext/quaternion_transform.hpp>
-#include <glm/ext/scalar_constants.hpp>
-#include <glm/fwd.hpp>
 
 Model Inador::Inador_Base = Model();
 Model Inador::Inador_Cuerpo = Model();
