@@ -26,6 +26,7 @@ void Flipper::Render(GLint uniformModel)
   model = glm::mat4(1.0);
   model = glm::translate(model, this->position);
   model = glm::rotate(model, this->GetTipo() == 0 ? this->rotation : -this->rotation, glm::vec3(0, 1, 0));
+  model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
   modelaux = model;
   glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 

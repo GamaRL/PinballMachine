@@ -35,7 +35,7 @@
 #include "./include/CameraToggleController.h"
 #include "./include/Texture.h"
 #include "./include/Model.h"
-//#include "./include/Skybox.h"
+#include "./include/Skybox.h"
 
 //para iluminación
 #include "./include/CommonValues.h"
@@ -49,6 +49,7 @@
 #include "./include/InadorAnimation.h"
 #include "./include/Spring.h"
 #include "./include/SpringMouseController.h"
+#include "Earth.h"
 
 const float toRadians = 3.14159265f / 180.0f;
 
@@ -59,10 +60,12 @@ std::vector<Shader> shaderList;
 Texture plainTexture;
 
 Model Pinball_Cover_M;
+Model Ball;
 
 //materiales
 Material Material_brillante;
 Material Material_opaco;
+Material Material_metal;
 
 
 //Sphere cabeza = Sphere(0.5, 20, 20);
@@ -264,9 +267,13 @@ int main()
 
   Inador in1 = Inador(-10.0f, 0.0f, -10.0f, 0.0f);
   Inador in2 = Inador(10.0f, 0.0f, 10.0f, glm::pi<float>());
+  Inador in3 = Inador(30.0f, 0.0f, 30.0f, glm::pi<float>() / 2.0f);
 
   InadorAnimation in_an_1(&in1);
   InadorAnimation in_an_2(&in2);
+
+	Earth::Initialise();
+	Earth earth(10.0f, 0.0f, -10.0f);
 
   Model Obstacle = Model();
   Obstacle.LoadModel("resources/models/Obstacle_1.obj");
@@ -285,20 +292,23 @@ int main()
 
   Pinball_Cover_M = Model();
   Pinball_Cover_M.LoadModel("resources/models/Pinball_Cover.obj");
+  Ball = Model();
+  Ball.LoadModel("resources/models/Ball.obj");
 
-  // TODO: Add skybox textures
+  Skybox skybox;
 	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_dn.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_up.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_bk.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_ft.tga");
+	skyboxFaces.push_back("resources/textures/skybox/sh_rt.png");
+	skyboxFaces.push_back("resources/textures/skybox/sh_lf.png");
+	skyboxFaces.push_back("resources/textures/skybox/sh_dn.png");
+	skyboxFaces.push_back("resources/textures/skybox/sh_up.png");
+	skyboxFaces.push_back("resources/textures/skybox/sh_bk.png");
+	skyboxFaces.push_back("resources/textures/skybox/sh_ft.png");
 
-  //skybox = Skybox(skyboxFaces);
+  skybox = Skybox(skyboxFaces);
 
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
+	Material_metal = Material(2.0f, 127);
 
 
 	//luz direccional, sólo 1 y siempre debe de existir
@@ -307,16 +317,23 @@ int main()
 		0.0f, 0.0f, -1.0f);
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
+  // Flippers inferiores
+	pointLights[0] = PointLight(1.0f, 1.0f, 0.0f,
+		0.0f, 2.0f,
+		0.0f, 5.0f, 60.0f,
+		0.0f, 0.0f, 0.15f);
+  pointLightCount++;
 
 	unsigned int spotLightCount = 0;
-	//linterna
+  // Arriba del tablero
 	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
 		0.0f, 2.0f,
-		0.0f, 0.0f, 0.0f,
-		0.0f, -1.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
-		5.0f);
-  //spotLightCount++;
+		0.0f, 150.0f, -50.0f,
+		0.0f, -1.0f, 0.3f,
+		0.0f, 0.0f, 0.00015f,
+		30.0f);
+  spotLightCount++;
+
 
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
@@ -344,7 +361,7 @@ int main()
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
+    skybox.DrawSkybox(camera->calculateViewMatrix(), *projection);
 		shaderList[0].UseShader();
 		uniformModel = shaderList[0].GetModelLocation();
 		uniformProjection = shaderList[0].GetProjectionLocation();
@@ -362,11 +379,11 @@ int main()
 		glUniform3f(uniformEyePosition, camera->getCameraPosition().x, camera->getCameraPosition().y, camera->getCameraPosition().z);
 
 		// luz ligada a la cámara de tipo flash
-		glm::vec3 lowerLight = camera->getCameraPosition();
-		lowerLight.y -= 0.3f;
-		spotLights[0].SetFlash(lowerLight, camera->getCameraDirection());
+    //glm::vec3 lowerLight = camera->getCameraPosition();
+    //lowerLight.y -= 0.3f;
+    //spotLights[0].SetFlash(lowerLight, camera->getCameraDirection());
 
-		//información al shader de fuentes de iluminación
+    //información al shader de fuentes de iluminación
 		shaderList[0].SetDirectionalLight(&mainLight);
 		shaderList[0].SetPointLights(pointLights, pointLightCount);
 		shaderList[0].SetSpotLights(spotLights, spotLightCount);
@@ -415,6 +432,7 @@ int main()
     // Se despliegan los dos inadores
     in1.Render(uniformModel);
     in2.Render(uniformModel);
+    in3.Render(uniformModel);
 
     // Se despliegan los flippers
     fizq.Render(uniformModel);
@@ -422,6 +440,9 @@ int main()
 
     flipperController.Handle(&fizq, dt);
     flipperController.Handle(&fder, dt);
+
+		earth.Animate(dt);
+		earth.Render(uniformModel);
 
 		glUseProgram(0);
 

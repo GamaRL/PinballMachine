@@ -36,6 +36,7 @@ add_executable(
   src/helpers/Model.cpp
   src/helpers/Material.cpp
   src/helpers/Texture.cpp
+  src/helpers/Skybox.cpp
   src/helpers/Light.cpp
   src/helpers/DirectionalLight.cpp
   src/helpers/PointLight.cpp
@@ -46,6 +47,7 @@ add_executable(
   src/components/CameraToggleController.cpp
   src/components/Spring.cpp
   src/components/SpringMouseController.cpp
+  src/components/Earth.cpp
   src/animations/InadorAnimacion.cpp
 )
 

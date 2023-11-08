@@ -1,6 +1,10 @@
 #pragma once
 
+#ifdef WIN32
+#include <glew.h>
+#else
 #include <GL/glew.h>
+#endif
 
 class Mesh
 {
