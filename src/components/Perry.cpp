@@ -1,3 +1,4 @@
+#include <glm/geometric.hpp>
 #ifdef WIN32
 #include <ext/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
@@ -245,4 +246,16 @@ void Perry::RotateRightLeg(float delta)
   {
     _angle4 += delta;
   }
+}
+
+void Perry::Move(glm::vec3 direction, float dt)
+{
+  _position += Perry::speed * glm::normalize(direction) * dt;
+}
+
+void Perry::SetPosition(float x, float y, float z)
+{
+  _position.x = x;
+  _position.y = y;
+  _position.z = z;
 }

@@ -11,10 +11,13 @@
 class Perry
 {
 public:
+  static constexpr float speed = 10.0f;
   static void Initialise();
 
   Perry(float, float, float);
   
+  void Move(glm::vec3, float);
+  void SetPosition(float, float, float);
   void RotateLeftHand(float);
   void RotateRightHand(float);
   void RotateLeftLeg(float);

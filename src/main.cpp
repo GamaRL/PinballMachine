@@ -10,6 +10,7 @@
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/scalar_constants.hpp>
 #include <glm/ext/vector_float3.hpp>
+#include <glm/geometric.hpp>
 #define STB_IMAGE_IMPLEMENTATION
 
 #include <stdio.h>
@@ -47,6 +48,7 @@
 #include "./include/Flipper.h"
 #include "./include/FlipperKeyController.h"
 #include "./include/InadorAnimation.h"
+#include "./include/PerryAnimation.h"
 #include "./include/Spring.h"
 #include "./include/SpringMouseController.h"
 #include "./include/Earth.h"
@@ -266,6 +268,8 @@ int main()
   Perry::Initialise();
 	Perry perry(10.0f, 5.0f, 60.0f);
 
+  PerryAnimation perryAnimation(&perry, &mainWindow);
+
   Inador::Initialise();
 
   Inador in1 = Inador(-10.0f, 0.0f, -10.0f, 0.0f);
@@ -355,11 +359,17 @@ int main()
 
     //Recibir eventos del usuario
 		glfwPollEvents();
-    cameraController.HandleKeyBoard();
+    cameraController.HandleKeyBoard(dt);
     camera = cameraController.GetCamera();
     projection = cameraController.GetProjection();
 		camera->keyControl(mainWindow.getsKeys(), deltaTime);
-		camera->mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
+
+    glm::vec3 camDir = glm::normalize(glm::vec3(cameraController.GetUserCamera()->getCameraDirection().x, cameraController.GetUserCamera()->getCameraDirection().y, 0));
+    perry.SetPosition(
+      cameraController.GetUserCamera()->getCameraPosition().x - camDir.x * 1.5,
+      cameraController.GetUserCamera()->getCameraPosition().y - camDir.y * 1.5,
+      cameraController.GetUserCamera()->getCameraPosition().z
+    );
 
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -445,6 +455,7 @@ int main()
     flipperController.Handle(&fder, dt);
 
     // Personaje
+    perryAnimation.HandleKeyboard(dt);
     perry.Render(uniformModel);
 
 		earth.Animate(dt);

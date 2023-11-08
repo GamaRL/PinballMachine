@@ -10,13 +10,15 @@ class CameraToggleController
 public:
   CameraToggleController(Window* window);
   Camera* GetCamera();
+  Camera* GetUserCamera();
+  int GetCameraType() { return _selectedCamera; }
   glm::mat4* GetProjection();
-  void HandleKeyBoard();
+  void HandleKeyBoard(float);
 private:
   Camera _fixedCamera;
   Camera _userCamera;
   glm::mat4 _fixedProjection;
   glm::mat4 _userProjection;
   Window* _window;
-  int _selectedCamera;
+  int _selectedCamera; // 0->fija; 1->personaje
 };

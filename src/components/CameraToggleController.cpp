@@ -11,7 +11,7 @@ CameraToggleController::CameraToggleController(Window* window)
       glm::vec3(0.0f, 1.0f, 0.0f),
       -60.0f,
       0.0f,
-      0.5f,
+      5.0f,
       0.5f);
   _fixedCamera = Camera(
       glm::vec3(0.0f, 200.0f, 100.0f),
@@ -34,6 +34,11 @@ Camera* CameraToggleController::GetCamera()
   return &_userCamera;
 }
 
+Camera* CameraToggleController::GetUserCamera()
+{
+  return &_userCamera;
+}
+
 glm::mat4* CameraToggleController::GetProjection()
 {
   if(_selectedCamera == 0)
@@ -41,10 +46,13 @@ glm::mat4* CameraToggleController::GetProjection()
   return &_userProjection;
 }
 
-void CameraToggleController::HandleKeyBoard()
+void CameraToggleController::HandleKeyBoard(float dt)
 {
   static bool is_q_pressed;
   bool* keys = _window->getsKeys();
+
+  _userCamera.keyControl(keys, dt);
+	_userCamera.mouseControl(_window->getXChange(), _window->getYChange());
 
   if (keys[GLFW_KEY_Q])
   {
