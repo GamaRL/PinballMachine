@@ -1,3 +1,4 @@
+#include <glm/fwd.hpp>
 #include <glm/geometric.hpp>
 #ifdef WIN32
 #include <ext/matrix_transform.hpp>
@@ -82,6 +83,8 @@ void Perry::Render(GLint uniformModel)
   // Torso
   model = glm::mat4(1.0);
   model = glm::translate(model, _position);
+  model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
+  model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
   modelaux = model;
   glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 

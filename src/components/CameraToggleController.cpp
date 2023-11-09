@@ -9,7 +9,7 @@ CameraToggleController::CameraToggleController(Window* window)
   _userCamera = Camera(
       glm::vec3(0.0f, 5.0f, 75.0f),
       glm::vec3(0.0f, 1.0f, 0.0f),
-      -60.0f,
+      -90.0f,
       0.0f,
       5.0f,
       0.5f);
@@ -64,6 +64,11 @@ void CameraToggleController::HandleKeyBoard(float dt)
     {
       _selectedCamera = (_selectedCamera + 1) % 2;
       is_q_pressed = false;
+
+      if(_selectedCamera == 0)
+      {
+        _userCamera.setDirection(-90.0f, 0.0f);
+      }
     }
   }
 }

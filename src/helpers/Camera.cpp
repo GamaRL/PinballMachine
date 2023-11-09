@@ -47,6 +47,13 @@ void Camera::keyControl(bool* keys, GLfloat deltaTime)
 	}
 }
 
+void Camera::setDirection(float yaw, float pitch)
+{
+	this->yaw = yaw;
+	this->pitch = pitch;
+  update();
+}
+
 void Camera::mouseControl(GLfloat xChange, GLfloat yChange)
 {
 	xChange *= turnSpeed;

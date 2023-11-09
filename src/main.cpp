@@ -366,9 +366,9 @@ int main()
 
     glm::vec3 camDir = glm::normalize(glm::vec3(cameraController.GetUserCamera()->getCameraDirection().x, cameraController.GetUserCamera()->getCameraDirection().y, 0));
     perry.SetPosition(
-      cameraController.GetUserCamera()->getCameraPosition().x - camDir.x * 1.5,
-      cameraController.GetUserCamera()->getCameraPosition().y - camDir.y * 1.5,
-      cameraController.GetUserCamera()->getCameraPosition().z
+      cameraController.GetUserCamera()->getCameraPosition().x - camDir.x * 5.5f,
+      cameraController.GetUserCamera()->getCameraPosition().y - camDir.y * 5.5f,
+      cameraController.GetUserCamera()->getCameraPosition().z + 4.0f
     );
 
 		// Clear the window
