@@ -368,10 +368,9 @@ int main()
 		camera->keyControl(mainWindow.getsKeys(), deltaTime);
     lm.HandleKeyBoard(mainWindow.getsKeys());
 
-    glm::vec3 camDir = glm::normalize(glm::vec3(cameraController.GetUserCamera()->getCameraDirection().x, cameraController.GetUserCamera()->getCameraDirection().y, 0));
     perry.SetPosition(
-      cameraController.GetUserCamera()->getCameraPosition().x - camDir.x * 5.5f,
-      cameraController.GetUserCamera()->getCameraPosition().y - camDir.y * 5.5f,
+      cameraController.GetUserCamera()->getCameraPosition().x,
+      cameraController.GetUserCamera()->getCameraPosition().y,
       cameraController.GetUserCamera()->getCameraPosition().z + 4.0f
     );
 
@@ -465,7 +464,9 @@ int main()
 
     // Personaje
     perryAnimation.HandleKeyboard(dt);
-    perry.Render(uniformModel);
+    if(cameraController.GetCameraType() == 0)
+      perry.Render(uniformModel);
+    perry.Animate(dt);
 
 		earth.Animate(dt);
 		earth.Render(uniformModel);
