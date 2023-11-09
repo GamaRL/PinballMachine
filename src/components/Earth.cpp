@@ -1,5 +1,6 @@
 #include "../include/Earth.h"
 #include <glm/ext/matrix_transform.hpp>
+#include <glm/fwd.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 
@@ -195,6 +196,7 @@ void Earth::Render(GLint uniformModel)
 
   model = glm::mat4(1.0);
   model = glm::translate(model, _position);
+  model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
   modelaux = model;
   glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 

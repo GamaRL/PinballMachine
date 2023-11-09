@@ -8,8 +8,8 @@ in vec4 vColor;
 
 out vec4 color;
 
-const int MAX_POINT_LIGHTS = 3;
-const int MAX_SPOT_LIGHTS = 3;
+const int MAX_POINT_LIGHTS = 1;
+const int MAX_SPOT_LIGHTS = 5;
 
 struct Light
 {
@@ -122,15 +122,6 @@ vec4 CalcSpotLight(SpotLight sLight)
 		return vec4(0, 0, 0, 0);
 	}
 }
-
-
-
-
-
-
-
-
-
 
 vec4 CalcPointLights()
 {

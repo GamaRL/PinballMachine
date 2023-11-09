@@ -53,6 +53,7 @@
 #include "./include/SpringMouseController.h"
 #include "./include/Earth.h"
 #include "./include/Perry.h"
+#include "./include/LightManager.h"
 
 const float toRadians = 3.14159265f / 180.0f;
 
@@ -320,7 +321,7 @@ int main()
 
 	//luz direccional, sólo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
-		0.3f, 0.3f,
+		0.1f, 0.1f,
 		0.0f, 0.0f, -1.0f);
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
@@ -348,6 +349,8 @@ int main()
 	GLuint uniformColor = 0;
 	glm::mat4* projection = nullptr;
 
+  LightManager lm = LightManager();
+
 	
   ////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -363,6 +366,7 @@ int main()
     camera = cameraController.GetCamera();
     projection = cameraController.GetProjection();
 		camera->keyControl(mainWindow.getsKeys(), deltaTime);
+    lm.HandleKeyBoard(mainWindow.getsKeys());
 
     glm::vec3 camDir = glm::normalize(glm::vec3(cameraController.GetUserCamera()->getCameraDirection().x, cameraController.GetUserCamera()->getCameraDirection().y, 0));
     perry.SetPosition(
@@ -397,9 +401,14 @@ int main()
     //spotLights[0].SetFlash(lowerLight, camera->getCameraDirection());
 
     //información al shader de fuentes de iluminación
-		shaderList[0].SetDirectionalLight(&mainLight);
-		shaderList[0].SetPointLights(pointLights, pointLightCount);
-		shaderList[0].SetSpotLights(spotLights, spotLightCount);
+    //shaderList[0].SetDirectionalLight(&mainLight);
+    //shaderList[0].SetPointLights(pointLights, pointLightCount);
+    //shaderList[0].SetSpotLights(spotLights, spotLightCount);
+
+		shaderList[0].SetDirectionalLight(lm.GetAmbientLight());
+		shaderList[0].SetPointLights(pointLights, lm.GetNumOfPointLights());
+    shaderList[0].SetSpotLights(lm.GetSpotLights(), 
+      lm.GetNumOfSpottLights());
 
     glm::mat4 model(1.0);
 		glm::mat4 modelaux(1.0);
@@ -460,6 +469,7 @@ int main()
 
 		earth.Animate(dt);
 		earth.Render(uniformModel);
+
 
 		glUseProgram(0);
 

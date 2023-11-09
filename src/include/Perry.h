@@ -16,12 +16,15 @@ public:
 
   Perry(float, float, float);
   
-  void Move(glm::vec3, float);
+  void Animate(float);
   void SetPosition(float, float, float);
+  void SetRotation(float);
   void RotateLeftHand(float);
   void RotateRightHand(float);
   void RotateLeftLeg(float);
   void RotateRightLeg(float);
+
+  void SetIsMoving(bool);
 
   void Render(GLint);
 
@@ -35,6 +38,8 @@ private:
   static Model Foot_Model;
 
   glm::vec3 _position;
+  bool _isMoving;
+  float _rotation;
   float _angle1;
   float _angle2;
   float _angle3;

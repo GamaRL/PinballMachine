@@ -1,3 +1,4 @@
+#include <glm/ext/quaternion_transform.hpp>
 #include <glm/fwd.hpp>
 #include <glm/geometric.hpp>
 #ifdef WIN32
@@ -32,6 +33,7 @@ void Perry::Initialise()
 Perry::Perry(float x, float y, float z)
 {
   _position = glm::vec3(x, y, z);
+  _rotation = 0.0f;
   _angle1 = 0.0f;
   _angle2 = 0.0f;
   _angle3 = 0.0f;
@@ -40,50 +42,13 @@ Perry::Perry(float x, float y, float z)
 
 void Perry::Render(GLint uniformModel)
 {
-  // TODO: Agregar animación
-  static bool toggle = true;
-  static bool toggle2 = false;
-
-  if(_angle3 <= -3.14f / 4.0f)
-    toggle = false;
-  else if(_angle3 >= 3.14f / 4.0f)
-    toggle = true;
-
-
-  if(toggle)
-  {
-    RotateRightHand(-0.06f);
-    RotateLeftLeg(-0.1f);
-  }
-  else
-  {
-    RotateRightHand(0.06f);
-    RotateLeftLeg(0.1f);
-  }
-
-
-  if(_angle4 <= -3.14f / 4.0f)
-    toggle2 = false;
-  else if(_angle4 >= 3.14f / 4.0f)
-    toggle2 = true;
-
-  if(toggle2)
-  {
-    RotateLeftHand(-0.06f);
-    RotateRightLeg(-0.1f);
-  }
-  else
-  {
-    RotateLeftHand(0.06f);
-    RotateRightLeg(0.1f);
-  }
-
   glm::mat4 model, modelaux, modelaux2;
 
   // Torso
   model = glm::mat4(1.0);
   model = glm::translate(model, _position);
   model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
+  model = glm::rotate(model, _rotation, glm::vec3(0, 1, 0));
   model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
   modelaux = model;
   glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -251,9 +216,58 @@ void Perry::RotateRightLeg(float delta)
   }
 }
 
-void Perry::Move(glm::vec3 direction, float dt)
+void Perry::Animate(float dt)
 {
-  _position += Perry::speed * glm::normalize(direction) * dt;
+  static bool has_finished = false;
+  static bool right_move = true;
+  static bool left_move = false;
+
+  if (!has_finished)
+  {
+    if(_angle3 <= -3.14f / 4.0f)
+      right_move = false;
+    else if(_angle3 >= 3.14f / 4.0f)
+      right_move = true;
+
+
+    if(right_move)
+    {
+      RotateRightHand(-0.06f);
+      RotateLeftLeg(-0.1f);
+    }
+    else
+    {
+      RotateRightHand(0.06f);
+      RotateLeftLeg(0.1f);
+    }
+
+
+    if(_angle4 <= -3.14f / 4.0f)
+    {
+      has_finished = true;
+      left_move = false;
+    }
+    else if(_angle4 >= 3.14f / 4.0f)
+    {
+      has_finished = true;
+      left_move = true;
+    }
+
+    if(left_move)
+    {
+      RotateLeftHand(-0.06f);
+      RotateRightLeg(-0.1f);
+    }
+    else
+    {
+      RotateLeftHand(0.06f);
+      RotateRightLeg(0.1f);
+    }
+  }
+  else if (_isMoving)
+  {
+    has_finished = false;
+  }
 }
 
 void Perry::SetPosition(float x, float y, float z)
@@ -261,4 +275,14 @@ void Perry::SetPosition(float x, float y, float z)
   _position.x = x;
   _position.y = y;
   _position.z = z;
+}
+
+void Perry::SetRotation(float angle)
+{
+  _rotation = angle;
+}
+
+void Perry::SetIsMoving(bool value)
+{
+  _isMoving = value;
 }

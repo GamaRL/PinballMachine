@@ -14,15 +14,18 @@ CameraToggleController::CameraToggleController(Window* window)
       5.0f,
       0.5f);
   _fixedCamera = Camera(
-      glm::vec3(0.0f, 200.0f, 100.0f),
+      glm::vec3(0.0f, 100.0f, 100.0f),
       glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)),
-      -60.0f,
+      -70.0f,
       -60.0f,
       0.0f,
       0.0f);
 
 	_userProjection = glm::perspective(45.0f, (GLfloat)window->getBufferWidth() / window->getBufferHeight(), 0.1f, 1000.0f);
-  _fixedProjection = glm::ortho(-120.0f, 120.0f, -100.0f, 100.0f, 0.1f,1000.0f);
+  _fixedProjection = glm::ortho(-175.0f, 175.0f, -110.0f, 110.0f, 0.1f, 1000.0f);
+  //_fixedProjection = glm::perspective(45.0f, 
+  //(GLfloat)window->getBufferWidth() / window->getBufferHeight(), 0.1f, 
+  //1000.0f);
 
   _selectedCamera = 0;
 }
