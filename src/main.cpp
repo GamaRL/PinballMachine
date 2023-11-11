@@ -65,6 +65,7 @@ Texture plainTexture;
 
 Model Pinball_Cover_M;
 Model Ball;
+Model Bouncer_M;
 
 //materiales
 Material Material_brillante;
@@ -77,12 +78,6 @@ GLfloat deltaTime = 0.0f;
 GLfloat dt = 0.0f;
 GLfloat lastTime = 0.0f;
 static double limitFPS = 1.0 / 60.0;
-
-// luz direccional
-DirectionalLight mainLight;
-//para declarar varias luces de tipo pointlight
-PointLight pointLights[MAX_POINT_LIGHTS];
-SpotLight spotLights[MAX_SPOT_LIGHTS];
 
 // Vertex Shader
 static const char* vShader = "resources/shaders/shader_light.vert";
@@ -260,6 +255,8 @@ int main()
 	CreateObjects();
 	CreateShaders();
 
+  LightManager lm = LightManager();
+
 	Camera* camera = nullptr;
   CameraToggleController cameraController(&mainWindow);
 
@@ -273,12 +270,13 @@ int main()
 
   Inador::Initialise();
 
-  Inador in1 = Inador(-10.0f, 0.0f, -10.0f, 0.0f);
-  Inador in2 = Inador(10.0f, 0.0f, 10.0f, glm::pi<float>());
-  Inador in3 = Inador(30.0f, 0.0f, 30.0f, glm::pi<float>() / 2.0f);
+  Inador in1 = Inador(-25.0f, 0.0f, -45.0f, 0.0f, &lm.GetObstacleLights()[0]);
+  Inador in2 = Inador(25.0f, 0.0f, -45.0f, glm::pi<float>(), &lm.GetObstacleLights()[1]);
+  Inador in3 = Inador(30.0f, 0.0f, 30.0f, glm::pi<float>() / 2.0f, &lm.GetObstacleLights()[2]);
 
   InadorAnimation in_an_1(&in1);
   InadorAnimation in_an_2(&in2);
+  InadorAnimation in_an_3(&in3);
 
 	Earth::Initialise();
 	Earth earth(10.0f, 0.0f, -10.0f);
@@ -302,6 +300,8 @@ int main()
   Pinball_Cover_M.LoadModel("resources/models/Pinball_Cover.obj");
   Ball = Model();
   Ball.LoadModel("resources/models/Ball.obj");
+  Bouncer_M = Model();
+  Bouncer_M.LoadModel("resources/models/Bouncer.obj");
 
   Skybox skybox;
 	std::vector<std::string> skyboxFaces;
@@ -318,38 +318,10 @@ int main()
 	Material_opaco = Material(0.3f, 4);
 	Material_metal = Material(2.0f, 127);
 
-
-	//luz direccional, sólo 1 y siempre debe de existir
-	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
-		0.1f, 0.1f,
-		0.0f, 0.0f, -1.0f);
-	//contador de luces puntuales
-	unsigned int pointLightCount = 0;
-  // Flippers inferiores
-	pointLights[0] = PointLight(1.0f, 1.0f, 0.0f,
-		0.0f, 2.0f,
-		0.0f, 5.0f, 60.0f,
-		0.0f, 0.0f, 0.15f);
-  pointLightCount++;
-
-	unsigned int spotLightCount = 0;
-  // Arriba del tablero
-	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
-		0.0f, 2.0f,
-		0.0f, 150.0f, -50.0f,
-		0.0f, -1.0f, 0.3f,
-		0.0f, 0.0f, 0.00015f,
-		30.0f);
-  spotLightCount++;
-
-
-
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
 		uniformSpecularIntensity = 0, uniformShininess = 0, uniformTextureOffset=0;
 	GLuint uniformColor = 0;
 	glm::mat4* projection = nullptr;
-
-  LightManager lm = LightManager();
 
 	
   ////Loop mientras no se cierra la ventana
@@ -393,20 +365,9 @@ int main()
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera->calculateViewMatrix()));
 		glUniform3f(uniformEyePosition, camera->getCameraPosition().x, camera->getCameraPosition().y, camera->getCameraPosition().z);
 
-		// luz ligada a la cámara de tipo flash
-    //glm::vec3 lowerLight = camera->getCameraPosition();
-    //lowerLight.y -= 0.3f;
-    //spotLights[0].SetFlash(lowerLight, camera->getCameraDirection());
-
-    //información al shader de fuentes de iluminación
-    //shaderList[0].SetDirectionalLight(&mainLight);
-    //shaderList[0].SetPointLights(pointLights, pointLightCount);
-    //shaderList[0].SetSpotLights(spotLights, spotLightCount);
-
 		shaderList[0].SetDirectionalLight(lm.GetAmbientLight());
-		shaderList[0].SetPointLights(pointLights, lm.GetNumOfPointLights());
-    shaderList[0].SetSpotLights(lm.GetSpotLights(), 
-      lm.GetNumOfSpottLights());
+		shaderList[0].SetPointLights(lm.GetPointLights(), lm.GetNumOfPointLights());
+    shaderList[0].SetSpotLights(lm.GetSpotLights(), lm.GetNumOfSpottLights());
 
     glm::mat4 model(1.0);
 		glm::mat4 modelaux(1.0);
@@ -440,6 +401,14 @@ int main()
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
     Obstacle.RenderModel();
+
+    // Obstáculo aleatorio
+    model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 50.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+    Bouncer_M.RenderModel();
 
     springMouseController.Handle();
     spring.Animate(dt);

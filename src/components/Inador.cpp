@@ -1,14 +1,17 @@
 #include "../include/Inador.h"
 #include <glm/ext/matrix_transform.hpp>
+#include <glm/ext/quaternion_geometric.hpp>
+#include <glm/fwd.hpp>
 
 Model Inador::Inador_Base = Model();
 Model Inador::Inador_Cuerpo = Model();
 Model Inador::Inador_Punta = Model();
 
-Inador::Inador(float x, float y, float z, float orientation)
+Inador::Inador(float x, float y, float z, float orientation, SpotLight* light)
 {
   _position = glm::vec3(x, y, z);
   _orientation = orientation;
+  _light = light;
 }
 
 void Inador::Initialise()
@@ -41,9 +44,14 @@ void Inador::Render(GLint uniformModel)
 
   model = modelaux;
   model = glm::translate(model, glm::vec3(-6.5f, 0.0f, 0.0f));
+  modelaux = model;
   glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
   Inador_Punta.RenderModel();
+
+  glm::vec3 light_position = _position + glm::vec3(0.0f, 9.0f, 0.0f);
+  glm::vec3 light_dir = glm::normalize(modelaux * glm::vec4(-1.0f, 0.0f, 0.0f, 0.0f));
+  _light->SetFlash(light_position, light_dir);
 }
 
 void Inador::Rotate1(float angle)
@@ -85,4 +93,3 @@ void Inador::Rotate2(float angle)
     }
   }
 }
-

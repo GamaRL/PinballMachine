@@ -15,6 +15,7 @@ public:
   unsigned int GetNumOfPointLights();
   unsigned int GetNumOfSpottLights();
   void HandleKeyBoard(bool* keys);
+  SpotLight* GetObstacleLights();
 private:
   // luz direccional
   DirectionalLight _mainLight;

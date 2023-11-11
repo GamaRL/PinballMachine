@@ -20,28 +20,28 @@ LightManager::LightManager()
 		0.0f, 0.0f, 0.00015f,
 		30.0f);
 
-	_obstacleLights[0] = SpotLight(0.0f, 1.0f, 1.0f,
+	_obstacleLights[0] = SpotLight(1.0f, 1.0f, 0.0f,
 		0.1f, 2.0f,
 		50.0f, 50.0f, -50.0f,
 		0.0f, -1.0f, 0.3f,
 		0.0f, 0.0f, 0.00015f,
 		10.0f);
 
-	_obstacleLights[1] = SpotLight(0.0f, 1.0f, 1.0f,
+	_obstacleLights[1] = SpotLight(1.0f, 1.0f, 0.0f,
 		0.1f, 2.0f,
 		50.0f, 50.0f, 50.0f,
 		0.0f, -1.0f, 0.3f,
 		0.0f, 0.0f, 0.00015f,
 		10.0f);
 
-  _obstacleLights[2] = SpotLight(0.0f, 1.0f, 1.0f,
+  _obstacleLights[2] = SpotLight(1.0f, 1.0f, 0.0f,
 		0.1f, 2.0f,
 		-50.0f, 50.0f, 50.0f,
 		0.0f, -1.0f, 0.3f,
 		0.0f, 0.0f, 0.00015f,
 		10.0f);
 
-	_pointLights[0] = PointLight(1.0f, 1.0f, 0.0f,
+	_flipperLight = PointLight(1.0f, 1.0f, 0.0f,
 		0.0f, 2.0f,
 		0.0f, 5.0f, 60.0f,
 		0.0f, 0.0f, 0.15f);
@@ -166,4 +166,9 @@ void LightManager::HandleKeyBoard(bool *keys)
     _isBoardLightOn = !_isBoardLightOn;
     prevKeys[4] = false;
   }
+}
+
+SpotLight* LightManager::GetObstacleLights()
+{
+  return _obstacleLights;
 }
