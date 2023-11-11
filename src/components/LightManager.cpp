@@ -10,7 +10,7 @@ LightManager::LightManager()
   _obstacleLighstOn[2] = false;
 
 	_mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
-		0.1f, 0.1f,
+		0.3f, 0.3f,
 		0.0f, -1.0f, 0.0f);
 
 	_boardLight = SpotLight(1.0f, 1.0f, 1.0f,

@@ -305,12 +305,12 @@ int main()
 
   Skybox skybox;
 	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("resources/textures/skybox/sh_rt.png");
-	skyboxFaces.push_back("resources/textures/skybox/sh_lf.png");
-	skyboxFaces.push_back("resources/textures/skybox/sh_dn.png");
-	skyboxFaces.push_back("resources/textures/skybox/sh_up.png");
-	skyboxFaces.push_back("resources/textures/skybox/sh_bk.png");
-	skyboxFaces.push_back("resources/textures/skybox/sh_ft.png");
+	skyboxFaces.push_back("resources/textures/skybox/arc_rt.png");
+	skyboxFaces.push_back("resources/textures/skybox/arc_lf.png");
+	skyboxFaces.push_back("resources/textures/skybox/arc_dn.png");
+	skyboxFaces.push_back("resources/textures/skybox/arc_up.png");
+	skyboxFaces.push_back("resources/textures/skybox/arc_bk.png");
+	skyboxFaces.push_back("resources/textures/skybox/arc_ft.png");
 
   skybox = Skybox(skyboxFaces);
 
