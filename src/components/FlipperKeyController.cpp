@@ -12,13 +12,16 @@ void FlipperKeyController::Handle(Flipper *flipper, float dt)
 
   for(int i = 0; i < n_interpolations; i++)
   {
-    if (flipper->GetTipo() == 0)
+    switch(flipper->GetTipo())
     {
-      flipper->Update(keys[GLFW_KEY_J] ? 1 : 0, dt / n_interpolations);
-    }
-    else
-    {
-      flipper->Update(keys[GLFW_KEY_K] ? 1 : 0, dt / n_interpolations);
+      case 0:
+        flipper->Update(keys[GLFW_KEY_J] ? 1 : 0, dt / n_interpolations);
+        break;
+      case 1:
+        flipper->Update(keys[GLFW_KEY_K] ? 1 : 0, dt / n_interpolations);
+        break;
+      case 2:
+        flipper->Update(keys[GLFW_KEY_L] ? 1 : 0, dt / n_interpolations);
     }
   }
 }

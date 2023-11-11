@@ -1,10 +1,12 @@
 #include "../include/Flipper.h"
+
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/scalar_constants.hpp>
 #include <glm/trigonometric.hpp>
 
 Model Flipper::Flipper_Izquierdo = Model();
 Model Flipper::Flipper_Derecho = Model();
+Material Flipper::Flipper_Material;
 
 Flipper::Flipper(float x, float y, float z, int tipo)
 {
@@ -16,23 +18,40 @@ void Flipper::Initialise()
 {
   Flipper::Flipper_Izquierdo.LoadModel("resources/models/Flipper_Izquierdo.obj");
   Flipper::Flipper_Derecho.LoadModel("resources/models/Flipper_Derecho.obj");
+  Flipper::Flipper_Material = Material(0.3f, 4.0f);
 }
 
-void Flipper::Render(GLint uniformModel)
+void Flipper::Render(GLint uniformModel, GLuint specularIntensityLocation, GLuint shininessLocation)
 {
-  glm::mat4 model, modelaux;
+  glm::mat4 model;
 
   model = glm::mat4(1.0);
   model = glm::translate(model, this->position);
-  model = glm::rotate(model, this->GetTipo() == 0 ? this->rotation : -this->rotation, glm::vec3(0, 1, 0));
+  switch(GetTipo())
+  {
+    case 0:
+      model = glm::rotate(model, this->rotation, glm::vec3(0, 1, 0));
+      break;
+    case 1:
+    case 2:
+      model = glm::rotate(model, -this->rotation, glm::vec3(0, 1, 0));
+  }
   model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-  modelaux = model;
+
+  if (GetTipo() == 2)
+    model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
   glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
-  if(this->GetTipo() == 0)
-    Flipper_Izquierdo.RenderModel();
-  else
-    Flipper_Derecho.RenderModel();
+  Flipper_Material.UseMaterial(specularIntensityLocation, shininessLocation);
+  switch(GetTipo())
+  {
+    case 0:
+      Flipper_Izquierdo.RenderModel();
+      break;
+    case 1:
+    case 2:
+      Flipper_Derecho.RenderModel();
+  }
 }
 
 void Flipper::Update(int direction, float dt)

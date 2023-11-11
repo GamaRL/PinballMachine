@@ -304,6 +304,7 @@ int main()
   Flipper::Initialise();
   Flipper fizq = Flipper(-25.0f, 0.0f, 65.0f, 0);
   Flipper fder = Flipper(25.0f, 0.0f, 65.0f, 1);
+  Flipper fmin = Flipper(25.0f, 0.0f, 0.0f, 2);
 
   FlipperKeyController flipperController(&mainWindow);
 
@@ -428,11 +429,13 @@ int main()
     in3.Render(uniformModel);
 
     // Se despliegan los flippers
-    fizq.Render(uniformModel);
-    fder.Render(uniformModel);
+    fizq.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
+    fder.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
+    fmin.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
 
     flipperController.Handle(&fizq, dt);
     flipperController.Handle(&fder, dt);
+    flipperController.Handle(&fmin, dt);
 
     // Personaje
     perryAnimation.HandleKeyboard(dt);
