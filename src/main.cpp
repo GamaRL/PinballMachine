@@ -365,7 +365,6 @@ int main()
     cameraController.HandleKeyBoard(dt);
     camera = cameraController.GetCamera();
     projection = cameraController.GetProjection();
-		camera->keyControl(mainWindow.getsKeys(), deltaTime);
     lm.HandleKeyBoard(mainWindow.getsKeys());
 
     perry.SetPosition(

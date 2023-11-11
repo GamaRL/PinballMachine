@@ -11,7 +11,7 @@ CameraToggleController::CameraToggleController(Window* window)
       glm::vec3(0.0f, 1.0f, 0.0f),
       -90.0f,
       0.0f,
-      5.0f,
+      10.0f,
       0.5f);
   _fixedCamera = Camera(
       glm::vec3(0.0f, 170.0f, 150.0f),
@@ -55,7 +55,9 @@ void CameraToggleController::HandleKeyBoard(float dt)
 
   _userCamera.keyControl(keys, dt);
   if (_selectedCamera != 0)
-	_userCamera.mouseControl(_window->getXChange(), _window->getYChange());
+  {
+	  _userCamera.mouseControl(_window->getXChange(), _window->getYChange());
+  }
 
   if (keys[GLFW_KEY_Q])
   {
