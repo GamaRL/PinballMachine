@@ -14,10 +14,16 @@ BallAnimation::BallAnimation(Ball *ball, Window *window)
 
 void BallAnimation::HandleStart()
 {
+  static bool isPressed = false;
   if (_window->IsRightButtonPressed())
+  {
+    isPressed = true;
+  }
+  else if (isPressed)
   {
     Reset();
     _isRunning = true;
+    isPressed = false;
   }
 }
 

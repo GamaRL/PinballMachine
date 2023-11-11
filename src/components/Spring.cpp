@@ -18,22 +18,22 @@ Spring::Spring(float x, float y, float z)
   _position = glm::vec3(x, y, z);
   _frameList = std::vector<struct SpringKeyFrame>(8);
 
-  _frameList[0].scale_z = -0.300000f;
-  _frameList[0].rot = 120.000000;
-  _frameList[1].scale_z = -0.500000f;
-  _frameList[1].rot = 240.000000;
-  _frameList[2].scale_z = -0.700000f;
-  _frameList[2].rot = 360.000000;
-  _frameList[3].scale_z = 0.000000f;
-  _frameList[3].rot = 360.000000;
-  _frameList[4].scale_z = -0.200000f;
-  _frameList[4].rot = 360.000000;
-  _frameList[5].scale_z = 0.000000f;
-  _frameList[5].rot = 360.000000;
-  _frameList[6].scale_z = -0.200000f;
-  _frameList[6].rot = 360.000000;
-  _frameList[7].scale_z = -0.100000f;
-  _frameList[7].rot = 360.000000;
+  _frameList[0].scale_z = -0.30f;
+  _frameList[0].rot = 120.0f;
+  _frameList[1].scale_z = -0.50f;
+  _frameList[1].rot = 240.0f;
+  _frameList[2].scale_z = -0.70f;
+  _frameList[2].rot = 360.0f;
+  _frameList[3].scale_z = 0.00f;
+  _frameList[3].rot = 360.0f;
+  _frameList[4].scale_z = -0.20f;
+  _frameList[4].rot = 360.0f;
+  _frameList[5].scale_z = 0.00f;
+  _frameList[5].rot = 360.0f;
+  _frameList[6].scale_z = -0.20f;
+  _frameList[6].rot = 360.0f;
+  _frameList[7].scale_z = -0.10f;
+  _frameList[7].rot = 360.0f;
 }
 
 void Spring::ResetAnimation()
