@@ -54,6 +54,7 @@ void CameraToggleController::HandleKeyBoard(float dt)
   bool* keys = _window->getsKeys();
 
   _userCamera.keyControl(keys, dt);
+  if (_selectedCamera != 0)
 	_userCamera.mouseControl(_window->getXChange(), _window->getYChange());
 
   if (keys[GLFW_KEY_Q])
