@@ -42,7 +42,7 @@ void Spring::ResetAnimation()
   _scale = glm::vec3(1.0f, 1.0f, _frameList[0].scale_z);
   _rot = _frameList[0].rot;
   _isPlaying = true;
-  _currStep = 0;
+  _currStep = MAX_STEPS;
 }
 
 void Spring::Interpolate()
