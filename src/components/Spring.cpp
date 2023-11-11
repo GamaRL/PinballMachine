@@ -15,19 +15,18 @@ Spring::Spring(float x, float y, float z)
 {
   _position = glm::vec3(x, y, z);
   _frameList = std::vector<struct SpringKeyFrame>(12);
-  _frameList[0].scaleBall_z = 1.000000f;
-  _frameList[1].scaleBall_z = 0.250000f;
-  _frameList[2].scaleBall_z = 2.000000f;
-  _frameList[3].scaleBall_z = 0.750000f;
-  _frameList[4].scaleBall_z = 1.250000f;
-  _frameList[5].scaleBall_z = 0.800000f;
-  _frameList[6].scaleBall_z = 1.100000f;
-  _frameList[7].scaleBall_z = 0.900000f;
-  _frameList[8].scaleBall_z = 1.050000f;
-  _frameList[9].scaleBall_z = 0.950000f;
-  _frameList[10].scaleBall_z = 1.025000f;
+  _frameList[0].scaleBall_z = 0.100000f;
+  _frameList[1].scaleBall_z = 3.000000f;
+  _frameList[2].scaleBall_z = 0.100000f;
+  _frameList[3].scaleBall_z = 3.000000f;
+  _frameList[4].scaleBall_z = 0.100000f;
+  _frameList[5].scaleBall_z = 3.000000f;
+  _frameList[6].scaleBall_z = 0.100000f;
+  _frameList[7].scaleBall_z = 3.000000f;
+  _frameList[8].scaleBall_z = 0.100000f;
+  _frameList[9].scaleBall_z = 3.000000f;
+  _frameList[10].scaleBall_z = 0.200000f;
   _frameList[11].scaleBall_z = 1.00000f;
-  ResetAnimation();
 }
 
 void Spring::ResetAnimation()

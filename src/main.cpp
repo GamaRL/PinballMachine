@@ -57,6 +57,7 @@
 #include "./include/Bouncer.h"
 #include "./include/Bumper.h"
 #include "./include/Ball.h"
+#include "./include/BallAnimation.h"
 
 const float toRadians = 3.14159265f / 180.0f;
 
@@ -266,8 +267,11 @@ int main()
   Perry::Initialise();
 	Perry perry(10.0f, 5.0f, 60.0f);
 
+
   Ball::Initialise();
 	Ball ball(10.0f, 5.0f, 0.0f);
+
+  BallAnimation ballAnimation(&ball, &mainWindow);
 
   PerryAnimation perryAnimation(&perry, &mainWindow);
 
@@ -416,6 +420,8 @@ int main()
     spring.Animate(dt);
     spring.Render(uniformModel);
 
+    ballAnimation.HandleStart();
+    ballAnimation.Update(dt);
 		ball.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
 
     // Rotación de articulaciones

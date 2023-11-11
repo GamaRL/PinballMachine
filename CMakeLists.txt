@@ -55,6 +55,7 @@ add_executable(
   src/components/Bumper.cpp
   src/animations/InadorAnimation.cpp
   src/animations/PerryAnimation.cpp
+  src/animations/BallAnimation.cpp
 )
 
 

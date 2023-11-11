@@ -4,6 +4,7 @@ Window::Window()
 {
 	width = 800;
 	height = 600;
+  rightButtonPressed = false;
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
@@ -14,6 +15,7 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 {
 	width = windowWidth;
 	height = windowHeight;
+  rightButtonPressed = false;
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
