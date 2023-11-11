@@ -50,7 +50,8 @@ add_executable(
   src/components/Earth.cpp
   src/components/Perry.cpp
   src/components/LightManager.cpp
-  src/animations/InadorAnimacion.cpp
+  src/components/Bouncer.cpp
+  src/animations/InadorAnimation.cpp
   src/animations/PerryAnimation.cpp
 )
 
