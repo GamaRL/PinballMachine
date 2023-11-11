@@ -24,21 +24,21 @@ LightManager::LightManager()
 		0.1f, 2.0f,
 		50.0f, 50.0f, -50.0f,
 		0.0f, -1.0f, 0.3f,
-		0.0f, 0.0f, 0.0075f,
+		0.0f, 0.0f, 0.0025f,
 		15.0f);
 
 	_obstacleLights[1] = SpotLight(1.0f, 1.0f, 0.0f,
 		0.1f, 2.0f,
 		50.0f, 50.0f, 50.0f,
 		0.0f, -1.0f, 0.3f,
-		0.0f, 0.0f, 0.0075f,
+		0.0f, 0.0f, 0.0025f,
 		15.0f);
 
   _obstacleLights[2] = SpotLight(1.0f, 1.0f, 0.0f,
 		0.1f, 2.0f,
 		-50.0f, 50.0f, 50.0f,
 		0.0f, -1.0f, 0.3f,
-		0.0f, 0.0f, 0.0075f,
+		0.0f, 0.0f, 0.0025f,
 		15.0f);
 
 	_flipperLight = PointLight(0.0f, 1.0f, 1.0f,

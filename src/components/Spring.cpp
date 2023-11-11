@@ -1,7 +1,9 @@
 #include "../include/Spring.h"
 #include <glm/ext/matrix_transform.hpp>
+#include <glm/ext/quaternion_transform.hpp>
 #include <glm/fwd.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/trigonometric.hpp>
 
 
 Model Spring::Spring_Model = Model();
@@ -14,32 +16,39 @@ void Spring::Initialise()
 Spring::Spring(float x, float y, float z)
 {
   _position = glm::vec3(x, y, z);
-  _frameList = std::vector<struct SpringKeyFrame>(12);
-  _frameList[0].scaleBall_z = 0.100000f;
-  _frameList[1].scaleBall_z = 3.000000f;
-  _frameList[2].scaleBall_z = 0.100000f;
-  _frameList[3].scaleBall_z = 3.000000f;
-  _frameList[4].scaleBall_z = 0.100000f;
-  _frameList[5].scaleBall_z = 3.000000f;
-  _frameList[6].scaleBall_z = 0.100000f;
-  _frameList[7].scaleBall_z = 3.000000f;
-  _frameList[8].scaleBall_z = 0.100000f;
-  _frameList[9].scaleBall_z = 3.000000f;
-  _frameList[10].scaleBall_z = 0.200000f;
-  _frameList[11].scaleBall_z = 1.00000f;
+  _frameList = std::vector<struct SpringKeyFrame>(8);
+
+  _frameList[0].scale_z = -0.300000f;
+  _frameList[0].rot = 120.000000;
+  _frameList[1].scale_z = -0.500000f;
+  _frameList[1].rot = 240.000000;
+  _frameList[2].scale_z = -0.700000f;
+  _frameList[2].rot = 360.000000;
+  _frameList[3].scale_z = 0.000000f;
+  _frameList[3].rot = 360.000000;
+  _frameList[4].scale_z = -0.200000f;
+  _frameList[4].rot = 360.000000;
+  _frameList[5].scale_z = 0.000000f;
+  _frameList[5].rot = 360.000000;
+  _frameList[6].scale_z = -0.200000f;
+  _frameList[6].rot = 360.000000;
+  _frameList[7].scale_z = -0.100000f;
+  _frameList[7].rot = 360.000000;
 }
 
 void Spring::ResetAnimation()
 {
   _playIndex = 0;
-  _scale = glm::vec3(1.0f, 1.0f, 1.0f);
+  _scale = glm::vec3(1.0f, 1.0f, _frameList[0].scale_z);
+  _rot = _frameList[0].rot;
   _isPlaying = true;
   _currStep = 0;
 }
 
 void Spring::Interpolate()
 {
-	_frameList[_playIndex].scaleBall_zInc = (_frameList[_playIndex + 1].scaleBall_z - _frameList[_playIndex].scaleBall_z) / MAX_STEPS;
+	_frameList[_playIndex].scale_zInc = (_frameList[_playIndex + 1].scale_z - _frameList[_playIndex].scale_z) / MAX_STEPS;
+	_frameList[_playIndex].rot_Inc = (_frameList[_playIndex + 1].rot - _frameList[_playIndex].rot) / MAX_STEPS;
 }
 
 void Spring::Animate(float dt)
@@ -57,7 +66,8 @@ void Spring::Animate(float dt)
       }
       else //Interpolación del próximo cuadro
       {
-        _scale.z = _frameList[_playIndex].scaleBall_z;
+        _scale.z = _frameList[_playIndex].scale_z;
+        _rot = _frameList[_playIndex].rot;
         _currStep = 0; //Resetea contador
         //Interpolar
         Interpolate();
@@ -66,7 +76,8 @@ void Spring::Animate(float dt)
     else
     {
       //Dibujar Animación
-      _scale.z += _frameList[_playIndex].scaleBall_zInc;
+      _scale.z += _frameList[_playIndex].scale_zInc;
+      _rot = _frameList[_playIndex].rot_Inc;
       _currStep++;
     }
     time += FRAME_PERIOD / MAX_STEPS;
@@ -79,7 +90,8 @@ void Spring::Render(GLint uniformModel)
 
   model = glm::mat4(1.0);
   model = glm::translate(model, _position);
-  model = glm::scale(model, _scale);
+  model = glm::scale(model, _scale + 1.0f);
+  model = glm::rotate(model, glm::radians(_rot), glm::vec3(0, 0, 1));
   glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
   Spring_Model.RenderModel();

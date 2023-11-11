@@ -118,7 +118,7 @@ void BallAnimation::Update(float dt)
         _position += _velocity * dt / static_cast<float>(NUM_INTER);
       }
 
-      if (_position.z > 48.0f)
+      if (_position.z > 47.5f)
       {
         float magnitude = glm::length(_velocity);
         _velocity = glm::normalize(glm::vec3(1.0f, 0.0f, -1.0f)) * magnitude * 0.5f;
