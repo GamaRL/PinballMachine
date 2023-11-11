@@ -1,7 +1,6 @@
 #include "../include/Flipper.h"
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/scalar_constants.hpp>
-#include <glm/fwd.hpp>
 #include <glm/trigonometric.hpp>
 
 Model Flipper::Flipper_Izquierdo = Model();

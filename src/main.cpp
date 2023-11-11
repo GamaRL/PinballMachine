@@ -54,6 +54,7 @@
 #include "./include/Earth.h"
 #include "./include/Perry.h"
 #include "./include/LightManager.h"
+#include "./include/Bouncer.h"
 
 const float toRadians = 3.14159265f / 180.0f;
 
@@ -65,7 +66,6 @@ Texture plainTexture;
 
 Model Pinball_Cover_M;
 Model Ball;
-Model Bouncer_M;
 
 //materiales
 Material Material_brillante;
@@ -270,9 +270,16 @@ int main()
 
   Inador::Initialise();
 
-  Inador in1 = Inador(-25.0f, 0.0f, -45.0f, 0.0f, &lm.GetObstacleLights()[0]);
-  Inador in2 = Inador(25.0f, 0.0f, -45.0f, glm::pi<float>(), &lm.GetObstacleLights()[1]);
+  Inador in1 = Inador(-20.0f, 0.0f, -45.0f, 0.0f, &lm.GetObstacleLights()[0]);
+  Inador in2 = Inador(20.0f, 0.0f, -45.0f, glm::pi<float>(), &lm.GetObstacleLights()[1]);
   Inador in3 = Inador(30.0f, 0.0f, 30.0f, glm::pi<float>() / 2.0f, &lm.GetObstacleLights()[2]);
+
+  Bouncer::Initialise();
+
+  Bouncer bn1 = Bouncer(-25, 0.0f, -33.0f, true);
+  Bouncer bn2 = Bouncer(25, 0.0f, -33.0f, false);
+  Bouncer bn3 = Bouncer(-35, 0.0f, 50.0f, true);
+  Bouncer bn4 = Bouncer(35, 0.0f, 50.0f, false);
 
   InadorAnimation in_an_1(&in1);
   InadorAnimation in_an_2(&in2);
@@ -300,8 +307,6 @@ int main()
   Pinball_Cover_M.LoadModel("resources/models/Pinball_Cover.obj");
   Ball = Model();
   Ball.LoadModel("resources/models/Ball.obj");
-  Bouncer_M = Model();
-  Bouncer_M.LoadModel("resources/models/Bouncer.obj");
 
   Skybox skybox;
 	std::vector<std::string> skyboxFaces;
@@ -403,12 +408,10 @@ int main()
     Obstacle.RenderModel();
 
     // Obstáculo aleatorio
-    model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 50.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-    Bouncer_M.RenderModel();
+    bn1.Render(uniformModel);
+    bn2.Render(uniformModel);
+    bn3.Render(uniformModel);
+    bn4.Render(uniformModel);
 
     springMouseController.Handle();
     spring.Animate(dt);
@@ -417,6 +420,7 @@ int main()
     // Rotación de articulaciones
     in_an_1.Update(dt);
     in_an_2.Update(dt);
+    in_an_3.Update(dt);
 
     // Se despliegan los dos inadores
     in1.Render(uniformModel);
