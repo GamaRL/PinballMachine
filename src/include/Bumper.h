@@ -3,15 +3,16 @@
 #include "Model.h"
 #include <glm/glm.hpp>
 
-class Bouncer
+class Bumper
 {
 public:
   static void Initialise();
-  Bouncer(float x, float y, float z, bool rotated);
+  Bumper(float x, float y, float z, float scale);
   void Render(GLint);
 private:
-  static Model Bouncer_Model;
+  static Model Bumper_Model;
 
   glm::vec3 _position;
-  bool _rotated;
+  float _scale;
 };
+

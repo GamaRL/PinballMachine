@@ -55,6 +55,8 @@
 #include "./include/Perry.h"
 #include "./include/LightManager.h"
 #include "./include/Bouncer.h"
+#include "./include/Bumper.h"
+#include "./include/Ball.h"
 
 const float toRadians = 3.14159265f / 180.0f;
 
@@ -65,12 +67,10 @@ std::vector<Shader> shaderList;
 Texture plainTexture;
 
 Model Pinball_Cover_M;
-Model Ball;
 
 //materiales
 Material Material_brillante;
 Material Material_opaco;
-Material Material_metal;
 
 
 //Sphere cabeza = Sphere(0.5, 20, 20);
@@ -266,6 +266,9 @@ int main()
   Perry::Initialise();
 	Perry perry(10.0f, 5.0f, 60.0f);
 
+  Ball::Initialise();
+	Ball ball(10.0f, 5.0f, 0.0f);
+
   PerryAnimation perryAnimation(&perry, &mainWindow);
 
   Inador::Initialise();
@@ -281,15 +284,17 @@ int main()
   Bouncer bn3 = Bouncer(-35, 0.0f, 50.0f, true);
   Bouncer bn4 = Bouncer(35, 0.0f, 50.0f, false);
 
+  Bumper::Initialise();
+  Bumper bp1 = Bumper(-35, 0.0f, 0.0f, 1.0f);
+  Bumper bp2 = Bumper(-25, 0.0f, -15.0f, 0.8f);
+  Bumper bp3 = Bumper(20, 0.0f, -15.0f, 1.2f);
+
   InadorAnimation in_an_1(&in1);
   InadorAnimation in_an_2(&in2);
   InadorAnimation in_an_3(&in3);
 
 	Earth::Initialise();
-	Earth earth(10.0f, 0.0f, -10.0f);
-
-  Model Obstacle = Model();
-  Obstacle.LoadModel("resources/models/Obstacle_1.obj");
+	Earth earth(0.0f, 0.0f, 40.0f);
 
   Spring::Initialise();
   Spring spring = Spring(43.5f, 3.0f, 80.0f);
@@ -305,8 +310,6 @@ int main()
 
   Pinball_Cover_M = Model();
   Pinball_Cover_M.LoadModel("resources/models/Pinball_Cover.obj");
-  Ball = Model();
-  Ball.LoadModel("resources/models/Ball.obj");
 
   Skybox skybox;
 	std::vector<std::string> skyboxFaces;
@@ -321,7 +324,6 @@ int main()
 
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
-	Material_metal = Material(2.0f, 127);
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
 		uniformSpecularIntensity = 0, uniformShininess = 0, uniformTextureOffset=0;
@@ -400,22 +402,20 @@ int main()
     Pinball_Cover_M.RenderModel();
 
     // Obstáculo aleatorio
-    model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-    Obstacle.RenderModel();
-
-    // Obstáculo aleatorio
     bn1.Render(uniformModel);
     bn2.Render(uniformModel);
     bn3.Render(uniformModel);
     bn4.Render(uniformModel);
 
+    bp1.Render(uniformModel);
+    bp2.Render(uniformModel);
+    bp3.Render(uniformModel);
+
     springMouseController.Handle();
     spring.Animate(dt);
     spring.Render(uniformModel);
+
+		ball.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
 
     // Rotación de articulaciones
     in_an_1.Update(dt);

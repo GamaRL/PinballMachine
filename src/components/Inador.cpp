@@ -27,7 +27,7 @@ void Inador::Render(GLint uniformModel)
 
   model = glm::mat4(1.0);
   model = glm::translate(model, this->_position);
-  model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+  model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
   model = glm::rotate(model, _rotation1 + _orientation, glm::vec3(0, 1, 0));
   modelaux = model;
   glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -49,7 +49,7 @@ void Inador::Render(GLint uniformModel)
 
   Inador_Punta.RenderModel();
 
-  glm::vec3 light_position = _position + glm::vec3(0.0f, 9.0f, 0.0f);
+  glm::vec3 light_position = _position + glm::vec3(0.0f, 9.5f, 0.0f);
   glm::vec3 light_dir = glm::normalize(modelaux * glm::vec4(-1.0f, 0.0f, 0.0f, 0.0f));
   _light->SetFlash(light_position, light_dir);
 }

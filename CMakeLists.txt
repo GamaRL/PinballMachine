@@ -51,6 +51,8 @@ add_executable(
   src/components/Perry.cpp
   src/components/LightManager.cpp
   src/components/Bouncer.cpp
+  src/components/Ball.cpp
+  src/components/Bumper.cpp
   src/animations/InadorAnimation.cpp
   src/animations/PerryAnimation.cpp
 )
