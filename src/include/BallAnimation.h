@@ -19,7 +19,7 @@ private:
   glm::vec3 _velocity;
 
   bool _isRunning;
-  bool _states[7];
+  bool _states[9];
 
   void Reset();
 };

@@ -67,6 +67,7 @@ std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 
 Texture plainTexture;
+Texture floorTexture;
 
 Model Pinball_Cover_M;
 
@@ -142,32 +143,11 @@ void CreateObjects()
 	};
 
 	GLfloat floorVertices[] = {
-		-10.0f, 0.0f, -10.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
-		10.0f, 0.0f, -10.0f,	10.0f, 0.0f,	0.0f, -1.0f, 0.0f,
-		-10.0f, 0.0f, 10.0f,	0.0f, 10.0f,	0.0f, -1.0f, 0.0f,
-		10.0f, 0.0f, 10.0f,		10.0f, 10.0f,	0.0f, -1.0f, 0.0f
+		-50.0f, 0.0f, -95.0f,	0.0f, 1.0f,		0.0f, -1.0f, 0.0f,
+		50.0f, 0.0f, -95.0f,	1.0f, 1.0f,	0.0f, -1.0f, 0.0f,
+		-50.0f, 0.0f, 95.0f,	0.0f, 0.0f,	0.0f, -1.0f, 0.0f,
+		50.0f, 0.0f, 95.0f,		1.0f, 0.0f,	0.0f, -1.0f, 0.0f
 	};
-	unsigned int vegetacionIndices[] = {
-	   0, 1, 2,
-	   0, 2, 3,
-	   4,5,6,
-	   4,6,7
-	};
-
-	GLfloat vegetacionVertices[] = {
-		-0.5f, -0.5f, 0.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-		0.5f, -0.5f, 0.0f,		1.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-		0.5f, 0.5f, 0.0f,		1.0f, 1.0f,		0.0f, 0.0f, 0.0f,
-		-0.5f, 0.5f, 0.0f,		0.0f, 1.0f,		0.0f, 0.0f, 0.0f,
-
-		0.0f, -0.5f, -0.5f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-		0.0f, -0.5f, 0.5f,		1.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-		0.0f, 0.5f, 0.5f,		1.0f, 1.0f,		0.0f, 0.0f, 0.0f,
-		0.0f, 0.5f, -0.5f,		0.0f, 1.0f,		0.0f, 0.0f, 0.0f,
-
-
-	};
-	
 
 	unsigned int flechaIndices[] = {
 	   0, 1, 2,
@@ -178,32 +158,6 @@ void CreateObjects()
 		-0.5f, 0.0f, 0.5f,		0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
 		0.5f, 0.0f, 0.5f,		1.0f, 0.0f,		0.0f, -1.0f, 0.0f,
 		0.5f, 0.0f, -0.5f,		1.0f, 1.0f,		0.0f, -1.0f, 0.0f,
-		-0.5f, 0.0f, -0.5f,		0.0f, 1.0f,		0.0f, -1.0f, 0.0f,
-
-	};
-
-	unsigned int scoreIndices[] = {
-	   0, 1, 2,
-	   0, 2, 3,
-	};
-
-	GLfloat scoreVertices[] = {
-		-0.5f, 0.0f, 0.5f,		0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
-		0.5f, 0.0f, 0.5f,		1.0f, 0.0f,		0.0f, -1.0f, 0.0f,
-		0.5f, 0.0f, -0.5f,		1.0f, 1.0f,		0.0f, -1.0f, 0.0f,
-		-0.5f, 0.0f, -0.5f,		0.0f, 1.0f,		0.0f, -1.0f, 0.0f,
-
-	};
-
-	unsigned int numeroIndices[] = {
-	   0, 1, 2,
-	   0, 2, 3,
-	};
-
-	GLfloat numeroVertices[] = {
-		-0.5f, 0.0f, 0.5f,		0.0f, 0.67f,		0.0f, -1.0f, 0.0f,
-		0.5f, 0.0f, 0.5f,		0.25f, 0.67f,		0.0f, -1.0f, 0.0f,
-		0.5f, 0.0f, -0.5f,		0.25f, 1.0f,		0.0f, -1.0f, 0.0f,
 		-0.5f, 0.0f, -0.5f,		0.0f, 1.0f,		0.0f, -1.0f, 0.0f,
 
 	};
@@ -219,24 +173,6 @@ void CreateObjects()
 	Mesh *obj3 = new Mesh();
 	obj3->CreateMesh(floorVertices, floorIndices, 32, 6);
 	meshList.push_back(obj3);
-
-
-	Mesh* obj4 = new Mesh();
-	obj4->CreateMesh(vegetacionVertices, vegetacionIndices, 64, 12);
-	meshList.push_back(obj4);
-
-	Mesh* obj5 = new Mesh();
-	obj5->CreateMesh(flechaVertices, flechaIndices, 32, 6);
-	meshList.push_back(obj5);
-
-	Mesh* obj6 = new Mesh();
-	obj6->CreateMesh(scoreVertices, scoreIndices, 32, 6);
-	meshList.push_back(obj6);
-
-	Mesh* obj7 = new Mesh();
-	obj7->CreateMesh(numeroVertices, numeroIndices, 32, 6);
-	meshList.push_back(obj7);
-
 }
 
 
@@ -264,6 +200,8 @@ int main()
 
 	plainTexture = Texture("resources/textures/plain.png");
 	plainTexture.LoadTextureA();
+	floorTexture = Texture("resources/textures/fondopiso_galaxia.png");
+	floorTexture.LoadTextureA();
 
   Perry::Initialise();
 	Perry perry(10.0f, 5.0f, 60.0f);
@@ -389,21 +327,21 @@ int main()
 		glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
 		glm::vec2 toffset = glm::vec2(0.0f, 0.0f);
 		
-    /*glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+    // Para el piso
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(30.0f, 1.0f, 30.0f));
+    model = glm::translate(model, glm::vec3(0.0f, -0.5f, 0.0f));
+    glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(glm::vec3(0.5, 0.5, 0.5)));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		plainTexture.UseTexture();
+		floorTexture.UseTexture();
+
 		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 
-		meshList[2]->RenderMesh();*/
+		meshList[2]->RenderMesh();
 
     // Cubierta de la máquina de pinball
     model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));

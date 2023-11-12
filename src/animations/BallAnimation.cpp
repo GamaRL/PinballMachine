@@ -15,15 +15,18 @@ BallAnimation::BallAnimation(Ball *ball, Window *window)
 void BallAnimation::HandleStart()
 {
   static bool isPressed = false;
-  if (_window->IsRightButtonPressed())
+  if(!_isRunning)
   {
-    isPressed = true;
-  }
-  else if (isPressed)
-  {
-    Reset();
-    _isRunning = true;
-    isPressed = false;
+    if (_window->IsRightButtonPressed())
+    {
+      isPressed = true;
+    }
+    else if (isPressed)
+    {
+      Reset();
+      _isRunning = true;
+      isPressed = false;
+    }
   }
 }
 
@@ -39,6 +42,8 @@ void BallAnimation::Reset()
   _states[4] = false;
   _states[5] = false;
   _states[6] = false;
+  _states[7] = false;
+  _states[8] = false;
 }
 
 void BallAnimation::Update(float dt)
@@ -147,7 +152,6 @@ void BallAnimation::Update(float dt)
       {
         _velocity = glm::vec3(10.0f, 0.0f, 0.0f);
 
-        _velocity *= 0.8;
         _states[5] = false;
         _states[6] = true;
       }
@@ -161,6 +165,40 @@ void BallAnimation::Update(float dt)
 
       if (_position.x >= 40.0f)
       {
+        _velocity = glm::vec3(0.0f, 0.0f, -10.0f);
+
+        _states[6] = false;
+        _states[7] = true;
+      }
+    }
+    else if (_states[7])
+    {
+      for (int i = 0; i < NUM_INTER; i++)
+      {
+        _position += _velocity * dt / static_cast<float>(NUM_INTER);
+      }
+
+      if (_position.z < 70.0f)
+      {
+        _velocity = glm::vec3(10.0f, 0.0f, 0.0f);
+
+        _states[7] = false;
+        _states[8] = true;
+      }
+    }
+    else if (_states[8])
+    {
+      for (int i = 0; i < NUM_INTER; i++)
+      {
+        _position += _velocity * dt / static_cast<float>(NUM_INTER);
+      }
+
+      if (_position.x >= 43.0f)
+      {
+        _velocity = glm::vec3(10.0f, 0.0f, 0.0f);
+        _position.y = 3.0f;
+
+        _states[8] = false;
         _isRunning = false;
       }
     }

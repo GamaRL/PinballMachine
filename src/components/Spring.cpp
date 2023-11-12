@@ -14,6 +14,7 @@ void Spring::Initialise()
 Spring::Spring(float x, float y, float z)
 {
   _position = glm::vec3(x, y, z);
+  _scale = glm::vec3(1.0f, 1.0f, 0.0f);
   _frameList = std::vector<struct SpringKeyFrame>(8);
 
   _frameList[0].scale_z = -0.30f;
