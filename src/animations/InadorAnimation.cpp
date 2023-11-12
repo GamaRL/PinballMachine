@@ -21,3 +21,4 @@ void InadorAnimation::Update(float dt)
   this->_inador->Rotate1(this->_angle1 - angle1);
   this->_inador->Rotate2(this->_angle2 - angle2);
 }
+

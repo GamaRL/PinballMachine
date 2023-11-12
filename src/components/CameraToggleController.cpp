@@ -22,10 +22,7 @@ CameraToggleController::CameraToggleController(Window* window)
       0.0f);
 
 	_userProjection = glm::perspective(45.0f, (GLfloat)window->getBufferWidth() / window->getBufferHeight(), 0.1f, 1000.0f);
-  //_fixedProjection = glm::ortho(-1000.0f, 1000.0f, -800.0f, 800.0f, 0.1f, 
-  //1000.0f);
   _fixedProjection = glm::perspective(45.0f, (GLfloat)window->getBufferWidth() / window->getBufferHeight(), 0.1f, 1000.0f);
-
   _selectedCamera = 0;
 }
 
