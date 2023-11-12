@@ -122,21 +122,6 @@ void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat
 
 void CreateObjects()
 {
-	unsigned int indices[] = {
-		0, 3, 1,
-		1, 3, 2,
-		2, 3, 0,
-		0, 1, 2
-	};
-
-	GLfloat vertices[] = {
-		//	x      y      z			u	  v			nx	  ny    nz
-			-1.0f, -1.0f, -0.6f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-			0.0f, -1.0f, 1.0f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
-			1.0f, -1.0f, -0.6f,		1.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f,		0.5f, 1.0f,		0.0f, 0.0f, 0.0f
-	};
-
 	unsigned int floorIndices[] = {
 		0, 2, 1,
 		1, 2, 3
@@ -149,30 +134,27 @@ void CreateObjects()
 		50.0f, 0.0f, 95.0f,		1.0f, 0.0f,	0.0f, -1.0f, 0.0f
 	};
 
-	unsigned int flechaIndices[] = {
-	   0, 1, 2,
-	   0, 2, 3,
+	unsigned int powerIndices[] = {
+		0, 2, 1,
+		1, 2, 3
 	};
 
-	GLfloat flechaVertices[] = {
-		-0.5f, 0.0f, 0.5f,		0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
-		0.5f, 0.0f, 0.5f,		1.0f, 0.0f,		0.0f, -1.0f, 0.0f,
-		0.5f, 0.0f, -0.5f,		1.0f, 1.0f,		0.0f, -1.0f, 0.0f,
-		-0.5f, 0.0f, -0.5f,		0.0f, 1.0f,		0.0f, -1.0f, 0.0f,
+	GLfloat powerVertices[] = {
+		-0.5f, 0.0f, -0.5f,	0.0f, 1.0f,		0.0f, -1.0f, 0.0f,
+		0.5f, 0.0f, -0.5f,	1.0f, 1.0f,	0.0f, -1.0f, 0.0f,
+		-0.5f, 0.0f, 0.5f,	0.0f, 0.0f,	0.0f, -1.0f, 0.0f,
+		0.5f, 0.0f, 0.5f,		1.0f, 0.0f,	0.0f, -1.0f, 0.0f
 
 	};
+
 
 	Mesh *obj1 = new Mesh();
-	obj1->CreateMesh(vertices, indices, 32, 12);
+	obj1->CreateMesh(powerVertices, powerIndices, 32, 12);
 	meshList.push_back(obj1);
 
 	Mesh *obj2 = new Mesh();
-	obj2->CreateMesh(vertices, indices, 32, 12);
+	obj2->CreateMesh(floorVertices, floorIndices, 32, 6);
 	meshList.push_back(obj2);
-
-	Mesh *obj3 = new Mesh();
-	obj3->CreateMesh(floorVertices, floorIndices, 32, 6);
-	meshList.push_back(obj3);
 }
 
 
@@ -271,6 +253,16 @@ int main()
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
 
+  Texture facesTextures[10];
+
+  for(int i = 0; i < 10; i++)
+  {
+    char plantilla[] = "resources/textures/personaje$.tga";
+    plantilla[28] = '0' + i;
+    facesTextures[i] = Texture(plantilla);
+    facesTextures[i].LoadTextureA();
+  }
+
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
 		uniformSpecularIntensity = 0, uniformShininess = 0, uniformTextureOffset=0;
 	GLuint uniformColor = 0;
@@ -337,8 +329,7 @@ int main()
 		floorTexture.UseTexture();
 
 		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
-
-		meshList[2]->RenderMesh();
+		meshList[1]->RenderMesh();
 
     // Cubierta de la máquina de pinball
     model = glm::mat4(1.0f);
@@ -348,6 +339,7 @@ int main()
     Pinball_Cover_M.RenderModel();
 
     // Obstáculo aleatorio
+    Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
     bn1.Render(uniformModel);
     bn2.Render(uniformModel);
     bn3.Render(uniformModel);
@@ -394,8 +386,117 @@ int main()
     perry.Animate(dt);
 
 		earth.Animate(dt);
+		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		earth.Render(uniformModel);
 
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // Para las caras
+		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
+
+		model = glm::mat4(1.0);
+    model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
+    model = glm::scale(model, glm::vec3(5.0f, 1.0f, 5.0f));
+    glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		facesTextures[0].UseTexture();
+		meshList[0]->RenderMesh();
+
+		model = glm::mat4(1.0);
+    model = glm::translate(model, glm::vec3(-10.0f, 0.5f, 0.0f));
+    model = glm::scale(model, glm::vec3(5.0f, 1.0f, 5.0f));
+    glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		facesTextures[1].UseTexture();
+		meshList[0]->RenderMesh();
+
+		model = glm::mat4(1.0);
+    model = glm::translate(model, glm::vec3(10.0f, 0.5f, 0.0f));
+    model = glm::scale(model, glm::vec3(5.0f, 1.0f, 5.0f));
+    glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		facesTextures[2].UseTexture();
+		meshList[0]->RenderMesh();
+
+    model = glm::mat4(1.0);
+    model = glm::translate(model, glm::vec3(0.0f, 0.5f, 10.0f));
+    model = glm::scale(model, glm::vec3(5.0f, 1.0f, 5.0f));
+    glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		facesTextures[3].UseTexture();
+		meshList[0]->RenderMesh();
+
+    model = glm::mat4(1.0);
+    model = glm::translate(model, glm::vec3(10.0f, 0.5f, 10.0f));
+    model = glm::scale(model, glm::vec3(5.0f, 1.0f, 5.0f));
+    glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		facesTextures[4].UseTexture();
+		meshList[0]->RenderMesh();
+
+    model = glm::mat4(1.0);
+    model = glm::translate(model, glm::vec3(-10.0f, 0.5f, 10.0f));
+    model = glm::scale(model, glm::vec3(5.0f, 1.0f, 5.0f));
+    glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		facesTextures[5].UseTexture();
+		meshList[0]->RenderMesh();
+
+    model = glm::mat4(1.0);
+    model = glm::translate(model, glm::vec3(-5.0f, 0.5f, 20.0f));
+    model = glm::scale(model, glm::vec3(5.0f, 1.0f, 5.0f));
+    glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		facesTextures[6].UseTexture();
+		meshList[0]->RenderMesh();
+
+    model = glm::mat4(1.0);
+    model = glm::translate(model, glm::vec3(5.0f, 0.5f, 20.0f));
+    model = glm::scale(model, glm::vec3(5.0f, 1.0f, 5.0f));
+    glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		facesTextures[7].UseTexture();
+		meshList[0]->RenderMesh();
+
+    model = glm::mat4(1.0);
+    model = glm::translate(model, glm::vec3(5.0f, 0.5f, -10.0f));
+    model = glm::scale(model, glm::vec3(5.0f, 1.0f, 5.0f));
+    glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		facesTextures[8].UseTexture();
+		meshList[0]->RenderMesh();
+
+    model = glm::mat4(1.0);
+    model = glm::translate(model, glm::vec3(-5.0f, 0.5f, -10.0f));
+    model = glm::scale(model, glm::vec3(5.0f, 1.0f, 5.0f));
+    glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		facesTextures[9].UseTexture();
+		meshList[0]->RenderMesh();
+
+    glDisable(GL_BLEND);
 
 		glUseProgram(0);
 
