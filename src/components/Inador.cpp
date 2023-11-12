@@ -7,6 +7,8 @@ Model Inador::Inador_Base = Model();
 Model Inador::Inador_Cuerpo = Model();
 Model Inador::Inador_Punta = Model();
 
+Material Inador::Material_Inador = Material();
+
 Inador::Inador(float x, float y, float z, float orientation, SpotLight* light)
 {
   _position = glm::vec3(x, y, z);
@@ -19,9 +21,11 @@ void Inador::Initialise()
   Inador::Inador_Base.LoadModel("resources/models/Inador_Base.obj");
   Inador::Inador_Cuerpo.LoadModel("resources/models/Inador_Cuerpo.obj");
   Inador::Inador_Punta.LoadModel("resources/models/Inador_Punta.obj");
+
+  Inador::Material_Inador = Material(6.0f, 8.0f);
 }
 
-void Inador::Render(GLint uniformModel)
+void Inador::Render(GLint uniformModel, GLuint specularIntensityLocation, GLuint shininessLocation)
 {
   glm::mat4 model, modelaux;
 

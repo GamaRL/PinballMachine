@@ -7,6 +7,7 @@
 #endif
 
 #include "./Model.h"
+#include "./Material.h"
 
 class Perry
 {
@@ -26,7 +27,7 @@ public:
 
   void SetIsMoving(bool);
 
-  void Render(GLint);
+  void Render(GLint, GLuint, GLuint);
 
 private:
   static Model Trunk_Model;
@@ -36,6 +37,8 @@ private:
   static Model Hand_Model;
   static Model Leg_Model;
   static Model Foot_Model;
+
+  static Material Material_Perry;
 
   glm::vec3 _position;
   bool _isMoving;

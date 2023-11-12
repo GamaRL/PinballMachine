@@ -366,9 +366,9 @@ int main()
     in_an_3.Update(dt);
 
     // Se despliegan los dos inadores
-    in1.Render(uniformModel);
-    in2.Render(uniformModel);
-    in3.Render(uniformModel);
+    in1.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
+    in2.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
+    in3.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
 
     // Se despliegan los flippers
     fizq.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
@@ -382,7 +382,7 @@ int main()
     // Personaje
     perryAnimation.HandleKeyboard(dt);
     if(cameraController.GetCameraType() == 0)
-      perry.Render(uniformModel);
+      perry.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
     perry.Animate(dt);
 
 		earth.Animate(dt);

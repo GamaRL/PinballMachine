@@ -11,6 +11,7 @@
 
 #include "../include/Perry.h"
 
+
 Model Perry::Trunk_Model = Model();
 Model Perry::Hat_Model = Model();
 Model Perry::Tail_Model = Model();
@@ -18,6 +19,8 @@ Model Perry::Shoulder_Model = Model();
 Model Perry::Hand_Model = Model();
 Model Perry::Leg_Model = Model();
 Model Perry::Foot_Model = Model();
+
+Material Perry::Material_Perry = Material();
 
 void Perry::Initialise()
 {
@@ -28,6 +31,7 @@ void Perry::Initialise()
   Hand_Model.LoadModel("resources/models/Perry_Hand.obj");
   Leg_Model.LoadModel("resources/models/Perry_Leg.obj");
   Foot_Model.LoadModel("resources/models/Perry_Foot.obj");
+  Material_Perry = Material(1.0f, 1.0f);
 }
 
 Perry::Perry(float x, float y, float z)
@@ -40,10 +44,11 @@ Perry::Perry(float x, float y, float z)
   _angle4 = 0.0f;
 }
 
-void Perry::Render(GLint uniformModel)
+void Perry::Render(GLint uniformModel, GLuint specularIntensityLocation, GLuint shininessLocation)
 {
   glm::mat4 model, modelaux, modelaux2;
 
+  Material_Perry.UseMaterial(specularIntensityLocation, shininessLocation);
   // Torso
   model = glm::mat4(1.0);
   model = glm::translate(model, _position);

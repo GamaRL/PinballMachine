@@ -22,7 +22,7 @@ KeyFrame[9].movBall_z = -75.000000f;
 KeyFrame[10].movBall_x = 1.999978f;
 KeyFrame[10].movBall_z = 0.000015f;*/
 
-#include "BallKeyframeAnimation.h"
+#include "../include/BallKeyframeAnimation.h"
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/trigonometric.hpp>
@@ -57,7 +57,7 @@ BallKeyframeAnimation::BallKeyframeAnimation(Ball* ball)
 void BallKeyframeAnimation::ResetAnimation()
 {
   _playIndex = -1;
-  _position = glm::vec3(_frameList[0].movBall_x, 0.0f, _frameList[0].movBall_z);
+  _position = glm::vec3(_frameList[0].movBall_x, 1.5f, _frameList[0].movBall_z);
   _currStep = MAX_STEPS;
 }
 
