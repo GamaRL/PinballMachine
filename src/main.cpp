@@ -57,6 +57,7 @@
 #include "./include/Bouncer.h"
 #include "./include/Bumper.h"
 #include "./include/Ball.h"
+#include "./include/Rocket.h"
 #include "./include/BallAnimation.h"
 #include "./include/BallKeyframeAnimation.h"
 
@@ -184,6 +185,9 @@ int main()
 	plainTexture.LoadTextureA();
 	floorTexture = Texture("resources/textures/fondopiso_galaxia.png");
 	floorTexture.LoadTextureA();
+
+  Rocket::Initialise();
+	Rocket roket = Rocket(-25.0f, 0.0f, 30.0f);
 
   Perry::Initialise();
 	Perry perry(10.0f, 5.0f, 60.0f);
@@ -388,6 +392,8 @@ int main()
 		earth.Animate(dt);
 		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		earth.Render(uniformModel);
+
+		roket.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
 
 
     glEnable(GL_BLEND);

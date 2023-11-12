@@ -53,6 +53,7 @@ add_executable(
   src/components/Bouncer.cpp
   src/components/Ball.cpp
   src/components/Bumper.cpp
+  src/components/Rocket.cpp
   src/animations/InadorAnimation.cpp
   src/animations/PerryAnimation.cpp
   src/animations/BallAnimation.cpp
