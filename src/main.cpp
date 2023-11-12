@@ -58,6 +58,7 @@
 #include "./include/Bumper.h"
 #include "./include/Ball.h"
 #include "./include/BallAnimation.h"
+#include "./include/BallKeyframeAnimation.h"
 
 const float toRadians = 3.14159265f / 180.0f;
 
@@ -269,9 +270,11 @@ int main()
 
 
   Ball::Initialise();
-	Ball ball(10.0f, 5.0f, 0.0f);
+	Ball ball1(10.0f, 5.0f, 0.0f);
+	Ball ball2(10.0f, 5.0f, 0.0f);
 
-  BallAnimation ballAnimation(&ball, &mainWindow);
+  BallAnimation ballAnimation(&ball1, &mainWindow);
+  BallKeyframeAnimation ballKeyAnimation(&ball2);
 
   PerryAnimation perryAnimation(&perry, &mainWindow);
 
@@ -422,7 +425,10 @@ int main()
 
     ballAnimation.HandleStart();
     ballAnimation.Update(dt);
-		ball.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
+		ball1.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
+
+    ballKeyAnimation.Update(dt);
+		ball2.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
 
     // Rotación de articulaciones
     in_an_1.Update(dt);

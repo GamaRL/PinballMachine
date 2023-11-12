@@ -56,6 +56,7 @@ add_executable(
   src/animations/InadorAnimation.cpp
   src/animations/PerryAnimation.cpp
   src/animations/BallAnimation.cpp
+  src/animations/BallKeyframeAnimation.cpp
 )
 
 
