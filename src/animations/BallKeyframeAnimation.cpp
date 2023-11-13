@@ -52,6 +52,7 @@ BallKeyframeAnimation::BallKeyframeAnimation(Ball* ball)
   _frameList[8].movBall_z = -37.000000f;
   _frameList[9].movBall_x = 0.0f;
   _frameList[9].movBall_z = 0.0f;
+  _accumulatedTime = 0.0f;
 }
 
 void BallKeyframeAnimation::ResetAnimation()
@@ -69,8 +70,8 @@ void BallKeyframeAnimation::Interpolate()
 
 void BallKeyframeAnimation::Update(float dt)
 {
-  float time = 0.0f;
-  while(time < dt)
+  float time = _accumulatedTime + dt;
+  while(time >= FRAME_PERIOD / MAX_STEPS)
   {
     if (_currStep >= MAX_STEPS) //fin de animación entre frames?
     {
@@ -95,8 +96,9 @@ void BallKeyframeAnimation::Update(float dt)
       _position.z += _frameList[_playIndex].movBall_zInc;
       _currStep++;
     }
-    time += FRAME_PERIOD / MAX_STEPS;
+    time -= FRAME_PERIOD / MAX_STEPS;
   }
+  _accumulatedTime = time;
   _ball->SetPosition(_position.x, _position.y, _position.z);
 }
 

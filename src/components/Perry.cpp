@@ -42,6 +42,7 @@ Perry::Perry(float x, float y, float z)
   _angle2 = 0.0f;
   _angle3 = 0.0f;
   _angle4 = 0.0f;
+  _isMoving = false;
 }
 
 void Perry::Render(GLint uniformModel, GLuint specularIntensityLocation, GLuint shininessLocation)
@@ -237,13 +238,13 @@ void Perry::Animate(float dt)
 
     if(right_move)
     {
-      RotateRightHand(-0.06f);
-      RotateLeftLeg(-0.1f);
+      RotateRightHand(-0.06f * 100 * dt);
+      RotateLeftLeg(-0.1f * 100 * dt);
     }
     else
     {
-      RotateRightHand(0.06f);
-      RotateLeftLeg(0.1f);
+      RotateRightHand(0.06f * 100 * dt);
+      RotateLeftLeg(0.1f * 100 * dt);
     }
 
 
@@ -260,13 +261,13 @@ void Perry::Animate(float dt)
 
     if(left_move)
     {
-      RotateLeftHand(-0.06f);
-      RotateRightLeg(-0.1f);
+      RotateLeftHand(-0.06f * 100 * dt);
+      RotateRightLeg(-0.1f * 100 * dt);
     }
     else
     {
-      RotateLeftHand(0.06f);
-      RotateRightLeg(0.1f);
+      RotateLeftHand(0.06f * 100 * dt);
+      RotateRightLeg(0.1f * 100 * dt);
     }
   }
   else if (_isMoving)

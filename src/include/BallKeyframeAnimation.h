@@ -28,6 +28,7 @@ private:
 
   glm::vec3 _position;
   Ball* _ball;
+  float _accumulatedTime;
   unsigned int _frameIndex;
   unsigned int _playIndex;
   unsigned int _currStep;
