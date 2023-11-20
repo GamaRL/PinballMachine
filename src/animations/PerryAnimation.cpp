@@ -1,6 +1,10 @@
 #include "../include/PerryAnimation.h"
+
+#ifdef WIN32
+#include <ext/scalar_constants.hpp>
+#else
 #include <glm/ext/scalar_constants.hpp>
-#include <glm/fwd.hpp>
+#endif
 
 PerryAnimation::PerryAnimation(Perry* perry, Window* window)
 {

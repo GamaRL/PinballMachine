@@ -1,7 +1,13 @@
 #pragma once
 #include <stdio.h>
+
+#ifdef WIN32
+#include <glew.h>
+#include <glfw3.h>
+#else
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#endif
 
 class Window
 {

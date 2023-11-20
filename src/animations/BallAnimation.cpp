@@ -1,7 +1,4 @@
 #include "../include/BallAnimation.h"
-#include <glm/detail/qualifier.hpp>
-#include <glm/fwd.hpp>
-#include <glm/geometric.hpp>
 
 BallAnimation::BallAnimation(Ball *ball, Window *window)
 {

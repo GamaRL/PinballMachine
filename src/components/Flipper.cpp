@@ -1,8 +1,14 @@
 #include "../include/Flipper.h"
 
+#ifdef WIN32
+#include <ext/matrix_transform.hpp>
+#include <ext/scalar_constants.hpp>
+#include <gtc/type_ptr.hpp>
+#else
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/scalar_constants.hpp>
-#include <glm/trigonometric.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#endif
 
 Model Flipper::Flipper_Izquierdo = Model();
 Model Flipper::Flipper_Derecho = Model();

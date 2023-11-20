@@ -1,7 +1,12 @@
 #include "../include/Ball.h"
 
+#ifdef WIN32
+#include <ext/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#else
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#endif
 
 Model Ball::Ball_Model = Model();
 Material Ball::Ball_Material = Material();

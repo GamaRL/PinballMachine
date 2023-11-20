@@ -1,14 +1,20 @@
 #pragma once
 
-#include <stdio.h>
+#include "./CommonValues.h"
+#include "./DirectionalLight.h"
+#include "./PointLight.h"
+#include "./SpotLight.h"
+
+#include <cstdio>
 #include <cstring>
 #include <iostream>
 #include <fstream>
+
+#ifdef WIN32
+#include <glew.h>
+#else
 #include <GL/glew.h>
-#include "CommonValues.h"
-#include "DirectionalLight.h"
-#include "PointLight.h"
-#include "SpotLight.h"
+#endif
 
 class Shader
 {

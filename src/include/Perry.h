@@ -1,13 +1,13 @@
 #pragma once
 
+#include "./Model.h"
+#include "./Material.h"
+
 #ifdef WIN32
 #include <glm.hpp>
 #else
 #include <glm/glm.hpp>
 #endif
-
-#include "./Model.h"
-#include "./Material.h"
 
 class Perry
 {

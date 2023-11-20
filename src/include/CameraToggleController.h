@@ -1,9 +1,17 @@
 #pragma once
+
+#include "../include/Window.h"
+#include "../include/Camera.h"
+
+#ifdef WIN32
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#else
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "../include/Window.h"
-#include "../include/Camera.h"
+#endif
 
 class CameraToggleController
 {

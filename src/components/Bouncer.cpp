@@ -1,7 +1,14 @@
-#include "Bouncer.h"
+#include "../include/Bouncer.h"
+
+#ifdef WIN32
+#include <glm.hpp>
+#include <ext/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#else
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#endif
 
 Model Bouncer::Bouncer_Model = Model();
 

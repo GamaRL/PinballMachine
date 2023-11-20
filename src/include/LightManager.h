@@ -1,9 +1,9 @@
 #pragma once
 
-#include "DirectionalLight.h"
-#include "PointLight.h"
-#include "SpotLight.h"
-#include "CommonValues.h"
+#include "./DirectionalLight.h"
+#include "./PointLight.h"
+#include "./SpotLight.h"
+#include "./CommonValues.h"
 
 class LightManager
 {

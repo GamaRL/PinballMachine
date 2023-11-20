@@ -1,5 +1,10 @@
 #include "LightManager.h"
+
+#ifdef WIN32
+#include <glfw3.h>
+#else
 #include <GLFW/glfw3.h>
+#endif
 
 LightManager::LightManager()
 {

@@ -1,7 +1,12 @@
+#include "../include/Rocket.h"
+
+#ifdef WIN32
+#include <ext/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#else
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
-#include "../include/Rocket.h"
+#endif
 
 Model Rocket::Rocket_Model = Model();
 

@@ -1,8 +1,14 @@
 #pragma once
+
 #include "./Model.h"
 
 #include <vector>
+
+#ifdef WIN32
+#include <glm.hpp>
+#else
 #include <glm/glm.hpp>
+#endif
 
 struct SpringKeyFrame
 {

@@ -1,8 +1,14 @@
 #pragma once
+
 #include "./Ball.h"
 
 #include <vector>
+
+#ifdef WIN32
+#include <glm.hpp>
+#else
 #include <glm/glm.hpp>
+#endif
 
 struct BallKeyFrame
 {

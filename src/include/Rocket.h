@@ -1,9 +1,13 @@
 #pragma once
 
-#include <glm/glm.hpp>
+#include "./Material.h"
+#include "./Model.h"
 
-#include "Material.h"
-#include "Model.h"
+#ifdef WIN32
+#include <glm.hpp>
+#else
+#include <glm/glm.hpp>
+#endif
 
 class Rocket
 {

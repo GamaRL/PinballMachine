@@ -1,31 +1,12 @@
-/*
-KeyFrame[0].movBall_x = 0.000000f;
-KeyFrame[0].movBall_z = 0.000000f;
-KeyFrame[1].movBall_x = 0.000000f;
-KeyFrame[1].movBall_z = 0.000000f;
-KeyFrame[2].movBall_x = 0.000000f;
-KeyFrame[2].movBall_z = 36.000000f;
-KeyFrame[3].movBall_x = -30.000000f;
-KeyFrame[3].movBall_z = -2.000000f;
-KeyFrame[4].movBall_x = 12.000000f;
-KeyFrame[4].movBall_z = -27.000000f;
-KeyFrame[5].movBall_x = -12.000000f;
-KeyFrame[5].movBall_z = 19.000000f;
-KeyFrame[6].movBall_x = -23.000000f;
-KeyFrame[6].movBall_z = 48.000000f;
-KeyFrame[7].movBall_x = 24.000000f;
-KeyFrame[7].movBall_z = 48.000000f;
-KeyFrame[8].movBall_x = 5.000000f;
-KeyFrame[8].movBall_z = -3.000000f;
-KeyFrame[9].movBall_x = 2.000000f;
-KeyFrame[9].movBall_z = -75.000000f;
-KeyFrame[10].movBall_x = 1.999978f;
-KeyFrame[10].movBall_z = 0.000015f;*/
-
-#include "../include/BallKeyframeAnimation.h"
+#ifdef WIN32
+#include <ext/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#else
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <glm/trigonometric.hpp>
+#endif
+
+#include "../include/BallKeyframeAnimation.h"
 
 BallKeyframeAnimation::BallKeyframeAnimation(Ball* ball)
 {

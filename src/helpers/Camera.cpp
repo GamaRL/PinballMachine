@@ -1,8 +1,11 @@
 #include "../include/Camera.h"
-#include <glm/ext/matrix_projection.hpp>
-#include <glm/fwd.hpp>
-#include <glm/geometric.hpp>
+
 #include <iostream>
+#ifdef WIN32
+#include <ext/matrix_projection.hpp>
+#else
+#include <glm/ext/matrix_projection.hpp>
+#endif
 
 Camera::Camera() {}
 

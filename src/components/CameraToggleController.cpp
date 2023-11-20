@@ -1,7 +1,4 @@
 #include "../include/CameraToggleController.h"
-#include <glm/fwd.hpp>
-#include <glm/geometric.hpp>
-
 
 CameraToggleController::CameraToggleController(Window* window)
 {

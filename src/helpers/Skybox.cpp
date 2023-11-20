@@ -1,6 +1,4 @@
-#include "Skybox.h"
-
-
+#include "../include/Skybox.h"
 
 Skybox::Skybox()
 {

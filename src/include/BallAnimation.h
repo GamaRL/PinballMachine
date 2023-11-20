@@ -1,9 +1,13 @@
 #pragma once
-#include <glm/fwd.hpp>
-#include <glm/glm.hpp>
 
-#include "Ball.h"
-#include "Window.h"
+#include "./Ball.h"
+#include "./Window.h"
+
+#ifdef WIN32
+#include <glm.hpp>
+#else
+#include <glm/glm.hpp>
+#endif
 
 class BallAnimation
 {

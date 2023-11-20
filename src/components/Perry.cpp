@@ -1,6 +1,5 @@
-#include <glm/ext/quaternion_transform.hpp>
-#include <glm/fwd.hpp>
-#include <glm/geometric.hpp>
+#include "../include/Perry.h"
+
 #ifdef WIN32
 #include <ext/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
@@ -8,9 +7,6 @@
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #endif
-
-#include "../include/Perry.h"
-
 
 Model Perry::Trunk_Model = Model();
 Model Perry::Hat_Model = Model();

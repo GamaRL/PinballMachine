@@ -1,12 +1,18 @@
 #pragma once
+
+#include "./Material.h"
+#include "./Model.h"
+#include "./SpotLight.h"
+
+#ifdef WIN32
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#else
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
-#include "../include/Material.h"
-#include "../include/Model.h"
-#include "../include/SpotLight.h"
-
+#endif
 
 
 class Inador

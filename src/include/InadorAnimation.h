@@ -1,4 +1,5 @@
 #pragma once
+
 #include "./Inador.h"
 
 class InadorAnimation

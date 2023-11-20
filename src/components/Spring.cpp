@@ -1,8 +1,12 @@
 #include "../include/Spring.h"
+
+#ifdef WIN32
+#include <ext/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#else
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <glm/trigonometric.hpp>
-
+#endif
 
 Model Spring::Spring_Model = Model();
 
