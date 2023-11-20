@@ -54,6 +54,7 @@
 #include "./include/Earth.h"
 #include "./include/Perry.h"
 #include "./include/LightManager.h"
+#include "./include/SkyboxManager.h"
 #include "./include/Bouncer.h"
 #include "./include/Bumper.h"
 #include "./include/Ball.h"
@@ -177,6 +178,8 @@ int main()
 	CreateShaders();
 
   LightManager lm = LightManager();
+  SkyboxManager::Initialise();
+  SkyboxManager sm = SkyboxManager(&lm);
 
 	Camera* camera = nullptr;
   CameraToggleController cameraController(&mainWindow);
@@ -245,12 +248,12 @@ int main()
 
   Skybox skybox;
 	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("resources/textures/skybox/arc_rt.png");
-	skyboxFaces.push_back("resources/textures/skybox/arc_lf.png");
-	skyboxFaces.push_back("resources/textures/skybox/arc_dn.png");
-	skyboxFaces.push_back("resources/textures/skybox/arc_up.png");
-	skyboxFaces.push_back("resources/textures/skybox/arc_bk.png");
-	skyboxFaces.push_back("resources/textures/skybox/arc_ft.png");
+	skyboxFaces.push_back("resources/textures/skybox/day_rt.png");
+	skyboxFaces.push_back("resources/textures/skybox/day_lf.png");
+	skyboxFaces.push_back("resources/textures/skybox/day_dn.png");
+	skyboxFaces.push_back("resources/textures/skybox/day_up.png");
+	skyboxFaces.push_back("resources/textures/skybox/day_bk.png");
+	skyboxFaces.push_back("resources/textures/skybox/day_ft.png");
 
   skybox = Skybox(skyboxFaces);
 
@@ -286,6 +289,7 @@ int main()
     cameraController.HandleKeyBoard(dt);
     camera = cameraController.GetCamera();
     projection = cameraController.GetProjection();
+    lm.UpdateMainLight(dt);
     lm.HandleKeyBoard(mainWindow.getsKeys());
 
     perry.SetPosition(
@@ -297,7 +301,7 @@ int main()
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    skybox.DrawSkybox(camera->calculateViewMatrix(), *projection);
+    sm.DrawSkybox(camera->calculateViewMatrix(), *projection);
 		shaderList[0].UseShader();
 		uniformModel = shaderList[0].GetModelLocation();
 		uniformProjection = shaderList[0].GetProjectionLocation();

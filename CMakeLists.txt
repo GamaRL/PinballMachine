@@ -50,6 +50,7 @@ add_executable(
   src/components/Earth.cpp
   src/components/Perry.cpp
   src/components/LightManager.cpp
+  src/components/SkyboxManager.cpp
   src/components/Bouncer.cpp
   src/components/Ball.cpp
   src/components/Bumper.cpp

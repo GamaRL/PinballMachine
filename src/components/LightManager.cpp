@@ -1,4 +1,4 @@
-#include "LightManager.h"
+#include "../include/LightManager.h"
 
 #ifdef WIN32
 #include <glfw3.h>
@@ -13,9 +13,17 @@ LightManager::LightManager()
   _obstacleLighstOn[0] = false;
   _obstacleLighstOn[1] = false;
   _obstacleLighstOn[2] = false;
+  _time = 0.0f;
+  _isNight = false;
 
-	_mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
+  // Luz de día
+	_mainLight1 = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.3f, 0.3f,
+		0.0f, -1.0f, 0.0f);
+
+  // Luz de noche
+	_mainLight2 = DirectionalLight(1.0f, 1.0f, 1.0f,
+		0.05f, 0.05f,
 		0.0f, -1.0f, 0.0f);
 
 	_boardLight = SpotLight(1.0f, 1.0f, 1.0f,
@@ -55,7 +63,9 @@ LightManager::LightManager()
 
 DirectionalLight* LightManager::GetAmbientLight()
 {
-  return &_mainLight;
+  if (_isNight)
+    return &_mainLight2;
+  return &_mainLight1;
 }
 
 PointLight* LightManager::GetPointLights()
@@ -176,4 +186,20 @@ void LightManager::HandleKeyBoard(bool *keys)
 SpotLight* LightManager::GetObstacleLights()
 {
   return _obstacleLights;
+}
+
+void LightManager::UpdateMainLight(float dt)
+{
+  _time += dt;
+
+  if (_time >= 5.0f)
+  {
+    _time -= 5.0f;
+    _isNight = !_isNight;
+  }
+}
+
+bool LightManager::IsNight()
+{
+  return _isNight;
 }
