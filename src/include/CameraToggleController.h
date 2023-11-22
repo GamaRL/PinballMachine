@@ -2,6 +2,7 @@
 
 #include "../include/Window.h"
 #include "../include/Camera.h"
+#include "../include/Perry.h"
 
 #ifdef WIN32
 #include <glm.hpp>
@@ -16,7 +17,7 @@
 class CameraToggleController
 {
 public:
-  CameraToggleController(Window* window);
+  CameraToggleController(Window* window, Perry* perry);
   Camera* GetCamera();
   Camera* GetUserCamera();
   int GetCameraType() { return _selectedCamera; }
@@ -28,5 +29,6 @@ private:
   glm::mat4 _fixedProjection;
   glm::mat4 _userProjection;
   Window* _window;
+  Perry* _perry;
   int _selectedCamera; // 0->fija; 1->personaje
 };

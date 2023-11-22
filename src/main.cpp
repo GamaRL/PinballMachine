@@ -181,8 +181,11 @@ int main()
   SkyboxManager::Initialise();
   SkyboxManager sm = SkyboxManager(&lm);
 
+  Perry::Initialise();
+	Perry perry(10.0f, 5.0f, 60.0f);
+
 	Camera* camera = nullptr;
-  CameraToggleController cameraController(&mainWindow);
+  CameraToggleController cameraController(&mainWindow, &perry);
 
 	plainTexture = Texture("resources/textures/plain.png");
 	plainTexture.LoadTextureA();
@@ -191,9 +194,6 @@ int main()
 
   Rocket::Initialise();
 	Rocket roket = Rocket(-25.0f, 0.0f, 30.0f);
-
-  Perry::Initialise();
-	Perry perry(10.0f, 5.0f, 60.0f);
 
 
   Ball::Initialise();
@@ -292,11 +292,11 @@ int main()
     lm.UpdateMainLight(dt);
     lm.HandleKeyBoard(mainWindow.getsKeys());
 
-    perry.SetPosition(
+    /*perry.SetPosition(
       cameraController.GetUserCamera()->getCameraPosition().x,
       cameraController.GetUserCamera()->getCameraPosition().y,
       cameraController.GetUserCamera()->getCameraPosition().z + 4.0f
-    );
+    );*/
 
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -389,8 +389,7 @@ int main()
 
     // Personaje
     perryAnimation.HandleKeyboard(dt);
-    if(cameraController.GetCameraType() == 0)
-      perry.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
+    perry.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
     perry.Animate(dt);
 
 		earth.Animate(dt);

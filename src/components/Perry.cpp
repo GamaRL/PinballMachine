@@ -1,4 +1,5 @@
 #include "../include/Perry.h"
+#include <glm/fwd.hpp>
 
 #ifdef WIN32
 #include <ext/matrix_transform.hpp>
@@ -39,6 +40,7 @@ Perry::Perry(float x, float y, float z)
   _angle3 = 0.0f;
   _angle4 = 0.0f;
   _isMoving = false;
+  _lookAt = glm::vec3(0.0f, 0.0f, -1.0f);
 }
 
 void Perry::Render(GLint uniformModel, GLuint specularIntensityLocation, GLuint shininessLocation)
@@ -279,6 +281,18 @@ void Perry::SetPosition(float x, float y, float z)
   _position.z = z;
 }
 
+glm::vec3 Perry::GetPosition()
+{
+  return _position;
+}
+
+void Perry::Move(float dx, float dy, float dz)
+{
+  _position.x += dx;
+  _position.y += dy;
+  _position.z += dz;
+}
+
 void Perry::SetRotation(float angle)
 {
   _rotation = angle;
@@ -287,4 +301,21 @@ void Perry::SetRotation(float angle)
 void Perry::SetIsMoving(bool value)
 {
   _isMoving = value;
+}
+
+bool Perry::IsMoving()
+{
+  return _isMoving;
+}
+
+glm::vec3 Perry::GetLookAt()
+{
+  return _lookAt;
+}
+
+void Perry::SetLookAt(float x, float y, float z)
+{
+  _lookAt.x = x;
+  _lookAt.y = y;
+  _lookAt.z = z;
 }

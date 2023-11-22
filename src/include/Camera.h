@@ -24,6 +24,7 @@ public:
   void setDirection(float yaw, float pitch);
 
 	glm::vec3 getCameraPosition();
+	void setCameraPosition(float, float, float);
 	glm::vec3 getCameraDirection();
 	glm::mat4 calculateViewMatrix();
 

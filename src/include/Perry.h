@@ -2,6 +2,7 @@
 
 #include "./Model.h"
 #include "./Material.h"
+#include <glm/fwd.hpp>
 
 #ifdef WIN32
 #include <glm.hpp>
@@ -19,6 +20,7 @@ public:
   
   void Animate(float);
   void SetPosition(float, float, float);
+  glm::vec3 GetPosition();
   void SetRotation(float);
   void RotateLeftHand(float);
   void RotateRightHand(float);
@@ -26,6 +28,10 @@ public:
   void RotateRightLeg(float);
 
   void SetIsMoving(bool);
+  bool IsMoving();
+  void Move(float, float, float);
+  void SetLookAt(float, float, float);
+  glm::vec3 GetLookAt();
 
   void Render(GLint, GLuint, GLuint);
 
@@ -41,6 +47,7 @@ private:
   static Material Material_Perry;
 
   glm::vec3 _position;
+  glm::vec3 _lookAt;
   bool _isMoving;
   float _rotation;
   float _angle1;
