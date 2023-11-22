@@ -1,4 +1,5 @@
 #include "../include/CameraToggleController.h"
+#include <iostream>
 
 CameraToggleController::CameraToggleController(Window* window)
 {
@@ -48,7 +49,7 @@ void CameraToggleController::HandleKeyBoard(float dt)
   bool* keys = _window->getsKeys();
 
   _userCamera.keyControl(keys, dt);
-  if (_selectedCamera != 0)
+  if (_selectedCamera == 1)
   {
 	  _userCamera.mouseControl(_window->getXChange(), _window->getYChange());
   }
@@ -63,11 +64,7 @@ void CameraToggleController::HandleKeyBoard(float dt)
     {
       _selectedCamera = (_selectedCamera + 1) % 2;
       is_q_pressed = false;
-
-      if(_selectedCamera == 0)
-      {
-        _userCamera.setDirection(-90.0f, 0.0f);
-      }
     }
   }
 }
+
