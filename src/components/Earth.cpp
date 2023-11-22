@@ -197,7 +197,7 @@ void Earth::Render(GLint uniformModel)
   glm::mat4 model, modelaux;
 
   const float radians1 = glm::radians(_rotation1);
-  const float radians2 = glm::radians(_rotation1);
+  const float radians2 = glm::radians(_rotation2);
 
   model = glm::mat4(1.0);
   model = glm::translate(model, _position);
