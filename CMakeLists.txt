@@ -22,8 +22,12 @@ find_package(GLEW REQUIRED)
 ## GLM
 find_package(glm REQUIRED)
 
-##
+## Assimp
 find_package(assimp REQUIRED)
+
+## OpenAL
+find_package(OpenAL REQUIRED)
+#find_package(audio REQUIRED)
 
 
 # Source files
@@ -59,6 +63,10 @@ add_executable(
   src/animations/PerryAnimation.cpp
   src/animations/BallAnimation.cpp
   src/animations/BallKeyframeAnimation.cpp
+  src/audio/Buffer.cpp
+  src/audio/Device.cpp
+  src/audio/Source.cpp
+  src/audio/SpringAudioController.cpp
 )
 
 
@@ -75,8 +83,10 @@ target_link_libraries(${PROJECT_NAME}
   glfw
   glm::glm
   assimp
+  openal
   Xrandr
   Xi
   Xinerama
   Xcursor
+  audio
 )

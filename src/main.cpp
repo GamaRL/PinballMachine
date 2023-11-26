@@ -26,6 +26,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+
 //para probar el importer
 //#include<assimp/Importer.hpp>
 
@@ -38,7 +40,6 @@
 #include "./include/Model.h"
 #include "./include/Skybox.h"
 
-//para iluminación
 #include "./include/CommonValues.h"
 #include "./include/DirectionalLight.h"
 #include "./include/PointLight.h"
@@ -61,6 +62,10 @@
 #include "./include/Rocket.h"
 #include "./include/BallAnimation.h"
 #include "./include/BallKeyframeAnimation.h"
+
+// para el audio
+#include "../include/Device.h"
+#include "../include/SpringAudioController.h"
 
 const float toRadians = 3.14159265f / 180.0f;
 
@@ -170,7 +175,23 @@ void CreateShaders()
 
 int main()
 {
+
   srand(time(NULL));
+
+	Device * mysounddevice = Device::get();
+
+  /*uint32_t sound1 = 
+   * Buffer::get()->addSoundEffect("resources/audio/ahem_x.wav");
+	uint32_t sound2 = Buffer::get()->addSoundEffect("resources/audio/boing_poing.wav");
+
+	Source mySpeaker1;
+	Source mySpeaker2;
+
+  mySpeaker1.Play(sound1);
+	mySpeaker2.Play(sound2);*/
+
+
+
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
 	mainWindow.Initialise();
 
@@ -213,7 +234,7 @@ int main()
 
   Bouncer::Initialise();
 
-  Bouncer bn1 = Bouncer(-25, 0.0f, -33.0f, true);
+  Bouncer bn1 = Bouncer(-30, 0.0f, -33.0f, true);
   Bouncer bn2 = Bouncer(25, 0.0f, -33.0f, false);
   Bouncer bn3 = Bouncer(-35, 0.0f, 50.0f, true);
   Bouncer bn4 = Bouncer(35, 0.0f, 50.0f, false);
@@ -233,7 +254,9 @@ int main()
   Spring::Initialise();
   Spring spring = Spring(43.5f, 3.0f, 80.0f);
 
-  SpringMouseController springMouseController(&mainWindow, &spring);
+  SpringAudioController ac1 = SpringAudioController();
+
+  SpringMouseController springMouseController(&mainWindow, &spring, &ac1);
 
   Flipper::Initialise();
   Flipper fizq = Flipper(-25.0f, 0.0f, 65.0f, 0);
@@ -511,6 +534,8 @@ int main()
 
 		mainWindow.swapBuffers();
 	}
+
+  Device::clean();
 
 	return 0;
 }

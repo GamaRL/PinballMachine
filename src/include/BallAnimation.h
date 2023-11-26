@@ -15,6 +15,7 @@ public:
   BallAnimation(Ball *ball, Window *window);
   void HandleStart();
   void Update(float);
+
 private:
   Ball *_ball;
   Window *_window;
