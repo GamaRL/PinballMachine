@@ -69,6 +69,9 @@
 #include "./include/EnvironmentAudioController.h"
 #include "./include/Listener.h"
 
+// para las texturas
+#include "./include/BangTexture.h"
+
 const float toRadians = 3.14159265f / 180.0f;
 
 Window mainWindow;
@@ -195,6 +198,9 @@ int main()
   Perry::Initialise();
 	Perry perry(10.0f, 5.0f, 60.0f);
 
+  BangTexture::Initialise();
+  auto bangTexture = BangTexture();
+
 	Camera* camera = nullptr;
   CameraToggleController cameraController(&mainWindow, &perry);
 
@@ -307,6 +313,8 @@ int main()
     projection = cameraController.GetProjection();
     lm.UpdateMainLight(dt);
     lm.HandleKeyBoard(mainWindow.getsKeys());
+
+    bangTexture.Update(dt);
 
     Listener::get()->SetPosition(
       cameraController.GetCamera()->getCameraPosition().x,
@@ -520,6 +528,8 @@ int main()
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		facesTextures[9].UseTexture();
 		meshList[0]->RenderMesh();
+
+    bangTexture.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
 
     glDisable(GL_BLEND);
 

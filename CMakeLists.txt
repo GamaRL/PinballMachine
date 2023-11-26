@@ -69,6 +69,7 @@ add_executable(
   src/audio/SpringAudioController.cpp
   src/audio/EnvironmentAudioController.cpp
   src/audio/Listener.cpp
+  src/textures/BangTexture.cpp
 )
 
 
