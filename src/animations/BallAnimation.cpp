@@ -67,7 +67,7 @@ void BallAnimation::Update(float dt)
       for (int i = 0; i < NUM_INTER; i++)
       {
         float ball_rot_acc = glm::pow(glm::length(_velocity), 2) / 37.0f;
-        glm::vec3 acceleration = gravity + glm::normalize(glm::vec3(0.0f, 3.0f, -30.0f) - _position) * ball_rot_acc;
+        glm::vec3 acceleration = /*gravity +*/ glm::normalize(glm::vec3(-5.0f, 3.0f, -1.0f) - _position) * ball_rot_acc;
         if (_position.y >= 0)
           acceleration.y = -5.1; // Bajar pelota al nivel del suelo
         _velocity += acceleration * dt / static_cast<float>(NUM_INTER);
@@ -77,7 +77,7 @@ void BallAnimation::Update(float dt)
       if (_position.z > -42.0f)
       {
         float magnitude = glm::length(_velocity);
-        _velocity = glm::normalize(glm::vec3(1.0f, 0.0f, -1.0f)) * magnitude * 0.15f;
+        _velocity = glm::normalize(glm::vec3(1.0f, 0.0f, -1.0f)) * magnitude * 0.175f;
 
         _states[1] = false;
         _states[2] = true;
