@@ -64,8 +64,9 @@
 #include "./include/BallKeyframeAnimation.h"
 
 // para el audio
-#include "../include/Device.h"
-#include "../include/SpringAudioController.h"
+#include "./include/Device.h"
+#include "./include/SpringAudioController.h"
+#include "./include/Listener.h"
 
 const float toRadians = 3.14159265f / 180.0f;
 
@@ -179,16 +180,6 @@ int main()
   srand(time(NULL));
 
 	Device * mysounddevice = Device::get();
-
-  /*uint32_t sound1 = 
-   * Buffer::get()->addSoundEffect("resources/audio/ahem_x.wav");
-	uint32_t sound2 = Buffer::get()->addSoundEffect("resources/audio/boing_poing.wav");
-
-	Source mySpeaker1;
-	Source mySpeaker2;
-
-  mySpeaker1.Play(sound1);
-	mySpeaker2.Play(sound2);*/
 
 
 
@@ -315,11 +306,11 @@ int main()
     lm.UpdateMainLight(dt);
     lm.HandleKeyBoard(mainWindow.getsKeys());
 
-    /*perry.SetPosition(
-      cameraController.GetUserCamera()->getCameraPosition().x,
-      cameraController.GetUserCamera()->getCameraPosition().y,
-      cameraController.GetUserCamera()->getCameraPosition().z + 4.0f
-    );*/
+  Listener::get()->SetPosition(
+      cameraController.GetCamera()->getCameraPosition().x,
+      cameraController.GetCamera()->getCameraPosition().y,
+      cameraController.GetCamera()->getCameraPosition().z
+    );
 
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

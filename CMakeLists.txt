@@ -67,6 +67,7 @@ add_executable(
   src/audio/Device.cpp
   src/audio/Source.cpp
   src/audio/SpringAudioController.cpp
+  src/audio/Listener.cpp
 )
 
 

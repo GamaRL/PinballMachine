@@ -4,10 +4,11 @@
 Source::Source()
 {
   alGenSources(1, &_source);
-  alSourcef(_source, AL_PITCH, _pitch);
-  alSourcef(_source, AL_GAIN, _gain);
+  alSourcef(_source, AL_ROLLOFF_FACTOR, 1.0f);
+  alSourcef(_source, AL_REFERENCE_DISTANCE, 6.0f);
+  alSourcef(_source, AL_MAX_DISTANCE, 50.0f);
   alSource3f(_source, AL_POSITION, _position.x, _position.y, _position.y);
-  alSource3f(_source, AL_VELOCITY, _velocity.x, _velocity.y, _velocity.z);
+  alSource3f(_source, AL_VELOCITY, 0.0f, 0.0f, 0.0f);
   alSourcei(_source, AL_LOOPING, _loopSound);
   alSourcei(_source, AL_BUFFER, _buffer);
 }
