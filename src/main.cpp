@@ -182,8 +182,6 @@ int main()
 
 	Device * mysounddevice = Device::get();
 
-
-
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
 	mainWindow.Initialise();
 
@@ -310,7 +308,7 @@ int main()
     lm.UpdateMainLight(dt);
     lm.HandleKeyBoard(mainWindow.getsKeys());
 
-  Listener::get()->SetPosition(
+    Listener::get()->SetPosition(
       cameraController.GetCamera()->getCameraPosition().x,
       cameraController.GetCamera()->getCameraPosition().y,
       cameraController.GetCamera()->getCameraPosition().z

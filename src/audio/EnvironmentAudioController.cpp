@@ -3,6 +3,7 @@
 
 EnvironmentAudioController::EnvironmentAudioController()
 {
+  _source.SetLoop(true);
   _sound = Buffer::get()->addSoundEffect("resources/audio/perry_song.wav");
 }
 

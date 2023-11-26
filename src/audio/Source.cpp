@@ -3,13 +3,16 @@
 
 Source::Source()
 {
+  ALenum error;
   alGenSources(1, &_source);
   alSourcef(_source, AL_ROLLOFF_FACTOR, 1.0f);
   alSourcef(_source, AL_REFERENCE_DISTANCE, 6.0f);
   alSourcef(_source, AL_MAX_DISTANCE, 50.0f);
+  alSourcef(_source, AL_GAIN, 1.0f);
+  alSourcef(_source, AL_PITCH, 1.0f);
   alSource3f(_source, AL_POSITION, _position.x, _position.y, _position.y);
   alSource3f(_source, AL_VELOCITY, 0.0f, 0.0f, 0.0f);
-  alSourcei(_source, AL_LOOPING, _loopSound);
+  Source::SetLoop(false);
   alSourcei(_source, AL_BUFFER, _buffer);
 }
 
@@ -31,4 +34,9 @@ void Source::Play(const ALuint buffer_to_play)
 
   ALint state = AL_PLAYING;
   alGetSourcei(_source, AL_SOURCE_STATE, &state);
+}
+
+void Source::SetLoop(bool loop)
+{
+  alSourcei(_source, AL_LOOPING, loop);
 }
