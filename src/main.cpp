@@ -66,6 +66,7 @@
 // para el audio
 #include "./include/Device.h"
 #include "./include/SpringAudioController.h"
+#include "./include/EnvironmentAudioController.h"
 #include "./include/Listener.h"
 
 const float toRadians = 3.14159265f / 180.0f;
@@ -246,6 +247,7 @@ int main()
   Spring spring = Spring(43.5f, 3.0f, 80.0f);
 
   SpringAudioController ac1 = SpringAudioController();
+  EnvironmentAudioController ac2 = EnvironmentAudioController();
 
   SpringMouseController springMouseController(&mainWindow, &spring, &ac1);
 
@@ -289,6 +291,8 @@ int main()
 	GLuint uniformColor = 0;
 	glm::mat4* projection = nullptr;
 
+
+  ac2.Play();
 	
   ////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
