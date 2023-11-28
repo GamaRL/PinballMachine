@@ -40,3 +40,8 @@ void Source::SetLoop(bool loop)
 {
   alSourcei(_source, AL_LOOPING, loop);
 }
+
+void Source::SetPitch(float pitch)
+{
+  alSourcef(_source, AL_PITCH, pitch);
+}

@@ -1,8 +1,10 @@
 #include "../include/Buffer.h"
+#include "../include/wav_file_reader.h"
+
 #include <cstdio>
 #include <cstdlib>
-#include <audio/wave.h>
 #include <AL/alext.h>
+#include <iostream>
 
 Buffer* Buffer::get()
 {
@@ -12,43 +14,18 @@ Buffer* Buffer::get()
 
 ALuint Buffer::addSoundEffect(const char* filename)
 {
-  WaveInfo *wave;
-  char *bufferData;
+  unsigned char* bufferData;
   int ret;
 
-  wave = WaveOpenFileForReading(filename);
-  if (!wave)
-  {
-    fprintf(stderr, "failed to read wave file\n");
-    return -1;
-  }
+  sakado::WavFileReader reader(filename);
+  bufferData = (unsigned char*)malloc(reader.DataSize * sizeof(unsigned char));
+  reader.Read(bufferData, reader.DataSize);
 
-  ret = WaveSeekFile(0, wave);
-  if (ret)
-  {
-    fprintf(stderr, "failed to seek wave file\n");
-    return -1;
-  }
-
-  bufferData = (char*)malloc(wave->dataSize);
-  if (!bufferData)
-  {
-    perror("malloc");
-    return -1;
-  }
-
-  ret = WaveReadFile(bufferData, wave->dataSize, wave);
-  if (ret != wave->dataSize)
-  {
-    fprintf(stderr, "short read: %d, want: %d\n", ret, wave->dataSize);
-    return -1;
-  }
   ALuint buffer = 0;
   alGenBuffers(1, &buffer);
 
-  alBufferData(buffer, toALFormat(wave->channels, wave->bitsPerSample),
-      bufferData, wave->dataSize, wave->sampleRate);
-
+  alBufferData(buffer, toALFormat(reader.NumChannels, reader.BitsPerSample),
+      bufferData, reader.DataSize, reader.SampleRate);
 
   /* Check if an error occured, and clean up if so. */
   auto err = alGetError();

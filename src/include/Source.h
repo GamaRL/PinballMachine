@@ -16,6 +16,7 @@ public:
 
   void Play(ALuint buffer);
   void SetLoop(bool loop);
+  void SetPitch(float pitch);
 private:
   int _sourceId;
   glm::vec3 _position = glm::vec3(0.0f, 0.0f, 0.0f);
