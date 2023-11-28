@@ -3,7 +3,12 @@
 #include "../include/Texture.h"
 #include "../include/Material.h"
 #include "../include/Mesh.h"
+
+#ifdef WIN32
+#include <glm.hpp>
+#else
 #include <glm/glm.hpp>
+#endif
 
 class ArrowTexture
 {

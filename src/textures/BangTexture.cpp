@@ -1,8 +1,15 @@
 #include "../include/BangTexture.h"
 
+
+#ifdef WIN32
+#include <glm.hpp>
+#include <ext/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#else
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#endif
 
 Texture BangTexture::Bang_Texture = Texture("resources/textures/stroke.tga");
 Material BangTexture::Bang_Material = Material();

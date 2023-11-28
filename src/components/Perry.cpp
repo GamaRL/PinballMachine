@@ -1,5 +1,10 @@
 #include "../include/Perry.h"
-#include <glm/fwd.hpp>
+
+#ifdef WIN32
+#include <glm.hpp>
+#else
+#include <glm/glm.hpp>
+#endif
 
 #ifdef WIN32
 #include <ext/matrix_transform.hpp>

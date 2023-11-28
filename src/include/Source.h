@@ -1,8 +1,12 @@
 #pragma once
 
 #include <AL/al.h>
-#include <glm/fwd.hpp>
+
+#ifdef WIN32
+#include <glm.hpp>
+#else
 #include <glm/glm.hpp>
+#endif
 
 class Source
 {

@@ -1,4 +1,5 @@
 #include "../include/Shader.h"
+#include <string>
 
 Shader::Shader()
 {
