@@ -26,9 +26,11 @@ public:
 private:
   Camera _fixedCamera;
   Camera _userCamera;
+  Camera _freeCamera;
   glm::mat4 _fixedProjection;
   glm::mat4 _userProjection;
+  glm::mat4 _freeProjection;
   Window* _window;
   Perry* _perry;
-  int _selectedCamera; // 0->fija; 1->personaje
+  int _selectedCamera; // 0->fija; 1->personaje; 2->recorrido
 };
