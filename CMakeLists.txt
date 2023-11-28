@@ -27,7 +27,6 @@ find_package(assimp REQUIRED)
 
 ## OpenAL
 find_package(OpenAL REQUIRED)
-#find_package(audio REQUIRED)
 
 
 # Source files
@@ -93,5 +92,4 @@ target_link_libraries(${PROJECT_NAME}
   Xi
   Xinerama
   Xcursor
-  audio
 )
