@@ -54,9 +54,9 @@ LightManager::LightManager()
 		0.0f, 0.0f, 0.0025f,
 		15.0f);
 
-	_flipperLight = PointLight(0.0f, 1.0f, 1.0f,
+	_flipperLight = PointLight(1.0f, 1.0f, 0.1f,
 		2.0f, 1.0f,
-		0.0f, 5.0f, 60.0f,
+		0.0f, 5.0f, 65.0f,
 		0.0f, 0.0f, 0.015f);
 }
 

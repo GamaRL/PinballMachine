@@ -71,6 +71,8 @@
 
 // para las texturas
 #include "./include/BangTexture.h"
+#include "./include/ArrowTexture.h"
+#include "./include/XTexture.h"
 
 const float toRadians = 3.14159265f / 180.0f;
 
@@ -201,6 +203,15 @@ int main()
   BangTexture::Initialise();
   auto bangTexture = BangTexture();
 
+  ArrowTexture::Initialise();
+  auto arrowTexture1 = ArrowTexture(5.0f, 1.0f, 2.0f, 0.0f);
+  auto arrowTexture2 = ArrowTexture(0.0f, 1.0f, 50.0f, -90.0f);
+
+  XTexture::Initialise();
+  auto xTexture1 = XTexture(-37.0f, -0.2f, 0.5f, false);
+  auto xTexture2 = XTexture(-26.0f, -0.2f, -15.0f, true);
+  auto xTexture3 = XTexture(20.0f, -0.2f, -15.0f, false);
+
 	Camera* camera = nullptr;
   CameraToggleController cameraController(&mainWindow, &perry);
 
@@ -315,6 +326,11 @@ int main()
     lm.HandleKeyBoard(mainWindow.getsKeys());
 
     bangTexture.Update(dt);
+    arrowTexture1.Update(dt);
+    arrowTexture2.Update(dt);
+    xTexture1.Update(dt);
+    xTexture2.Update(dt);
+    xTexture3.Update(dt);
 
     Listener::get()->SetPosition(
       cameraController.GetCamera()->getCameraPosition().x,
@@ -530,6 +546,13 @@ int main()
 		meshList[0]->RenderMesh();
 
     bangTexture.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
+
+    arrowTexture1.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
+    arrowTexture2.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
+
+    xTexture1.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
+    xTexture2.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
+    xTexture3.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
 
     glDisable(GL_BLEND);
 
