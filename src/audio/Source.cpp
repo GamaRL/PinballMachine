@@ -7,10 +7,10 @@ Source::Source()
   alGenSources(1, &_source);
   alSourcef(_source, AL_ROLLOFF_FACTOR, 1.0f);
   alSourcef(_source, AL_REFERENCE_DISTANCE, 6.0f);
-  alSourcef(_source, AL_MAX_DISTANCE, 50.0f);
+  alSourcef(_source, AL_MAX_DISTANCE, 500.0f);
   alSourcef(_source, AL_GAIN, 1.0f);
-  alSourcef(_source, AL_PITCH, 1.0f);
-  alSource3f(_source, AL_POSITION, _position.x, _position.y, _position.y);
+  SetPitch(1.0);
+  SetPosition(0.0f, 0.0f, 0.0f);
   alSource3f(_source, AL_VELOCITY, 0.0f, 0.0f, 0.0f);
   Source::SetLoop(false);
   alSourcei(_source, AL_BUFFER, _buffer);
@@ -44,4 +44,9 @@ void Source::SetLoop(bool loop)
 void Source::SetPitch(float pitch)
 {
   alSourcef(_source, AL_PITCH, pitch);
+}
+
+void Source::SetPosition(float x, float y, float z)
+{
+  alSource3f(_source, AL_POSITION, x, y, z);
 }
