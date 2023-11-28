@@ -76,7 +76,7 @@ PointLight* LightManager::GetPointLights()
 
 SpotLight* LightManager::GetSpotLights()
 {
-  int i;
+  int i = 0;
   for(int j = 0; j < 3; j++)
   {
     if(_obstacleLighstOn[j])

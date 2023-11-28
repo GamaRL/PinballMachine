@@ -1,9 +1,14 @@
 #include "../include/ArrowTexture.h"
 
+#ifdef WIN32
+#include <glm.hpp>
+#include <ext/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#else
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <glm/trigonometric.hpp>
+#endif
 
 Texture ArrowTexture::Arrow_Texture = Texture("resources/textures/up.tga");
 Material ArrowTexture::Arrow_Material = Material();

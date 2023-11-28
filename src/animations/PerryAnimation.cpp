@@ -1,5 +1,4 @@
 #include "../include/PerryAnimation.h"
-#include <glm/fwd.hpp>
 
 #ifdef WIN32
 #include <ext/scalar_constants.hpp>

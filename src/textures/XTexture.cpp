@@ -2,9 +2,16 @@
 
 #include <iostream>
 
+
+#ifdef WIN32
+#include <glm.hpp>
+#include <ext/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#else
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#endif
 
 Texture XTexture::X_Texture = Texture("resources/textures/x.jpeg");
 Material XTexture::X_Material = Material();

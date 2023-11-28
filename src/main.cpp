@@ -4,6 +4,15 @@
  **/
 
 //para cargar imagen
+#ifdef WIN32
+#include <ext/matrix_clip_space.hpp>
+#include <ext/matrix_float3x3.hpp>
+#include <ext/matrix_float4x4.hpp>
+#include <ext/matrix_transform.hpp>
+#include <ext/scalar_constants.hpp>
+#include <ext/vector_float3.hpp>
+#include <geometric.hpp>
+#else
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_float3x3.hpp>
 #include <glm/ext/matrix_float4x4.hpp>
@@ -11,6 +20,8 @@
 #include <glm/ext/scalar_constants.hpp>
 #include <glm/ext/vector_float3.hpp>
 #include <glm/geometric.hpp>
+#endif
+
 #define STB_IMAGE_IMPLEMENTATION
 
 #include <stdio.h>
@@ -20,12 +31,22 @@
 #include <math.h>
 #include <ctime>
 
+#ifdef WIN32
+#include <glew.h>
+#include <glfw3.h>
+
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#else
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#endif
+
 
 
 //para probar el importer
