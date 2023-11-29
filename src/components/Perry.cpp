@@ -1,4 +1,5 @@
 #include "../include/Perry.h"
+#include <glm/fwd.hpp>
 
 #ifdef WIN32
 #include <glm.hpp>
@@ -65,11 +66,14 @@ void Perry::Render(GLint uniformModel, GLuint specularIntensityLocation, GLuint 
   Trunk_Model.RenderModel();
 
   // Sombrero
-  model = modelaux;
-  model = glm::translate(model, glm::vec3(0.0f, 0.8f, 0.0f));
-  glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+  if (_isAgentMode)
+  {
+    model = modelaux;
+    model = glm::translate(model, glm::vec3(0.0f, 0.8f, 0.0f));
+    glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
-  Hat_Model.RenderModel();
+    Hat_Model.RenderModel();
+  }
 
   // Cola
   model = modelaux;
@@ -323,4 +327,9 @@ void Perry::SetLookAt(float x, float y, float z)
   _lookAt.x = x;
   _lookAt.y = y;
   _lookAt.z = z;
+}
+
+void Perry::SetIsAgentMode(bool isAgentMode)
+{
+  _isAgentMode = isAgentMode;
 }

@@ -12,7 +12,7 @@ CameraToggleController::CameraToggleController(Window* window, Perry* perry)
       -90.0f,
       0.0f,
       0.0f,
-      0.5f);
+      0.0f);
 
   _fixedCamera = Camera(
       glm::vec3(0.0f, 170.0f, 150.0f),
@@ -27,8 +27,6 @@ CameraToggleController::CameraToggleController(Window* window, Perry* perry)
       -90.0f,
       -50.0f,
       30.0f, 0.5f);
-
-  //_perry->SetLookAt();
 
 	_userProjection = glm::perspective(45.0f, (GLfloat)window->getBufferWidth() / window->getBufferHeight(), 0.1f, 1000.0f);
   _fixedProjection = glm::perspective(45.0f, (GLfloat)window->getBufferWidth() / window->getBufferHeight(), 0.1f, 1000.0f);
@@ -61,15 +59,16 @@ glm::mat4* CameraToggleController::GetProjection()
 
 void CameraToggleController::HandleKeyBoard(float dt)
 {
-  static bool is_q_pressed;
+  static bool is_p_pressed;
+  static bool is_o_pressed;
+  static bool is_i_pressed;
   bool* keys = _window->getsKeys();
 
   if (_selectedCamera == 1)
   {
-	  _userCamera.mouseControl(_window->getXChange(), _window->getYChange());
     auto lookAt = _perry->GetLookAt();
-    auto position = _perry->GetPosition() -15.0f * lookAt;
-    _userCamera.setCameraPosition(position.x, position.y, position.z);
+    auto position = _perry->GetPosition() -20.0f * lookAt;
+    _userCamera.setCameraPosition(position.x, position.y + 5.0f, position.z);
   }
   else if (_selectedCamera == 2)
   {
@@ -77,16 +76,42 @@ void CameraToggleController::HandleKeyBoard(float dt)
 	  _freeCamera.mouseControl(_window->getXChange(), _window->getYChange());
   }
 
-  if (keys[GLFW_KEY_Q])
+  if (keys[GLFW_KEY_P])
   {
-    is_q_pressed = true;
+    is_p_pressed = true;
   }
   else
   {
-    if (is_q_pressed == true)
+    if (is_p_pressed == true)
     {
-      _selectedCamera = (_selectedCamera + 1) % 3;
-      is_q_pressed = false;
+      _selectedCamera = 2;
+      is_p_pressed = false;
+    }
+  }
+
+  if (keys[GLFW_KEY_O])
+  {
+    is_o_pressed = true;
+  }
+  else
+  {
+    if (is_o_pressed == true)
+    {
+      _selectedCamera = 1;
+      is_o_pressed = false;
+    }
+  }
+
+  if (keys[GLFW_KEY_I])
+  {
+    is_i_pressed = true;
+  }
+  else
+  {
+    if (is_i_pressed == true)
+    {
+      _selectedCamera = 0;
+      is_i_pressed = false;
     }
   }
 }

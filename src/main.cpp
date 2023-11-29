@@ -219,7 +219,7 @@ int main()
   SkyboxManager sm = SkyboxManager(&lm);
 
   Perry::Initialise();
-	Perry perry(10.0f, 5.0f, 60.0f);
+	Perry perry(10.0f, 3.5f, 60.0f);
 
   BangTexture::Initialise();
   auto bangTexture = BangTexture();
@@ -297,17 +297,6 @@ int main()
 
   Pinball_Cover_M = Model();
   Pinball_Cover_M.LoadModel("resources/models/Pinball_Cover.obj");
-
-  Skybox skybox;
-	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("resources/textures/skybox/day_rt.png");
-	skyboxFaces.push_back("resources/textures/skybox/day_lf.png");
-	skyboxFaces.push_back("resources/textures/skybox/day_dn.png");
-	skyboxFaces.push_back("resources/textures/skybox/day_up.png");
-	skyboxFaces.push_back("resources/textures/skybox/day_bk.png");
-	skyboxFaces.push_back("resources/textures/skybox/day_ft.png");
-
-  skybox = Skybox(skyboxFaces);
 
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
@@ -449,7 +438,9 @@ int main()
     flipperController.Handle(&fmin, dt);
 
     // Personaje
-    perryAnimation.HandleKeyboard(dt);
+    if (cameraController.GetCameraType() != 2)
+      perryAnimation.HandleKeyboard(dt);
+    perry.SetIsAgentMode(lm.IsNight());
     perry.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
     perry.Animate(dt);
 

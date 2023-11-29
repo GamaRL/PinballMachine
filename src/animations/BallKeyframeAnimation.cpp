@@ -1,3 +1,5 @@
+#include "../include/BallKeyframeAnimation.h"
+
 #ifdef WIN32
 #include <ext/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
@@ -6,7 +8,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #endif
 
-#include "../include/BallKeyframeAnimation.h"
 
 BallKeyframeAnimation::BallKeyframeAnimation(Ball* ball)
 {
@@ -79,6 +80,7 @@ void BallKeyframeAnimation::Update(float dt)
     }
     time -= FRAME_PERIOD / MAX_STEPS;
   }
+
   _accumulatedTime = time;
   _ball->SetPosition(_position.x, _position.y, _position.z);
 }

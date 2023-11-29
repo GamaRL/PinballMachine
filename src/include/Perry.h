@@ -36,6 +36,7 @@ public:
   bool IsMoving();
   void Move(float, float, float);
   void SetLookAt(float, float, float);
+  void SetIsAgentMode(bool);
   glm::vec3 GetLookAt();
 
   void Render(GLint, GLuint, GLuint);
@@ -59,4 +60,6 @@ private:
   float _angle2;
   float _angle3;
   float _angle4;
+
+  bool _isAgentMode;
 };
