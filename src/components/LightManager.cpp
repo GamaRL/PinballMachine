@@ -60,7 +60,6 @@ LightManager::LightManager()
 		0.0f, 0.0f, 0.015f);
 }
 
-
 DirectionalLight* LightManager::GetAmbientLight()
 {
   if (_isNight)

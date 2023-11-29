@@ -34,6 +34,7 @@ void Perry::Initialise()
   Hand_Model.LoadModel("resources/models/Perry_Hand.obj");
   Leg_Model.LoadModel("resources/models/Perry_Leg.obj");
   Foot_Model.LoadModel("resources/models/Perry_Foot.obj");
+
   Material_Perry = Material(1.0f, 1.0f);
 }
 

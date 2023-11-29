@@ -9,27 +9,27 @@ Device* Device::get()
   if (Device::_instance == nullptr)
     Device::_instance = new Device();
 
-	return Device::_instance;
+  return Device::_instance;
 }
 
 Device::Device()
 {
-	_device = alcOpenDevice(nullptr); // nullptr = get default device
-	if (!_device)
-		throw("failed to get sound device");
+  _device = alcOpenDevice(nullptr); // nullptr = get default device
+  if (!_device)
+    throw("failed to get sound device");
 
-	_context = alcCreateContext(_device, nullptr);  // create context
-	if(!_context)
-		throw("Failed to set sound context");
+  _context = alcCreateContext(_device, nullptr);  // create context
+  if(!_context)
+    throw("Failed to set sound context");
 
-	if (!alcMakeContextCurrent(_context))   // make context current
-		throw("failed to make context current");
+  if (!alcMakeContextCurrent(_context))   // make context current
+    throw("failed to make context current");
 
-	const ALCchar* name = nullptr;
-	if (alcIsExtensionPresent(_device, "ALC_ENUMERATE_ALL_EXT"))
-		name = alcGetString(_device, ALC_ALL_DEVICES_SPECIFIER);
-	if (!name || alcGetError(_device) != AL_NO_ERROR)
-		name = alcGetString(_device, ALC_DEVICE_SPECIFIER);
+  const ALCchar* name = nullptr;
+  if (alcIsExtensionPresent(_device, "ALC_ENUMERATE_ALL_EXT"))
+    name = alcGetString(_device, ALC_ALL_DEVICES_SPECIFIER);
+  if (!name || alcGetError(_device) != AL_NO_ERROR)
+    name = alcGetString(_device, ALC_DEVICE_SPECIFIER);
 }
 
 void Device::clean()
@@ -40,7 +40,7 @@ void Device::clean()
 
 Device::~Device()
 {
-	alcMakeContextCurrent(nullptr);
+  alcMakeContextCurrent(nullptr);
   alcDestroyContext(_context);
-	alcCloseDevice(_device);
+  alcCloseDevice(_device);
 }

@@ -6,6 +6,7 @@ CameraToggleController::CameraToggleController(Window* window, Perry* perry)
   _window = window;
   _perry = perry;
 
+  // Ligada al personaje
   _userCamera = Camera(
       glm::vec3(0.0f, 5.0f, 75.0f),
       glm::vec3(0.0f, 1.0f, 0.0f),
@@ -14,6 +15,7 @@ CameraToggleController::CameraToggleController(Window* window, Perry* perry)
       0.0f,
       0.0f);
 
+  // Fija desde arriba
   _fixedCamera = Camera(
       glm::vec3(0.0f, 170.0f, 160.0f),
       glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)),
@@ -21,6 +23,7 @@ CameraToggleController::CameraToggleController(Window* window, Perry* perry)
       -50.0f,
       0.0f, 0.0f);
 
+  // Recorrido libre
   _freeCamera = Camera(
       glm::vec3(0.0f, 10.0f, 0.0f),
       glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)),
