@@ -1,8 +1,14 @@
 #pragma once
+
 #include "./Ball.h"
 
 #include <vector>
+
+#ifdef WIN32
+#include <glm.hpp>
+#else
 #include <glm/glm.hpp>
+#endif
 
 struct BallKeyFrame
 {
@@ -28,6 +34,7 @@ private:
 
   glm::vec3 _position;
   Ball* _ball;
+  float _accumulatedTime;
   unsigned int _frameIndex;
   unsigned int _playIndex;
   unsigned int _currStep;

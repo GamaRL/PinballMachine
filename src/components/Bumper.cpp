@@ -1,8 +1,14 @@
-#include "Bumper.h"
-#include <glm/fwd.hpp>
+#include "../include/Bumper.h"
+
+#ifdef WIN32
+#include <glm.hpp>
+#include <ext/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#else
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#endif
 
 Model Bumper::Bumper_Model = Model();
 

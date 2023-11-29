@@ -4,13 +4,22 @@
  **/
 
 //para cargar imagen
+#ifdef WIN32
+#include <ext/matrix_clip_space.hpp>
+#include <ext/matrix_float3x3.hpp>
+#include <ext/matrix_float4x4.hpp>
+#include <ext/matrix_transform.hpp>
+#include <ext/scalar_constants.hpp>
+#include <ext/vector_float3.hpp>
+#else
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_float3x3.hpp>
 #include <glm/ext/matrix_float4x4.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/scalar_constants.hpp>
 #include <glm/ext/vector_float3.hpp>
-#include <glm/geometric.hpp>
+#endif
+
 #define STB_IMAGE_IMPLEMENTATION
 
 #include <stdio.h>
@@ -20,12 +29,24 @@
 #include <math.h>
 #include <ctime>
 
+#ifdef WIN32
+#include <glew.h>
+#include <glfw3.h>
+
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#else
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#endif
+
+
+
 //para probar el importer
 //#include<assimp/Importer.hpp>
 
@@ -38,7 +59,6 @@
 #include "./include/Model.h"
 #include "./include/Skybox.h"
 
-//para iluminación
 #include "./include/CommonValues.h"
 #include "./include/DirectionalLight.h"
 #include "./include/PointLight.h"
@@ -54,12 +74,26 @@
 #include "./include/Earth.h"
 #include "./include/Perry.h"
 #include "./include/LightManager.h"
+#include "./include/SkyboxManager.h"
 #include "./include/Bouncer.h"
 #include "./include/Bumper.h"
 #include "./include/Ball.h"
 #include "./include/Rocket.h"
+#include "./include/Pinball.h"
 #include "./include/BallAnimation.h"
 #include "./include/BallKeyframeAnimation.h"
+
+// para el audio
+#include "./include/Device.h"
+#include "./include/SpringAudioController.h"
+#include "./include/EnvironmentAudioController.h"
+#include "./include/Listener.h"
+
+// para las texturas
+#include "./include/BangTexture.h"
+#include "./include/ArrowTexture.h"
+#include "./include/XTexture.h"
+#include "./include/PointTexture.h"
 
 const float toRadians = 3.14159265f / 180.0f;
 
@@ -69,8 +103,6 @@ std::vector<Shader> shaderList;
 
 Texture plainTexture;
 Texture floorTexture;
-
-Model Pinball_Cover_M;
 
 //materiales
 Material Material_brillante;
@@ -148,7 +180,6 @@ void CreateObjects()
 
 	};
 
-
 	Mesh *obj1 = new Mesh();
 	obj1->CreateMesh(powerVertices, powerIndices, 32, 12);
 	meshList.push_back(obj1);
@@ -169,7 +200,11 @@ void CreateShaders()
 
 int main()
 {
+
   srand(time(NULL));
+
+	Device * mysounddevice = Device::get();
+
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
 	mainWindow.Initialise();
 
@@ -177,9 +212,31 @@ int main()
 	CreateShaders();
 
   LightManager lm = LightManager();
+  SkyboxManager::Initialise();
+  SkyboxManager sm = SkyboxManager(&lm);
 
-	Camera* camera = nullptr;
-  CameraToggleController cameraController(&mainWindow);
+  Perry::Initialise();
+	Perry perry(10.0f, 3.5f, 60.0f);
+
+  BangTexture::Initialise();
+  auto bangTexture = BangTexture();
+
+  ArrowTexture::Initialise();
+  auto arrowTexture1 = ArrowTexture(5.0f, 1.0f, 2.0f, 0.0f);
+  auto arrowTexture2 = ArrowTexture(0.0f, 1.0f, 50.0f, -90.0f);
+
+  XTexture::Initialise();
+  auto xTexture1 = XTexture(-37.0f, -0.2f, 0.5f, false);
+  auto xTexture2 = XTexture(-26.0f, -0.2f, -15.0f, true);
+  auto xTexture3 = XTexture(20.0f, -0.2f, -15.0f, false);
+
+  PointTexture::Initialise();
+  auto pointTexture1 = PointTexture(-20.0f, 0.0f, -45.0f);
+  auto pointTexture2 = PointTexture(20.0f, 0.0f, -45.0f);
+  auto pointTexture3 = PointTexture(30.0f, 0.0f, 30.0f);
+
+  Camera* camera = nullptr;
+  CameraToggleController cameraController(&mainWindow, &perry);
 
 	plainTexture = Texture("resources/textures/plain.png");
 	plainTexture.LoadTextureA();
@@ -188,9 +245,6 @@ int main()
 
   Rocket::Initialise();
 	Rocket roket = Rocket(-25.0f, 0.0f, 30.0f);
-
-  Perry::Initialise();
-	Perry perry(10.0f, 5.0f, 60.0f);
 
 
   Ball::Initialise();
@@ -210,7 +264,7 @@ int main()
 
   Bouncer::Initialise();
 
-  Bouncer bn1 = Bouncer(-25, 0.0f, -33.0f, true);
+  Bouncer bn1 = Bouncer(-30, 0.0f, -33.0f, true);
   Bouncer bn2 = Bouncer(25, 0.0f, -33.0f, false);
   Bouncer bn3 = Bouncer(-35, 0.0f, 50.0f, true);
   Bouncer bn4 = Bouncer(35, 0.0f, 50.0f, false);
@@ -230,7 +284,10 @@ int main()
   Spring::Initialise();
   Spring spring = Spring(43.5f, 3.0f, 80.0f);
 
-  SpringMouseController springMouseController(&mainWindow, &spring);
+  SpringAudioController ac1 = SpringAudioController();
+  EnvironmentAudioController ac2 = EnvironmentAudioController();
+
+  SpringMouseController springMouseController(&mainWindow, &spring, &ac1);
 
   Flipper::Initialise();
   Flipper fizq = Flipper(-25.0f, 0.0f, 65.0f, 0);
@@ -240,19 +297,8 @@ int main()
   FlipperKeyController flipperController(&mainWindow);
 
 
-  Pinball_Cover_M = Model();
-  Pinball_Cover_M.LoadModel("resources/models/Pinball_Cover.obj");
-
-  Skybox skybox;
-	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("resources/textures/skybox/arc_rt.png");
-	skyboxFaces.push_back("resources/textures/skybox/arc_lf.png");
-	skyboxFaces.push_back("resources/textures/skybox/arc_dn.png");
-	skyboxFaces.push_back("resources/textures/skybox/arc_up.png");
-	skyboxFaces.push_back("resources/textures/skybox/arc_bk.png");
-	skyboxFaces.push_back("resources/textures/skybox/arc_ft.png");
-
-  skybox = Skybox(skyboxFaces);
+  Pinball::Initialise();
+  Pinball pinballMachine = Pinball(&mainWindow);
 
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
@@ -272,6 +318,8 @@ int main()
 	GLuint uniformColor = 0;
 	glm::mat4* projection = nullptr;
 
+
+  ac2.Play();
 	
   ////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -286,18 +334,29 @@ int main()
     cameraController.HandleKeyBoard(dt);
     camera = cameraController.GetCamera();
     projection = cameraController.GetProjection();
+    lm.UpdateMainLight(dt);
     lm.HandleKeyBoard(mainWindow.getsKeys());
 
-    perry.SetPosition(
-      cameraController.GetUserCamera()->getCameraPosition().x,
-      cameraController.GetUserCamera()->getCameraPosition().y,
-      cameraController.GetUserCamera()->getCameraPosition().z + 4.0f
+    bangTexture.Update(dt);
+    arrowTexture1.Update(dt);
+    arrowTexture2.Update(dt);
+    xTexture1.Update(dt);
+    xTexture2.Update(dt);
+    xTexture3.Update(dt);
+    pointTexture1.Update(dt);
+    pointTexture2.Update(dt);
+    pointTexture3.Update(dt);
+
+    Listener::get()->SetPosition(
+      cameraController.GetCamera()->getCameraPosition().x,
+      cameraController.GetCamera()->getCameraPosition().y,
+      cameraController.GetCamera()->getCameraPosition().z
     );
 
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    skybox.DrawSkybox(camera->calculateViewMatrix(), *projection);
+    sm.DrawSkybox(camera->calculateViewMatrix(), *projection);
 		shaderList[0].UseShader();
 		uniformModel = shaderList[0].GetModelLocation();
 		uniformProjection = shaderList[0].GetProjectionLocation();
@@ -335,12 +394,9 @@ int main()
 		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[1]->RenderMesh();
 
-    // Cubierta de la máquina de pinball
-    model = glm::mat4(1.0f);
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-    Pinball_Cover_M.RenderModel();
+    pinballMachine.HandleStart();
+    pinballMachine.Update(dt);
+    pinballMachine.Render(uniformModel, uniformSpecularIntensity, uniformSpecularIntensity);
 
     // Obstáculo aleatorio
     Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
@@ -384,9 +440,10 @@ int main()
     flipperController.Handle(&fmin, dt);
 
     // Personaje
-    perryAnimation.HandleKeyboard(dt);
-    if(cameraController.GetCameraType() == 0)
-      perry.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
+    if (cameraController.GetCameraType() != 2)
+      perryAnimation.HandleKeyboard(dt);
+    perry.SetIsAgentMode(lm.IsNight());
+    perry.Render(uniformModel, uniformSpecularIntensity, uniformShininess);
     perry.Animate(dt);
 
 		earth.Animate(dt);
@@ -502,12 +559,27 @@ int main()
 		facesTextures[9].UseTexture();
 		meshList[0]->RenderMesh();
 
+    bangTexture.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
+
+    arrowTexture1.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
+    arrowTexture2.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
+
+    xTexture1.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
+    xTexture2.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
+    xTexture3.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
+
+    pointTexture1.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
+    pointTexture2.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
+    pointTexture3.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
+
     glDisable(GL_BLEND);
 
 		glUseProgram(0);
 
 		mainWindow.swapBuffers();
 	}
+
+  Device::clean();
 
 	return 0;
 }

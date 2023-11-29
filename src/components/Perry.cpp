@@ -1,6 +1,12 @@
-#include <glm/ext/quaternion_transform.hpp>
+#include "../include/Perry.h"
 #include <glm/fwd.hpp>
-#include <glm/geometric.hpp>
+
+#ifdef WIN32
+#include <glm.hpp>
+#else
+#include <glm/glm.hpp>
+#endif
+
 #ifdef WIN32
 #include <ext/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
@@ -8,9 +14,6 @@
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #endif
-
-#include "../include/Perry.h"
-
 
 Model Perry::Trunk_Model = Model();
 Model Perry::Hat_Model = Model();
@@ -31,6 +34,7 @@ void Perry::Initialise()
   Hand_Model.LoadModel("resources/models/Perry_Hand.obj");
   Leg_Model.LoadModel("resources/models/Perry_Leg.obj");
   Foot_Model.LoadModel("resources/models/Perry_Foot.obj");
+
   Material_Perry = Material(1.0f, 1.0f);
 }
 
@@ -42,6 +46,8 @@ Perry::Perry(float x, float y, float z)
   _angle2 = 0.0f;
   _angle3 = 0.0f;
   _angle4 = 0.0f;
+  _isMoving = false;
+  _lookAt = glm::vec3(0.0f, 0.0f, -1.0f);
 }
 
 void Perry::Render(GLint uniformModel, GLuint specularIntensityLocation, GLuint shininessLocation)
@@ -61,11 +67,14 @@ void Perry::Render(GLint uniformModel, GLuint specularIntensityLocation, GLuint 
   Trunk_Model.RenderModel();
 
   // Sombrero
-  model = modelaux;
-  model = glm::translate(model, glm::vec3(0.0f, 0.8f, 0.0f));
-  glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+  if (_isAgentMode)
+  {
+    model = modelaux;
+    model = glm::translate(model, glm::vec3(0.0f, 0.8f, 0.0f));
+    glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
-  Hat_Model.RenderModel();
+    Hat_Model.RenderModel();
+  }
 
   // Cola
   model = modelaux;
@@ -237,13 +246,13 @@ void Perry::Animate(float dt)
 
     if(right_move)
     {
-      RotateRightHand(-0.06f);
-      RotateLeftLeg(-0.1f);
+      RotateRightHand(-0.06f * 100 * dt);
+      RotateLeftLeg(-0.1f * 100 * dt);
     }
     else
     {
-      RotateRightHand(0.06f);
-      RotateLeftLeg(0.1f);
+      RotateRightHand(0.06f * 100 * dt);
+      RotateLeftLeg(0.1f * 100 * dt);
     }
 
 
@@ -260,13 +269,13 @@ void Perry::Animate(float dt)
 
     if(left_move)
     {
-      RotateLeftHand(-0.06f);
-      RotateRightLeg(-0.1f);
+      RotateLeftHand(-0.06f * 100 * dt);
+      RotateRightLeg(-0.1f * 100 * dt);
     }
     else
     {
-      RotateLeftHand(0.06f);
-      RotateRightLeg(0.1f);
+      RotateLeftHand(0.06f * 100 * dt);
+      RotateRightLeg(0.1f * 100 * dt);
     }
   }
   else if (_isMoving)
@@ -282,6 +291,21 @@ void Perry::SetPosition(float x, float y, float z)
   _position.z = z;
 }
 
+glm::vec3 Perry::GetPosition()
+{
+  return _position;
+}
+
+void Perry::Move(float dx, float dy, float dz)
+{
+  if (_position.x + dx >= -40.0f && _position.x + dx <= 50.0f)
+    _position.x += dx;
+  _position.y += dy;
+  if (_position.z + dz >= -45.0f && _position.z + dz <= 65.0f)
+    _position.z += dz;
+
+}
+
 void Perry::SetRotation(float angle)
 {
   _rotation = angle;
@@ -290,4 +314,26 @@ void Perry::SetRotation(float angle)
 void Perry::SetIsMoving(bool value)
 {
   _isMoving = value;
+}
+
+bool Perry::IsMoving()
+{
+  return _isMoving;
+}
+
+glm::vec3 Perry::GetLookAt()
+{
+  return _lookAt;
+}
+
+void Perry::SetLookAt(float x, float y, float z)
+{
+  _lookAt.x = x;
+  _lookAt.y = y;
+  _lookAt.z = z;
+}
+
+void Perry::SetIsAgentMode(bool isAgentMode)
+{
+  _isAgentMode = isAgentMode;
 }

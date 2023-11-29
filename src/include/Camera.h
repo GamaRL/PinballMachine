@@ -1,10 +1,16 @@
 #pragma once
 
+#ifdef WIN32
+#include <glew.h>
+#include <glfw3.h>
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#else
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#endif
 
 
 class Camera
@@ -18,6 +24,7 @@ public:
   void setDirection(float yaw, float pitch);
 
 	glm::vec3 getCameraPosition();
+	void setCameraPosition(float, float, float);
 	glm::vec3 getCameraDirection();
 	glm::mat4 calculateViewMatrix();
 

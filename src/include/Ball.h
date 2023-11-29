@@ -1,9 +1,13 @@
 #pragma once
 
+#ifdef WIN32
+#include <glm.hpp>
+#else
 #include <glm/glm.hpp>
+#endif
 
-#include "Material.h"
-#include "Model.h"
+#include "./Material.h"
+#include "./Model.h"
 
 class Ball
 {

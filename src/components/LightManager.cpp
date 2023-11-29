@@ -1,16 +1,29 @@
-#include "LightManager.h"
+#include "../include/LightManager.h"
+
+#ifdef WIN32
+#include <glfw3.h>
+#else
 #include <GLFW/glfw3.h>
+#endif
 
 LightManager::LightManager()
 {
   _isFlipperLightOn = false;
-  _isBoardLightOn = false;
+  _isBoardLightOn = true;
   _obstacleLighstOn[0] = false;
   _obstacleLighstOn[1] = false;
   _obstacleLighstOn[2] = false;
+  _time = 0.0f;
+  _isNight = false;
 
-	_mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
+  // Luz de día
+	_mainLight1 = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.3f, 0.3f,
+		0.0f, -1.0f, 0.0f);
+
+  // Luz de noche
+	_mainLight2 = DirectionalLight(1.0f, 1.0f, 1.0f,
+		0.05f, 0.05f,
 		0.0f, -1.0f, 0.0f);
 
 	_boardLight = SpotLight(1.0f, 1.0f, 1.0f,
@@ -20,37 +33,38 @@ LightManager::LightManager()
 		0.0f, 0.0f, 0.00015f,
 		30.0f);
 
-	_obstacleLights[0] = SpotLight(1.0f, 1.0f, 0.0f,
+	_obstacleLights[0] = SpotLight(0.5f, 0.2f, 0.5f,
 		0.1f, 2.0f,
 		50.0f, 50.0f, -50.0f,
 		0.0f, -1.0f, 0.3f,
-		0.0f, 0.0f, 0.0025f,
+		0.0f, 0.0f, 0.00025f,
 		15.0f);
 
-	_obstacleLights[1] = SpotLight(1.0f, 1.0f, 0.0f,
+	_obstacleLights[1] = SpotLight(0.5f, 0.2f, 0.5f,
 		0.1f, 2.0f,
 		50.0f, 50.0f, 50.0f,
 		0.0f, -1.0f, 0.3f,
-		0.0f, 0.0f, 0.0025f,
+		0.0f, 0.0f, 0.00025f,
 		15.0f);
 
-  _obstacleLights[2] = SpotLight(1.0f, 1.0f, 0.0f,
+  _obstacleLights[2] = SpotLight(0.5f, 0.2f, 0.5f,
 		0.1f, 2.0f,
 		-50.0f, 50.0f, 50.0f,
 		0.0f, -1.0f, 0.3f,
-		0.0f, 0.0f, 0.0025f,
+		0.0f, 0.0f, 0.00025f,
 		15.0f);
 
-	_flipperLight = PointLight(0.0f, 1.0f, 1.0f,
+	_flipperLight = PointLight(1.0f, 1.0f, 0.1f,
 		2.0f, 1.0f,
-		0.0f, 5.0f, 60.0f,
+		0.0f, 5.0f, 65.0f,
 		0.0f, 0.0f, 0.015f);
 }
 
-
 DirectionalLight* LightManager::GetAmbientLight()
 {
-  return &_mainLight;
+  if (_isNight)
+    return &_mainLight2;
+  return &_mainLight1;
 }
 
 PointLight* LightManager::GetPointLights()
@@ -61,7 +75,7 @@ PointLight* LightManager::GetPointLights()
 
 SpotLight* LightManager::GetSpotLights()
 {
-  int i;
+  int i = 0;
   for(int j = 0; j < 3; j++)
   {
     if(_obstacleLighstOn[j])
@@ -171,4 +185,20 @@ void LightManager::HandleKeyBoard(bool *keys)
 SpotLight* LightManager::GetObstacleLights()
 {
   return _obstacleLights;
+}
+
+void LightManager::UpdateMainLight(float dt)
+{
+  _time += dt;
+
+  if (_time >= 5.0f)
+  {
+    _time -= 5.0f;
+    _isNight = !_isNight;
+  }
+}
+
+bool LightManager::IsNight()
+{
+  return _isNight;
 }

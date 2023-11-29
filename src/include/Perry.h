@@ -1,13 +1,19 @@
 #pragma once
 
+#include "./Model.h"
+#include "./Material.h"
+
 #ifdef WIN32
 #include <glm.hpp>
 #else
 #include <glm/glm.hpp>
 #endif
 
-#include "./Model.h"
-#include "./Material.h"
+#ifdef WIN32
+#include <glm.hpp>
+#else
+#include <glm/glm.hpp>
+#endif
 
 class Perry
 {
@@ -19,6 +25,7 @@ public:
   
   void Animate(float);
   void SetPosition(float, float, float);
+  glm::vec3 GetPosition();
   void SetRotation(float);
   void RotateLeftHand(float);
   void RotateRightHand(float);
@@ -26,6 +33,11 @@ public:
   void RotateRightLeg(float);
 
   void SetIsMoving(bool);
+  bool IsMoving();
+  void Move(float, float, float);
+  void SetLookAt(float, float, float);
+  void SetIsAgentMode(bool);
+  glm::vec3 GetLookAt();
 
   void Render(GLint, GLuint, GLuint);
 
@@ -41,10 +53,13 @@ private:
   static Material Material_Perry;
 
   glm::vec3 _position;
+  glm::vec3 _lookAt;
   bool _isMoving;
   float _rotation;
   float _angle1;
   float _angle2;
   float _angle3;
   float _angle4;
+
+  bool _isAgentMode;
 };

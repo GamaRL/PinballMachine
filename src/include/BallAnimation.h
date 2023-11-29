@@ -1,9 +1,13 @@
 #pragma once
-#include <glm/fwd.hpp>
-#include <glm/glm.hpp>
 
-#include "Ball.h"
-#include "Window.h"
+#include "./Ball.h"
+#include "./Window.h"
+
+#ifdef WIN32
+#include <glm.hpp>
+#else
+#include <glm/glm.hpp>
+#endif
 
 class BallAnimation
 {
@@ -11,12 +15,14 @@ public:
   BallAnimation(Ball *ball, Window *window);
   void HandleStart();
   void Update(float);
+
 private:
   Ball *_ball;
   Window *_window;
 
   glm::vec3 _position;
   glm::vec3 _velocity;
+  int _type;
 
   bool _isRunning;
   bool _states[9];

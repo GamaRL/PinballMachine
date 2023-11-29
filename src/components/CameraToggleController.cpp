@@ -1,28 +1,39 @@
 #include "../include/CameraToggleController.h"
-#include <glm/fwd.hpp>
-#include <glm/geometric.hpp>
+#include <iostream>
 
-
-CameraToggleController::CameraToggleController(Window* window)
+CameraToggleController::CameraToggleController(Window* window, Perry* perry)
 {
   _window = window;
+  _perry = perry;
+
+  // Ligada al personaje
   _userCamera = Camera(
       glm::vec3(0.0f, 5.0f, 75.0f),
       glm::vec3(0.0f, 1.0f, 0.0f),
       -90.0f,
       0.0f,
-      20.0f,
-      0.5f);
-  _fixedCamera = Camera(
-      glm::vec3(0.0f, 170.0f, 150.0f),
-      glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)),
-      -90.0f,
-      -50.0f,
       0.0f,
       0.0f);
 
+  // Fija desde arriba
+  _fixedCamera = Camera(
+      glm::vec3(0.0f, 170.0f, 160.0f),
+      glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)),
+      -90.0f,
+      -50.0f,
+      0.0f, 0.0f);
+
+  // Recorrido libre
+  _freeCamera = Camera(
+      glm::vec3(0.0f, 10.0f, 0.0f),
+      glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)),
+      -90.0f,
+      -50.0f,
+      30.0f, 0.5f);
+
 	_userProjection = glm::perspective(45.0f, (GLfloat)window->getBufferWidth() / window->getBufferHeight(), 0.1f, 1000.0f);
   _fixedProjection = glm::perspective(45.0f, (GLfloat)window->getBufferWidth() / window->getBufferHeight(), 0.1f, 1000.0f);
+  _freeProjection = glm::perspective(45.0f, (GLfloat)window->getBufferWidth() / window->getBufferHeight(), 0.1f, 1000.0f);
   _selectedCamera = 0;
 }
 
@@ -30,7 +41,9 @@ Camera* CameraToggleController::GetCamera()
 {
   if(_selectedCamera == 0)
     return &_fixedCamera;
-  return &_userCamera;
+  else if(_selectedCamera == 1)
+    return &_userCamera;
+  return &_freeCamera;
 }
 
 Camera* CameraToggleController::GetUserCamera()
@@ -42,35 +55,67 @@ glm::mat4* CameraToggleController::GetProjection()
 {
   if(_selectedCamera == 0)
     return &_fixedProjection;
-  return &_userProjection;
+  else if(_selectedCamera == 1)
+    return &_userProjection;
+  return &_freeProjection;
 }
 
 void CameraToggleController::HandleKeyBoard(float dt)
 {
-  static bool is_q_pressed;
+  static bool is_p_pressed;
+  static bool is_o_pressed;
+  static bool is_i_pressed;
   bool* keys = _window->getsKeys();
 
-  _userCamera.keyControl(keys, dt);
-  if (_selectedCamera != 0)
+  if (_selectedCamera == 1)
   {
-	  _userCamera.mouseControl(_window->getXChange(), _window->getYChange());
+    auto lookAt = _perry->GetLookAt();
+    auto position = _perry->GetPosition() -20.0f * lookAt;
+    _userCamera.setCameraPosition(position.x, position.y + 5.0f, position.z);
+  }
+  else if (_selectedCamera == 2)
+  {
+    _freeCamera.keyControl(_window->getsKeys(), dt);
+	  _freeCamera.mouseControl(_window->getXChange(), _window->getYChange());
   }
 
-  if (keys[GLFW_KEY_Q])
+  if (keys[GLFW_KEY_P])
   {
-    is_q_pressed = true;
+    is_p_pressed = true;
   }
   else
   {
-    if (is_q_pressed == true)
+    if (is_p_pressed == true)
     {
-      _selectedCamera = (_selectedCamera + 1) % 2;
-      is_q_pressed = false;
+      _selectedCamera = 2;
+      is_p_pressed = false;
+    }
+  }
 
-      if(_selectedCamera == 0)
-      {
-        _userCamera.setDirection(-90.0f, 0.0f);
-      }
+  if (keys[GLFW_KEY_O])
+  {
+    is_o_pressed = true;
+  }
+  else
+  {
+    if (is_o_pressed == true)
+    {
+      _selectedCamera = 1;
+      is_o_pressed = false;
+    }
+  }
+
+  if (keys[GLFW_KEY_I])
+  {
+    is_i_pressed = true;
+  }
+  else
+  {
+    if (is_i_pressed == true)
+    {
+      _selectedCamera = 0;
+      is_i_pressed = false;
     }
   }
 }
+

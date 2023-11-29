@@ -1,7 +1,10 @@
 #include "../include/Inador.h"
+
+#ifdef WIN32
+#include <ext/matrix_transform.hpp>
+#else
 #include <glm/ext/matrix_transform.hpp>
-#include <glm/ext/quaternion_geometric.hpp>
-#include <glm/fwd.hpp>
+#endif
 
 Model Inador::Inador_Base = Model();
 Model Inador::Inador_Cuerpo = Model();

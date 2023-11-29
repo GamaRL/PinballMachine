@@ -1,15 +1,23 @@
 #pragma once
 
-#include "CommonValues.h"
+#include "./Mesh.h"
+#include "./Shader.h"
+#include "./CommonValues.h"
+
 #include <vector>
 #include <string>
+
+#ifdef WIN32
+#include <glew.h>
+#include <glfw3.h>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#else
 #include <GL/glew.h>
-#include <glm/glm.hpp>
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "Mesh.h"
-#include "Shader.h"
+#endif
 
 class Skybox
 {

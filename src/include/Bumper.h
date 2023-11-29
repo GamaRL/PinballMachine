@@ -1,7 +1,12 @@
 #pragma once
 
-#include "Model.h"
+#include "./Model.h"
+
+#ifdef WIN32
+#include <glm.hpp>
+#else
 #include <glm/glm.hpp>
+#endif
 
 class Bumper
 {

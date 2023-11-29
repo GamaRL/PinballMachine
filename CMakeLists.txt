@@ -22,8 +22,11 @@ find_package(GLEW REQUIRED)
 ## GLM
 find_package(glm REQUIRED)
 
-##
+## Assimp
 find_package(assimp REQUIRED)
+
+## OpenAL
+find_package(OpenAL REQUIRED)
 
 
 # Source files
@@ -50,14 +53,26 @@ add_executable(
   src/components/Earth.cpp
   src/components/Perry.cpp
   src/components/LightManager.cpp
+  src/components/SkyboxManager.cpp
   src/components/Bouncer.cpp
   src/components/Ball.cpp
   src/components/Bumper.cpp
   src/components/Rocket.cpp
+  src/components/Pinball.cpp
   src/animations/InadorAnimation.cpp
   src/animations/PerryAnimation.cpp
   src/animations/BallAnimation.cpp
   src/animations/BallKeyframeAnimation.cpp
+  src/audio/Buffer.cpp
+  src/audio/Device.cpp
+  src/audio/Source.cpp
+  src/audio/SpringAudioController.cpp
+  src/audio/EnvironmentAudioController.cpp
+  src/audio/Listener.cpp
+  src/textures/ArrowTexture.cpp
+  src/textures/BangTexture.cpp
+  src/textures/XTexture.cpp
+  src/textures/PointTexture.cpp
 )
 
 
@@ -74,6 +89,7 @@ target_link_libraries(${PROJECT_NAME}
   glfw
   glm::glm
   assimp
+  openal
   Xrandr
   Xi
   Xinerama

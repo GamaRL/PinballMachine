@@ -1,6 +1,11 @@
 #pragma once
 
+#ifdef WIN32
+#include <glew.h>
+#else
 #include <GL/glew.h>
+#endif
+
 //Esta clase está pensada para crear materiales asignables a nuestros diferentes objetos y luces
 class Material
 {
