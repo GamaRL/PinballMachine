@@ -297,9 +297,12 @@ glm::vec3 Perry::GetPosition()
 
 void Perry::Move(float dx, float dy, float dz)
 {
-  _position.x += dx;
+  if (_position.x + dx >= -40.0f && _position.x + dx <= 50.0f)
+    _position.x += dx;
   _position.y += dy;
-  _position.z += dz;
+  if (_position.z + dz >= -45.0f && _position.z + dz <= 65.0f)
+    _position.z += dz;
+
 }
 
 void Perry::SetRotation(float angle)

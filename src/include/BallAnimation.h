@@ -22,6 +22,7 @@ private:
 
   glm::vec3 _position;
   glm::vec3 _velocity;
+  int _type;
 
   bool _isRunning;
   bool _states[9];

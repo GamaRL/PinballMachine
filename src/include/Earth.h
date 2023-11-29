@@ -22,7 +22,7 @@ class Earth
 {
 public:
   static constexpr int MAX_STEPS = 20;
-  static constexpr float FRAME_PERIOD = 1.50f;
+  static constexpr float FRAME_PERIOD = 3.00f;
   static void Initialise();
 
   Earth(float x, float y, float z);
