@@ -15,7 +15,7 @@ CameraToggleController::CameraToggleController(Window* window, Perry* perry)
       0.0f);
 
   _fixedCamera = Camera(
-      glm::vec3(0.0f, 170.0f, 150.0f),
+      glm::vec3(0.0f, 170.0f, 160.0f),
       glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)),
       -90.0f,
       -50.0f,

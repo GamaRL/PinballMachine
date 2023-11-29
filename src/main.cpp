@@ -79,6 +79,7 @@
 #include "./include/Bumper.h"
 #include "./include/Ball.h"
 #include "./include/Rocket.h"
+#include "./include/Pinball.h"
 #include "./include/BallAnimation.h"
 #include "./include/BallKeyframeAnimation.h"
 
@@ -102,8 +103,6 @@ std::vector<Shader> shaderList;
 
 Texture plainTexture;
 Texture floorTexture;
-
-Model Pinball_Cover_M;
 
 //materiales
 Material Material_brillante;
@@ -298,8 +297,8 @@ int main()
   FlipperKeyController flipperController(&mainWindow);
 
 
-  Pinball_Cover_M = Model();
-  Pinball_Cover_M.LoadModel("resources/models/Pinball_Cover.obj");
+  Pinball::Initialise();
+  Pinball pinballMachine = Pinball(&mainWindow);
 
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
@@ -395,12 +394,9 @@ int main()
 		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[1]->RenderMesh();
 
-    // Cubierta de la máquina de pinball
-    model = glm::mat4(1.0f);
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-    Pinball_Cover_M.RenderModel();
+    pinballMachine.HandleStart();
+    pinballMachine.Update(dt);
+    pinballMachine.Render(uniformModel, uniformSpecularIntensity, uniformSpecularIntensity);
 
     // Obstáculo aleatorio
     Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
