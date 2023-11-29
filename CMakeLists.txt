@@ -71,6 +71,7 @@ add_executable(
   src/textures/ArrowTexture.cpp
   src/textures/BangTexture.cpp
   src/textures/XTexture.cpp
+  src/textures/PointTexture.cpp
 )
 
 

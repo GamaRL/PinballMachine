@@ -11,7 +11,6 @@
 #include <ext/matrix_transform.hpp>
 #include <ext/scalar_constants.hpp>
 #include <ext/vector_float3.hpp>
-#include <geometric.hpp>
 #else
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_float3x3.hpp>
@@ -19,7 +18,6 @@
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/scalar_constants.hpp>
 #include <glm/ext/vector_float3.hpp>
-#include <glm/geometric.hpp>
 #endif
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -94,6 +92,7 @@
 #include "./include/BangTexture.h"
 #include "./include/ArrowTexture.h"
 #include "./include/XTexture.h"
+#include "./include/PointTexture.h"
 
 const float toRadians = 3.14159265f / 180.0f;
 
@@ -182,7 +181,6 @@ void CreateObjects()
 
 	};
 
-
 	Mesh *obj1 = new Mesh();
 	obj1->CreateMesh(powerVertices, powerIndices, 32, 12);
 	meshList.push_back(obj1);
@@ -233,7 +231,12 @@ int main()
   auto xTexture2 = XTexture(-26.0f, -0.2f, -15.0f, true);
   auto xTexture3 = XTexture(20.0f, -0.2f, -15.0f, false);
 
-	Camera* camera = nullptr;
+  PointTexture::Initialise();
+  auto pointTexture1 = PointTexture(-20.0f, 0.0f, -45.0f);
+  auto pointTexture2 = PointTexture(20.0f, 0.0f, -45.0f);
+  auto pointTexture3 = PointTexture(30.0f, 0.0f, 30.0f);
+
+  Camera* camera = nullptr;
   CameraToggleController cameraController(&mainWindow, &perry);
 
 	plainTexture = Texture("resources/textures/plain.png");
@@ -341,6 +344,9 @@ int main()
     xTexture1.Update(dt);
     xTexture2.Update(dt);
     xTexture3.Update(dt);
+    pointTexture1.Update(dt);
+    pointTexture2.Update(dt);
+    pointTexture3.Update(dt);
 
     Listener::get()->SetPosition(
       cameraController.GetCamera()->getCameraPosition().x,
@@ -565,6 +571,10 @@ int main()
     xTexture1.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
     xTexture2.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
     xTexture3.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
+
+    pointTexture1.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
+    pointTexture2.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
+    pointTexture3.Render(uniformModel, uniformColor, uniformSpecularIntensity, uniformShininess, uniformTextureOffset);
 
     glDisable(GL_BLEND);
 
