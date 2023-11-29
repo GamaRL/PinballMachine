@@ -13,7 +13,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #endif
 
-Texture XTexture::X_Texture = Texture("resources/textures/x.jpeg");
+Texture XTexture::X_Texture = Texture("resources/textures/X.tga");
 Material XTexture::X_Material = Material();
 Mesh XTexture::X_Mesh = Mesh();
 
