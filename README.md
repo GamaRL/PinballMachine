@@ -12,7 +12,7 @@ This project is a virtual pinball machine simulation themed around the popular a
 - **Course**: Computer Graphics and Human-Computer Interaction Laboratory
 - **Institution**: Universidad Nacional Autónoma de México (UNAM)
 - **Semester**: 2024-1
-- **Submission Date**: November 29, 2023
+- **Instructor**: Ing. José Roque Román Guadarrama
 
 ## 🎯 Project Objectives
 The primary goal of this project was to:
